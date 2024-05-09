@@ -19,6 +19,9 @@ class File
     #[ORM\Column(length: 255)]
     private ?string $type = null;
 
+    #[ORM\ManyToOne(inversedBy: 'files')]
+    private ?Property $property = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +47,18 @@ class File
     public function setType(string $type): static
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getProperty(): ?Property
+    {
+        return $this->property;
+    }
+
+    public function setProperty(?Property $property): static
+    {
+        $this->property = $property;
 
         return $this;
     }

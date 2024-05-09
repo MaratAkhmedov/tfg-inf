@@ -65,10 +65,17 @@ class Property
     #[ORM\JoinColumn(nullable: false)]
     private ?Address $address = null;
 
+    /**
+     * @var Collection<int, File>
+     */
+    #[ORM\OneToMany(targetEntity: File::class, mappedBy: 'property')]
+    private Collection $files;
+
     public function __construct()
     {
         $this->equipments = new ArrayCollection();
         $this->rules = new ArrayCollection();
+        $this->files = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -270,6 +277,36 @@ class Property
     public function setAddress(Address $address): static
     {
         $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, File>
+     */
+    public function getFiles(): Collection
+    {
+        return $this->files;
+    }
+
+    public function addFile(File $file): static
+    {
+        if (!$this->files->contains($file)) {
+            $this->files->add($file);
+            $file->setProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFile(File $file): static
+    {
+        if ($this->files->removeElement($file)) {
+            // set the owning side to null (unless already changed)
+            if ($file->getProperty() === $this) {
+                $file->setProperty(null);
+            }
+        }
 
         return $this;
     }
