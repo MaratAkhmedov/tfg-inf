@@ -18,9 +18,6 @@ class AutonomousComunity
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $code = null;
-
     /**
      * @var Collection<int, province>
      */
@@ -45,18 +42,6 @@ class AutonomousComunity
     public function setName(string $name): static
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getCode(): ?string
-    {
-        return $this->code;
-    }
-
-    public function setCode(string $code): static
-    {
-        $this->code = $code;
 
         return $this;
     }
