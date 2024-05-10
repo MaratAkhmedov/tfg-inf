@@ -1,4 +1,8 @@
 import './bootstrap.js';
+import jquery from 'jquery/dist/jquery.min.js';
+const $ = jquery;
+window.$ = window.jQuery = $;
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 /*
  * Welcome to your app's main JavaScript file!
