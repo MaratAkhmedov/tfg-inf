@@ -43,8 +43,12 @@ jobs:
       - name: Install Composer dependencies
         run: composer install
       # —— Symfony ——————————————————————————————————————————————————————————
+      - name: Install symfony CLI
+        run: |
+          curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | sudo -E bash
+          sudo apt install symfony-cli
       - name: Check Symfony requirements
-        run: vendor/bin/requirements-checker
+        run: symfony check:requirements
       - name: Check the Symfony console
         run: bin/console -V
       # —— Code style —— (Based on this package: https://github.com/OskarStark/php-cs-fixer-ga)
