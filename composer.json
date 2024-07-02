@@ -1,4 +1,6 @@
 {
+    "name": "tfg-inf/portal-inmobiliario",
+    "description": "Esto es un portal inmobiliario",
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",
