@@ -36,6 +36,10 @@ jobs:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
+      - name: Setup environment
+        run: |
+          cp .env.test .env
+          cp phpunit.xml.dist phpunit.xml
       - name: Install Composer dependencies
         run: composer install
       # —— Symfony ——————————————————————————————————————————————————————————
@@ -51,7 +55,4 @@ jobs:
       ## —— Tests ———————————————————————————————————————————————————————————
       - name: Run functionnal and unit tests
         run: |
-          cp .env.ci .env.test
-          cp .env.ci .env
-          cp phpunit.ci.xml phpunit.xml
           composer test
