@@ -50,7 +50,7 @@ jobs:
       - name: Check Symfony requirements
         run: symfony check:requirements
       - name: Check the Symfony console
-        run: bin/console -V
+        run: symfony console
       # —— Code style —— (Based on this package: https://github.com/OskarStark/php-cs-fixer-ga)
       - name: PHP-CS-Fixer
         uses: docker://oskarstark/php-cs-fixer-ga
