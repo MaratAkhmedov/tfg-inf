@@ -33,7 +33,7 @@
 						<div class="col-sm-12 col-md-6">
 							<select class="form-select" aria-label="Default select example">
 							{% for autonomousComunity in autonomousComunities %}
-								<option autonomousComunity.id == '1' selected : '' value="{{autonomousComunity.id}}">{{autonomousComunity.name}}</option>
+								<option autonomousComunity.id == '1' ? 'selected' : '' value="{{autonomousComunity.id}}">{{autonomousComunity.name}}</option>
 							{% endfor %}
 							</select>
 						</div>
