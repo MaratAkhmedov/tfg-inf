@@ -21,7 +21,7 @@ class AutonomousComunity
     /**
      * @var Collection<int, province>
      */
-    #[ORM\OneToMany(targetEntity: province::class, mappedBy: 'autonomousComunity')]
+    #[ORM\OneToMany(targetEntity: Province::class, mappedBy: 'autonomousComunity')]
     private Collection $provinces;
 
     public function __construct()

@@ -24,17 +24,25 @@
 				<div id="search-box" class="row col-sm-12 col-md-6 p-lg-5 mx-auto">
 					<h1 class="display-7 fw-normal">Tu vivienda a un paso</h1>
 					<div class="input-group">
-						<div style="margin-right: 10px" class="col-sm-12 col-md-6">
+						<div class="col-sm-12 col-md-6">
 							<select class="form-select pr-5" aria-label="Default select example">
 								<option selected value="room">Habitacion</option>
 								<option value="flat">Piso</option>
 							</select>
 						</div>
-						<input class="form-control" type="search" placeholder="Search" aria-label="Search">
+						<div class="col-sm-12 col-md-6">
+							<select class="form-select" aria-label="Default select example">
+							{% for autonomousComunity in autonomousComunities %}
+								<option autonomousComunity.id == '1' selected : '' value="{{autonomousComunity.id}}">{{autonomousComunity.name}}</option>
+							{% endfor %}
+							</select>
+						</div>
+
+						<div class="col-sm-12 pt-2">
+							<button class="btn btn-outline-success w-100">Buscar</button>
+						</div>					
 					</div>
-					<div class="col-sm-12 pt-2">
-						<button class="btn btn-outline-success w-100">Buscar</button>
-					</div>
+					
 				</div>
 			</div>
 			<div class="product-device shadow-sm d-none d-md-block"></div>
@@ -67,4 +75,11 @@
 		</div>
 	</div>
 
+{% endblock %}
+
+
+{% block javascript %}
+<script>
+
+</script>
 {% endblock %}
