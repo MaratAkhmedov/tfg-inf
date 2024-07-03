@@ -19,7 +19,7 @@ class IndexController
         $this->autonomousComunityRepository = $autonomousComunityRepository;
     }
 
-    #[Route('/')]
+    #[Route('/', 'default')]
     #[Template('index.html.twig')]
     public function index(): array
     {

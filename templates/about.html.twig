@@ -1,0 +1,41 @@
+{% extends "base.html.twig" %}
+{% block stylesheets %}
+	<style>
+		
+	</style>
+
+{% endblock %}
+
+{% block content %}
+	<main class="container my-5">
+        <section class="about-us">
+            <h1 class="mb-4">{{ 'about.header'|trans }}</h1>
+            <p>{{ 'about.intro'|trans }}</p>
+            <img src="https://placehold.co/600x400" class="img-fluid mb-4" alt="Imagen representativa">
+
+            <h2 class="mt-5">{{ 'about.mission_header'|trans }}</h2>
+            <p>{{ 'about.mission_text'|trans }}</p>
+
+            <h2 class="mt-5">{{ 'about.values_header'|trans }}</h2>
+            <ul>
+                <li><strong>{{ 'about.accessibility'|trans }}</strong> {{ 'about.accessibility_text'|trans }}</li>
+                <li><strong>{{ 'about.transparency'|trans }}</strong> {{ 'about.transparency_text'|trans }}</li>
+                <li><strong>{{ 'about.innovation'|trans }}</strong> {{ 'about.innovation_text'|trans }}</li>
+                <li><strong>{{ 'about.community'|trans }}</strong> {{ 'about.community_text'|trans }}</li>
+            </ul>
+
+            <h2 class="mt-5">{{ 'about.team_header'|trans }}</h2>
+            <p>{{ 'about.team_text'|trans }}</p>
+
+            <h2 class="mt-5">{{ 'about.contact_header'|trans }}</h2>
+            <p>{{ 'about.contact_text'|trans }} <a href="">{{ 'about.contact_link'|trans }}</a>.</p>
+        </section>
+    </main>
+{% endblock %}
+
+
+{% block javascript %}
+<script>
+
+</script>
+{% endblock %}

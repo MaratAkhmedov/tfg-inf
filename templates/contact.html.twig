@@ -1,0 +1,43 @@
+{% extends "base.html.twig" %}
+{% block stylesheets %}
+	<style>
+		
+	</style>
+
+{% endblock %}
+
+{% block content %}
+	<main class="container my-5">
+        <section class="contact-us">
+            <h1 class="mb-4">{{ 'contact.header'|trans }}</h1>
+            <p>{{ 'contact.info'|trans }}</p>
+            
+            <form>
+                <div class="mb-3">
+                    <label for="name" class="form-label">{{ 'contact.name'|trans }}</label>
+                    <input type="text" class="form-control" id="name" placeholder="{{ 'contact.name_placeholder'|trans }}">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">{{ 'contact.email'|trans }}</label>
+                    <input type="email" class="form-control" id="email" placeholder="{{ 'contact.email_placeholder'|trans }}">
+                </div>
+                <div class="mb-3">
+                    <label for="subject" class="form-label">{{ 'contact.subject'|trans }}</label>
+                    <input type="text" class="form-control" id="subject" placeholder="{{ 'contact.subject_placeholder'|trans }}">
+                </div>
+                <div class="mb-3">
+                    <label for="message" class="form-label">{{ 'contact.message'|trans }}</label>
+                    <textarea class="form-control" id="message" rows="5" placeholder="{{ 'contact.message_placeholder'|trans }}"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">{{ 'contact.submit'|trans }}</button>
+            </form>
+        </section>
+    </main>
+{% endblock %}
+
+
+{% block javascript %}
+<script>
+
+</script>
+{% endblock %}

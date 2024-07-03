@@ -1,0 +1,35 @@
+contact:
+  title: Contact
+  header: Contact
+  info: If you have any questions, suggestions or need assistance, do not hesitate to contact us. We are here to help you.
+  name: Name
+  name_placeholder: Your name
+  email: Email
+  email_placeholder: name@example.com
+  subject: Subject
+  subject_placeholder: Subject of your message
+  message: Message
+  message_placeholder: Write your message here
+  submit: Submit
+
+about:
+  title: About Us
+  header: About Us
+  image_alt: Representative image
+  intro: Welcome to our University Real Estate Portal. We are a team committed to making the search for housing easier for students and university staff. Our goal is to centralize all rental offers in one place, making the process of finding a home quick, simple, and efficient.
+  mission_header: Our Mission
+  mission_text: Our mission is to provide an easy-to-use platform that connects the university community with trusted landlords and real estate agencies. We aim to improve the housing search experience by offering advanced search tools and personalized filters tailored to our users' specific needs.
+  values_header: Our Values
+  accessibility: Accessibility:
+  accessibility_text: We believe in equal opportunities for all students and university staff when it comes to finding accommodation.
+  transparency: Transparency:
+  transparency_text: We provide clear and accurate information about each property, ensuring our users can make informed decisions.
+  innovation: Innovation:
+  innovation_text: We strive to continuously improve our platform with new features and technologies to make housing searches easier.
+  community: Community:
+  community_text: We foster a collaborative and supportive environment, connecting the university community with useful resources and services.
+  team_header: Our Team
+  team_text: We have a diverse team of professionals in technology, real estate, and customer service, all working together to provide the best possible experience for our users. Our team includes web developers, database experts, marketing specialists, and customer service representatives, all dedicated to serving the university community.
+  contact_header: Contact Us
+  contact_text: We are here to help you. If you have any questions, suggestions, or need assistance, do not hesitate to
+  contact_link: contact us

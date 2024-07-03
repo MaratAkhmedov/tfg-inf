@@ -1,0 +1,36 @@
+contact:
+  title: Contacto
+  header: Contacto
+  info: Si tienes alguna pregunta, sugerencia o necesitas asistencia, no dudes en contactarnos. Estamos aquí para ayudarte.
+  name: Nombre
+  name_placeholder: Tu nombre
+  email: Correo Electrónico
+  email_placeholder: nombre@ejemplo.com
+  subject: Asunto
+  subject_placeholder: Asunto de tu mensaje
+  message: Mensaje
+  message_placeholder: Escribe tu mensaje aquí
+  submit: Enviar
+
+about:
+  title: Sobre Nosotros
+  header: Sobre Nosotros
+  image_alt: Imagen representativa
+  intro: Bienvenidos a nuestro Portal Inmobiliario Universitario. Somos un equipo comprometido con facilitar la búsqueda de vivienda para estudiantes y personal universitario. Nuestro objetivo es centralizar todas las ofertas de alquiler en un solo lugar, haciendo que el proceso de encontrar un hogar sea rápido, sencillo y eficiente.
+  mission_header: Nuestra Misión
+  mission_text: Nuestra misión es proporcionar una plataforma fácil de usar que conecte a la comunidad universitaria con propietarios y agencias inmobiliarias de confianza. Queremos mejorar la experiencia de búsqueda de vivienda, ofreciendo herramientas avanzadas de búsqueda y filtros personalizados que se adapten a las necesidades específicas de nuestros usuarios.
+  values_header: Nuestros Valores
+  accessibility: Accesibilidad:
+  accessibility_text: Creemos en la igualdad de oportunidades para todos los estudiantes y personal universitario a la hora de buscar alojamiento.
+  transparency: Transparencia:
+  transparency_text: Ofrecemos información clara y precisa sobre cada propiedad, asegurando que nuestros usuarios puedan tomar decisiones informadas.
+  innovation: Innovación:
+  innovation_text: Nos esforzamos por mejorar continuamente nuestra plataforma con nuevas características y tecnologías para facilitar la búsqueda de vivienda.
+  community: Comunidad:
+  community_text: Fomentamos un entorno colaborativo y de apoyo, conectando a la comunidad universitaria con recursos y servicios útiles.
+  team_header: Nuestro Equipo
+  team_text: Contamos con un equipo diverso de profesionales en tecnología, inmobiliaria y atención al cliente, todos trabajando juntos para ofrecer la mejor experiencia posible a nuestros usuarios. Nuestro equipo incluye desarrolladores web, expertos en bases de datos, especialistas en marketing y atención al cliente, todos dedicados a servir a la comunidad universitaria.
+  contact_header: Contáctanos
+  contact_text: Estamos aquí para ayudarte. Si tienes alguna pregunta, sugerencia o necesitas asistencia, no dudes en
+  contact_link: contactarnos
+    
