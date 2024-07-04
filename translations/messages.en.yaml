@@ -62,7 +62,7 @@ property:
     square: Surface
     type: Type
     state: State
-    equipments: Equipment
+    equipment: Equipment
     rules: Rules
 breadcrumbs:
   home: Home

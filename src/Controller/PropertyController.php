@@ -23,7 +23,7 @@ class PropertyController extends AbstractController
     }
 
     // TODO: ADMIN PROPERTY later add it to admin menu
-    #[Route('/admin', name: 'app_admin_property_index', methods: ['GET'])]
+    #[Route('/admin', name: 'app_property_index', methods: ['GET'])]
     public function admin(PropertyRepository $propertyRepository): Response
     {
         return $this->render('property/index.html.twig', [

@@ -68,11 +68,13 @@ class PropertyType extends AbstractType
                 ],
             ])
             ->add('state', EntityType::class, [
+                'label' => 'property.form.state',
                 'class' => State::class,
                 'choice_label' => 'name',
                 'choice_translation_domain' => true
             ])
             ->add('equipments', EntityType::class, [
+                'label' => 'property.form.equipment',
                 'class' => Equipment::class,
                 'choice_label' => 'name',
                 'multiple' => true,
@@ -82,6 +84,7 @@ class PropertyType extends AbstractType
                 'required'   => false
             ])
             ->add('rules', EntityType::class, [
+                'label' => 'property.form.rules',
                 'class' => Rule::class,
                 'choice_label' => 'name',
                 'multiple' => true,

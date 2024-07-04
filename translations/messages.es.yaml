@@ -60,7 +60,7 @@ property:
     square: Superficie
     type: Tipo
     state: Estado
-    equipments: Equipamiento
+    equipment: Equipamiento
     rules: Reglas
     properties: viviendas
     publish: Publicar
