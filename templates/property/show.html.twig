@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block title %}Property{% endblock %}
+
+{% block body %}
+    <h1>Property</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ property.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ property.name }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ property.description }}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ property.price }}</td>
+            </tr>
+            <tr>
+                <th>NumBathrooms</th>
+                <td>{{ property.numBathrooms }}</td>
+            </tr>
+            <tr>
+                <th>NumRooms</th>
+                <td>{{ property.numRooms }}</td>
+            </tr>
+            <tr>
+                <th>MaxPersons</th>
+                <td>{{ property.maxPersons }}</td>
+            </tr>
+            <tr>
+                <th>IsLastPlant</th>
+                <td>{{ property.isLastPlant ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Floor</th>
+                <td>{{ property.floor }}</td>
+            </tr>
+            <tr>
+                <th>Square</th>
+                <td>{{ property.square }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ property.type }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_property_index') }}">back to list</a>
+
+    <a href="{{ path('app_property_edit', {'id': property.id}) }}">edit</a>
+
+    {{ include('property/_delete_form.html.twig') }}
+{% endblock %}

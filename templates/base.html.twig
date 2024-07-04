@@ -17,54 +17,48 @@
 	<body>
 		<nav class="navbar navbar-expand-lg bg-light">
 			<div class="container-fluid">
-				<a class="navbar-brand" href="{{ url("default") }}">UniWave</a>
+				<a class="navbar-brand" href="{{ url("default") }}">{{ 'base.brand'|trans }}</a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					<ul class="navbar-nav ms-auto mb-lg-0">
-						<!--<li class="nav-item">
-							<a class="nav-link active" aria-current="page" href="#">Home</a>
-						</li>-->
 						<li class="nav-item">
-							<a class="nav-link" href="{{ url("about_us") }}">Sobre nosotros</a>
+							<a class="nav-link" href="{{ url("about_us") }}">{{ 'about.title'|trans }}</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="{{ url("contact") }}">Contacto</a>
+							<a class="nav-link" href="{{ url("contact") }}">{{ 'contact.title'|trans }}</a>
 						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="{{ url("app_login") }}">Entrar</a>
-						</li>
-						<!--<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-								Dropdown
-							</a>
-							<ul class="dropdown-menu">
-								<li>
-									<a class="dropdown-item" href="#">Action</a>
-								</li>
-								<li>
-									<a class="dropdown-item" href="#">Another action</a>
-								</li>
-								<li><hr class="dropdown-divider"></li>
-								<li>
-									<a class="dropdown-item" href="#">Something else here</a>
-								</li>
-							</ul>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link disabled">Disabled</a>
-						</li>-->
+						{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+							<li class="nav-item">
+								<a class="nav-link" href="{{ url("app_property_new") }}">{{ 'property.publish'|trans }}</a>
+							</li>
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+									{{ ux_icon('bi:gear') }}
+								</a>
+								<ul class="dropdown-menu">
+									<li>
+										<a class="dropdown-item" href="#">{{ ux_icon('bi:person-circle') }} {{ app.user.email }}</a>
+									</li>
+									<li><hr class="dropdown-divider"></li>
+								</ul>
+							</li>
+						{% else %}
+							<li class="nav-item">
+								<a class="nav-link" href="{{ url("app_login") }}">{{ 'user.access'|trans }}</a>
+							</li>
+						{% endif %}
 					</ul>
 				</div>
 			</div>
 		</nav>
-		{% block content %}{% endblock %}
+		{% block body %}{% endblock %}
 
 
-		<footer class="bg-dark text-white text-center p-3">
-			<p>&copy; UniWave 2024. Portal Inmobiliario Universitario. Todos los derechos reservados.</p>
-			<a href="https://github.com/MaratAkhmedov" class="text-white">Mi github</a>
+		<footer class=" mt-4 bg-dark text-white text-center p-3">
+			<p>&copy; {{ 'about.brand'|trans }} {{ 'now' | date('Y') }}. {{ 'footer.text'|trans }}.</p>
+			<a href="https://github.com/MaratAkhmedov" class="text-white">Github</a>
 		</footer>
 
 

@@ -1,3 +1,14 @@
+form:
+  save: Guardar
+  edit: Editar
+  return: Volver
+base:
+  brand: UniWave
+  search: Buscar
+footer:
+  text: Portal Inmobiliario Universitario. Todos los derechos reservados.
+user:
+  access: Entrar
 contact:
   title: Contacto
   header: Contacto
@@ -11,7 +22,6 @@ contact:
   message: Mensaje
   message_placeholder: Escribe tu mensaje aquí
   submit: Enviar
-
 about:
   title: Sobre Nosotros
   header: Sobre Nosotros
@@ -33,4 +43,39 @@ about:
   contact_header: Contáctanos
   contact_text: Estamos aquí para ayudarte. Si tienes alguna pregunta, sugerencia o necesitas asistencia, no dudes en
   contact_link: contactarnos
-    
+property:
+  type:
+    flat: Piso
+    room: Habitacion
+  form:
+    create: Publicar nueva vivienda
+    title: Título
+    description: Descripción
+    price: Precio
+    num_bathrooms: Número de baños
+    num_rooms: Número de habitaciones
+    max_persons: Número máximo de personas
+    floor: Planta
+    last_plant: ¿Es la última planta?
+    square: Superficie
+    type: Tipo
+    state: Estado
+    equipments: Equipamiento
+    rules: Reglas
+    properties: viviendas
+    publish: Publicar
+  
+breadcrumbs:
+  home: Página principal
+  create: crear
+
+equipment:
+  washing_machine: Lavadora
+  microwave: Microondas
+  elevator: Ascensor
+state:
+  good: Bueno
+  normal: Regular
+  bad: Malo
+rule:
+  no_animals: Sin animales

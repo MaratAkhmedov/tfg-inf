@@ -17,7 +17,7 @@
 
 {% endblock %}
 
-{% block content %}
+{% block body %}
 	<div id="cover" class="">
 		<div class="gradient">
 			<div class="container">
@@ -36,9 +36,10 @@
 							{% endfor %}
 							</select>
 						</div>
-
+						
 						<div class="col-sm-12 pt-2">
-							<button class="btn btn-outline-success w-100">Buscar</button>
+							<!-- TODO: Pass additional search criteria to property -->
+							<a class="btn btn-outline-success w-100"  href="{{ url('app_property_index') }}">{{ 'base.search'|trans }}</a>
 						</div>					
 					
 				</div>
@@ -52,27 +53,41 @@
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="card">
-                	<img class="card-img-top" src="{{asset('images/sample1.jpg')}}" alt="Card image cap">
+                	<img class="card-img-top" src="https://via.placeholder.com/400x200" alt="Card image cap">
 					<div class="card-body">
-						<h5 class="card-title">Special title treatment</h5>
-						<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-						<a href="#" class="btn btn-primary">Go somewhere</a>
+                    	<h5 class="card-title">Sobre Nosotros</h5>
+						<p class="card-text">En UniWave, nos dedicamos a facilitar la búsqueda de vivienda para estudiantes y personal universitario. Nuestro objetivo es centralizar las ofertas de alquiler en una única plataforma, haciendo que el proceso de encontrar el alojamiento ideal sea más simple.</p>
+                    	<p class="card-text">Integramos datos de diversas fuentes, incluyendo agencias inmobiliarias y anuncios de particulares, para ofrecer una amplia variedad de opciones adaptadas a las necesidades específicas de la comunidad universitaria.</p>
+                    	<a href="{{ url("about_us") }}" class="btn btn-primary">Más información</a>
 					</div>
 				</div>
 			</div>
 			<div class="col-sm-6">
 				<div class="card">
-                	<img class="card-img-top" src="{{asset('images/sample1.jpg')}}" alt="Card image cap">
+                	<img class="card-img-top" src="https://via.placeholder.com/400x200" alt="Card image cap">
 					<div class="card-body">
-						<h5 class="card-title">Special title treatment</h5>
-						<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-						<a href="#" class="btn btn-primary">Go somewhere</a>
+						<h5 class="card-title">Contáctanos</h5>
+                    	<p class="card-text">En UniWave, nos dedicamos a facilitar la búsqueda de vivienda para estudiantes y personal universitario. Nuestro objetivo es centralizar todas las ofertas de alquiler en una única plataforma, haciendo que el proceso de encontrar el alojamiento ideal sea más simple y eficiente.</p>
+                    	<p class="card-text">Puedes contactarnos a través de nuestro formulario en línea, correo electrónico o teléfono. Estamos disponibles de lunes a viernes, de 9:00 a 18:00. Tu satisfacción es nuestra prioridad.</p>
+					    <a href="{{ url("contact") }}" class="btn btn-primary">Contáctanos</a>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-
+		<div class="row mt-4">
+			<div class="col-12">
+				<h2>¿Por qué elegir UniWave?</h2>
+				<p>UniWave es la plataforma ideal para la comunidad universitaria en búsqueda de alojamiento. Nuestras características destacadas incluyen:</p>
+				<ul>
+					<li><strong>Búsqueda avanzada:</strong> Filtra las propiedades según tus preferencias y necesidades específicas.</li>
+					<li><strong>Ofertas verificadas:</strong> Trabajamos con agencias inmobiliarias y propietarios particulares para asegurar que todas las ofertas sean reales y actualizadas.</li>
+					<li><strong>Soporte dedicado:</strong> Nuestro equipo de atención al cliente está siempre disponible para ayudarte y resolver cualquier duda que puedas tener.</li>
+					<li><strong>Comunidad segura:</strong> Fomentamos un ambiente seguro y confiable para todos nuestros usuarios, con herramientas que permiten denunciar anuncios sospechosos.</li>
+				</ul>
+				<p>En UniWave, entendemos las necesidades específicas de los estudiantes y el personal universitario, por lo que nos esforzamos en ofrecer las mejores opciones de vivienda a precios accesibles.</p>
+			</div>
+    	</div>
+    </div>
 {% endblock %}
 
 

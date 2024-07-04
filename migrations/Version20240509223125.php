@@ -14,12 +14,12 @@ final class Version20240509223125 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Load default autonomous comunities for Spain';
+        return 'Load default data';
     }
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
+        // Autonomous comunity
         $this->addSql(<<<SQL
         INSERT INTO `autonomous_comunity` (`id`, `name`) 
             VALUES 
@@ -43,11 +43,40 @@ final class Version20240509223125 extends AbstractMigration
             (18,'Principado de Asturias'),
             (19,'Región de Murcia');
         SQL);
+
+        // Equipment
+        $this->addSql(<<<SQL
+        INSERT INTO equipment (name,`type`,description,icon) 
+            VALUES
+            ('equipment.washing_machine',NULL,NULL,'mdi:washing-machine'),
+            ('equipment.microwave',NULL,NULL,'material-symbols:microwave'),
+            ('equipment.elevator',NULL,NULL,'medical-icon:elevators');
+        SQL);
+
+        // Rule
+        $this->addSql(<<<SQL
+        INSERT INTO rule (name, description, icon)
+            VALUES
+            ('rule.no_animals', NULL, 'foundation:no-dogs');
+        SQL);
+
+        // State
+        $this->addSql(<<<SQL
+        INSERT INTO state (name, description, icon)
+            VALUES
+            ('state.good', NULL, 'circum:face-smile'),
+            ('state.normal', NULL, 'circum:face-meh'),
+            ('state.bad', NULL, 'circum:face-frown');
+        SQL);
     }
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE DROP autonomous_comunity');
+        $this->addSql('SET FOREIGN_KEY_CHECKS = 0;
+        TRUNCATE TABLE autonomous_comunity');
+
+        $this->addSql("TRUNCATE TABLE equipment");
+        $this->addSql("TRUNCATE TABLE rule");
+        $this->addSql("TRUNCATE TABLE state");
     }
 }

@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+	<style>
+        label.required:after {
+            content: " *";
+            color: red;
+        }	
+    </style>
+
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+
+        {% set breadcrumbs = {
+            'breadcrumbs.home': 'default',
+            'property.form.properties': 'app_property_index',
+            'breadcrumbs.create': 'app_property_new',
+        } %}
+        {% include '/breadcrumbs.html.twig' with {'breadcrumbs': breadcrumbs} %}
+
+
+        <h2>{{ 'property.form.create'|trans }}</h2>
+        {{ include('property/_form.html.twig') }}
+    </div>
+
+{% endblock %}

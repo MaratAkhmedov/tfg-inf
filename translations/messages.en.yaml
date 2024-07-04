@@ -1,3 +1,14 @@
+form:
+  save: Save
+  edit: Edit
+  return: Return
+base:
+  brand: UniWave
+  search: Search
+footer:
+  text: University Real Estate Portal. All rights reserved.
+user:
+  access: Enter
 contact:
   title: Contact
   header: Contact
@@ -11,7 +22,6 @@ contact:
   message: Message
   message_placeholder: Write your message here
   submit: Submit
-
 about:
   title: About Us
   header: About Us
@@ -33,3 +43,37 @@ about:
   contact_header: Contact Us
   contact_text: We are here to help you. If you have any questions, suggestions, or need assistance, do not hesitate to
   contact_link: contact us
+property:
+  type:
+    flat: Piso
+    room: Habitacion
+  form:
+    create: Publish new property
+    properties: properties
+    publish: Publish  
+    title: Title
+    description: Description
+    price: Price
+    num_bathrooms: Number of bathrooms
+    num_rooms: Number of rooms
+    max_persons: Maximum number of persons
+    floor: Plant
+    last_plant: ¿Is last plant?
+    square: Surface
+    type: Type
+    state: State
+    equipments: Equipment
+    rules: Rules
+breadcrumbs:
+  home: Home
+  create: create
+equipment:
+  washing_machine: Washing machine
+  microwave: Microwave
+  elevator: Elevator
+state:
+  good: Good
+  normal: Normal
+  bad: Bad
+rule:
+  no_animals: No animals

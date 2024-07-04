@@ -35,7 +35,7 @@ class Property
     private ?int $maxPersons = null;
 
     #[ORM\Column(nullable: true)]
-    private ?bool $isLastPlant = null;
+    private ?bool $lastPlant = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $floor = null;
@@ -48,6 +48,9 @@ class Property
 
     #[ORM\ManyToOne(inversedBy: 'properties')]
     private ?State $state = null;
+
+    #[ORM\ManyToOne(inversedBy: 'properties')]
+    private ?User $user = null;
 
     /**
      * @var Collection<int, Equipment>
@@ -62,7 +65,7 @@ class Property
     private Collection $rules;
 
     #[ORM\OneToOne(inversedBy: 'property', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Address $address = null;
 
     /**
@@ -157,12 +160,12 @@ class Property
 
     public function isLastPlant(): ?bool
     {
-        return $this->isLastPlant;
+        return $this->lastPlant;
     }
 
-    public function setLastPlant(?bool $isLastPlant): static
+    public function setLastPlant(?bool $lastPlant): static
     {
-        $this->isLastPlant = $isLastPlant;
+        $this->lastPlant = $lastPlant;
 
         return $this;
     }
@@ -211,6 +214,18 @@ class Property
     public function setState(?State $state): static
     {
         $this->state = $state;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }
