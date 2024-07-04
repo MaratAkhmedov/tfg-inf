@@ -24,3 +24,6 @@
 /public/assets/
 /assets/vendor/
 ###< symfony/asset-mapper ###
+
+### js
+/node_modules/
