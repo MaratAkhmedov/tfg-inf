@@ -6,6 +6,10 @@
             content: " *";
             color: red;
         }	
+        #map {
+            height: 500px;
+            width: 100%;
+        }
     </style>
 
 {% endblock %}
@@ -45,11 +49,19 @@
             
 
             <div class="row">
-                <div class="mb-3">
-                    {{ form_label(form.address) }}
-                    {{ form_widget(form.address, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(form.address) }}
+                <div class="col-md-12">
+                    <div class="mb-3">
+                        {{ form_label(form.address) }}
+                        {{ form_widget(form.address, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.address) }}
+                    </div>
                 </div>
+                
+
+                    <div class="col-md-12 mx-auto">
+                        <div class="mx-auto" style="height: 300px; text-align:center " id="map">
+                        </div>
+                    </div>
             </div>
 
             <div class="row">
@@ -131,5 +143,73 @@
 
 
 {% block javascript %}
+    <script src="https://maps.googleapis.com/maps/api/js?key={{app.request.server.get('GOOGLE_MAPS_API_KEY')}}&libraries=places"></script>
 
+    <script>
+        let map;
+        let autocomplete;
+        let marker;
+
+        function initMap() {
+            // Inicializar el mapa
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 39.46975, lng: -0.37739 },
+                zoom: 8
+            });
+
+            // Inicializar el marcador (sin posición al inicio)
+            marker = new google.maps.Marker({
+                map: map,
+                anchorPoint: new google.maps.Point(0, -29)
+            });
+
+            // Inicializar el autocompletado
+            const input = document.getElementById('property_address');
+            autocomplete = new google.maps.places.Autocomplete(input);
+            autocomplete.bindTo('bounds', map);
+
+            autocomplete.addListener('place_changed', function() {
+                const place = autocomplete.getPlace();
+
+                // Clear out the old markers.
+                marker.setMap(null);
+
+
+                // get the icon, name and location.
+                const bounds = new google.maps.LatLngBounds();
+
+                if (!place.geometry || !place.geometry.location) {
+                    console.log("Returned place contains no geometry");
+                    return;
+                }
+
+                const icon = {
+                    url: place.icon,
+                    size: new google.maps.Size(71, 71),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(17, 34),
+                    scaledSize: new google.maps.Size(25, 25),
+                };
+                // Create a marker for each place.
+                marker =  new google.maps.Marker({
+                    map,
+                    icon,
+                    title: place.name,
+                    position: place.geometry.location,
+                });
+                if (place.geometry.viewport) {
+                    // Only geocodes have viewport.
+                    bounds.union(place.geometry.viewport);
+                } else {
+                    bounds.extend(place.geometry.location);
+                }
+                map.fitBounds(bounds);
+            });
+        }
+
+        // Inicializar el mapa al cargar la página
+        window.onload = function() {
+            initMap();
+        };
+    </script>
 {% endblock %}

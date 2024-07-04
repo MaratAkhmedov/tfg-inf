@@ -64,6 +64,7 @@ property:
     rules: Reglas
     properties: viviendas
     publish: Publicar
+    address: Dirección
   
 breadcrumbs:
   home: Página principal

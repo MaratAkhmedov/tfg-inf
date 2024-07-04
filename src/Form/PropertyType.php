@@ -93,9 +93,11 @@ class PropertyType extends AbstractType
                 'expanded' => true,
                 'required'   => false
             ])
-            ->add('address', EntityType::class, [
-                'class' => Address::class,
-                'choice_label' => 'name',
+            // FIXME: fix problem with address type
+            ->add('address', TextType::class, [
+                'label' => 'property.form.address',
+                // 'class' => Address::class,
+                // 'choice_label' => 'name',
                 'required'   => false
             ])
         ;

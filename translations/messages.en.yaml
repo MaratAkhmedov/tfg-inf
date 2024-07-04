@@ -64,6 +64,7 @@ property:
     state: State
     equipment: Equipment
     rules: Rules
+    address: Address
 breadcrumbs:
   home: Home
   create: create
