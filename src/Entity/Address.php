@@ -31,8 +31,14 @@ class Address
     #[ORM\OneToOne(mappedBy: 'address', cascade: ['persist', 'remove'])]
     private ?Property $property = null;
 
+    // #[ORM\ManyToOne(inversedBy: 'addresses')]
+    // private ?City $city = null;
+
     #[ORM\ManyToOne(inversedBy: 'addresses')]
-    private ?City $city = null;
+    private ?AdministrativeArea $administrativeArea = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $formattedAddress = null;
     
     public function getId(): ?int
     {
@@ -116,14 +122,38 @@ class Address
         return $this;
     }
 
-    public function getCity(): ?City
+    // public function getCity(): ?City
+    // {
+    //     return $this->city;
+    // }
+
+    // public function setCity(?City $city): static
+    // {
+    //     $this->city = $city;
+
+    //     return $this;
+    // }
+
+    public function getAdministrativeArea(): ?AdministrativeArea
     {
-        return $this->city;
+        return $this->administrativeArea;
     }
 
-    public function setCity(?City $city): static
+    public function setAdministrativeArea(?AdministrativeArea $administrativeArea): static
     {
-        $this->city = $city;
+        $this->administrativeArea = $administrativeArea;
+
+        return $this;
+    }
+
+    public function getFormattedAddress(): ?string
+    {
+        return $this->formattedAddress;
+    }
+
+    public function setFormattedAddress(string $formattedAddress): static
+    {
+        $this->formattedAddress = $formattedAddress;
 
         return $this;
     }

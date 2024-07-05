@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+// TODO: Remove that entity
 #[ORM\Entity(repositoryClass: CityRepository::class)]
 class City
 {
