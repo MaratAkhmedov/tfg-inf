@@ -11,6 +11,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -18,6 +19,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
 
 class PropertyType extends AbstractType
 {
@@ -95,10 +98,12 @@ class PropertyType extends AbstractType
             ])
             // FIXME: fix problem with address type
             ->add('address', TextType::class, [
+                'mapped' => false,
                 'label' => 'property.form.address',
-                // 'class' => Address::class,
-                // 'choice_label' => 'name',
-                'required'   => false
+                'required'   => true
+            ])
+            ->add('mapPlaceId', HiddenType::class, [
+                'mapped' => false
             ])
         ;
     }

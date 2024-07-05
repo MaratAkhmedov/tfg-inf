@@ -1,4 +1,104 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn btn-success">{{ 'form.save'|trans }}</button>
+    <div class="row">
+        <div class="mb-3">
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.name) }}
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="mb-3">
+            {{ form_label(form.description) }}
+            {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.description) }}
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="mb-3">
+                {{ form_label(form.address) }}
+                {{ form_widget(form.address, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.address) }}
+            </div>
+        </div>
+
+
+        <div class="col-md-12 mx-auto">
+            <div class="mx-auto" style="height: 300px; text-align:center " id="map"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="mb-3 col-md-6">
+            {{ form_label(form.price) }}
+            {{ form_widget(form.price, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.price) }}
+        </div>
+
+        <div class="mb-3 col-md-6">
+            {{ form_label(form.numBathrooms) }}
+            {{ form_widget(form.numBathrooms, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.numBathrooms) }}
+        </div>
+
+        <div class="mb-3 col-md-6">
+            {{ form_label(form.numRooms) }}
+            {{ form_widget(form.numRooms, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.numRooms) }}
+        </div>
+
+        <div class="mb-3 col-md-6">
+            {{ form_label(form.maxPersons) }}
+            {{ form_widget(form.maxPersons, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.maxPersons) }}
+        </div>
+
+        <div class="mb-3 col-md-6">
+            {{ form_label(form.floor) }}
+            {{ form_widget(form.floor, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.floor) }}
+
+            {{ form_label(form.lastPlant) }}
+            {{ form_widget(form.lastPlant, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.lastPlant) }}
+        </div>
+
+        <div class="mb-3 col-md-6">
+            {{ form_label(form.square) }}
+            {{ form_widget(form.square, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.square) }}
+        </div>
+
+        <div class="mb-3 col-md-6">
+            {{ form_label(form.type) }}
+            {{ form_widget(form.type, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.type) }}
+        </div>
+
+
+        <div class="mb-3 col-md-6">
+            {{ form_label(form.state) }}
+            {{ form_widget(form.state, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.state) }}
+        </div>
+
+        <div class="mb-3 col-md-6">
+            {{ form_label(form.equipments) }}
+            {{ form_widget(form.equipments, {'attr': {'class': ''}}) }}
+            {{ form_errors(form.equipments) }}
+        </div>
+
+        <div class="mb-3 col-md-6">
+            {{ form_label(form.rules) }}
+            {{ form_widget(form.rules, {'attr': {'class': ''}}) }}
+            {{ form_errors(form.rules) }}
+        </div>
+    </div>
+{{ form_widget(form) }}
+
+<button class="btn btn-success">{{ 'form.save'|trans }}</button>
 {{ form_end(form) }}

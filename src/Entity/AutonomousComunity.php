@@ -25,6 +25,9 @@ class AutonomousComunity
     #[ORM\OneToMany(targetEntity: Province::class, mappedBy: 'autonomousComunity')]
     private Collection $provinces;
 
+    #[ORM\Column(length: 2)]
+    private ?string $isoCode = null;
+
     public function __construct()
     {
         $this->provinces = new ArrayCollection();
@@ -73,6 +76,18 @@ class AutonomousComunity
                 $province->setAutonomousComunity(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIsoCode(): ?string
+    {
+        return $this->isoCode;
+    }
+
+    public function setIsoCode(string $isoCode): static
+    {
+        $this->isoCode = $isoCode;
 
         return $this;
     }

@@ -11,9 +11,26 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CityRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        private ProvinceRepository $provinceRepository
+    ) {
         parent::__construct($registry, City::class);
+    }
+
+    public function getOrCreateCity(string $cityName, string $provinceCode): City
+    {
+        $city = $this->findOneBy(['name' => $cityName]);
+        if ($city) {
+            return $city;
+        } else {
+            $city = new City();
+            $city->setName($cityName);
+            $city->setProvince($this->provinceRepository->findOneBy(['isoCode' => $provinceCode]));
+        }
+        $this->getEntityManager()->persist($city);
+        $this->getEntityManager()->flush();
+        return $city;
     }
 
     //    /**

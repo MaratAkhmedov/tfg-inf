@@ -20,25 +20,25 @@ class Address
     private ?string $street = null;
 
     #[ORM\Column(nullable: true)]
-    private ?int $numDoor = null;
-
-    #[ORM\Column(nullable: true)]
     private ?float $latitude = null;
 
     #[ORM\Column(nullable: true)]
-    private ?float $longitute = null;
+    private ?float $longitude = null;
 
-    #[ORM\OneToOne(mappedBy: 'address', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'address', cascade: ['persist'])]
     private ?Property $property = null;
 
-    // #[ORM\ManyToOne(inversedBy: 'addresses')]
-    // private ?City $city = null;
+    #[ORM\ManyToOne(inversedBy: 'addresses', cascade:['persist'])]
+    private ?City $city = null;
 
-    #[ORM\ManyToOne(inversedBy: 'addresses')]
-    private ?AdministrativeArea $administrativeArea = null;
+    //#[ORM\ManyToOne(inversedBy: 'addresses')]
+    //private ?AdministrativeArea $administrativeArea = null;
 
     #[ORM\Column(length: 255)]
     private ?string $formattedAddress = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $placeId = null;
     
     public function getId(): ?int
     {
@@ -69,18 +69,6 @@ class Address
         return $this;
     }
 
-    public function getNumDoor(): ?int
-    {
-        return $this->numDoor;
-    }
-
-    public function setNumDoor(?int $numDoor): static
-    {
-        $this->numDoor = $numDoor;
-
-        return $this;
-    }
-
     public function getLatitude(): ?float
     {
         return $this->latitude;
@@ -93,14 +81,14 @@ class Address
         return $this;
     }
 
-    public function getLongitute(): ?float
+    public function getLongitude(): ?float
     {
-        return $this->longitute;
+        return $this->longitude;
     }
 
-    public function setLongitute(?float $longitute): static
+    public function setLongitude(?float $longitude): static
     {
-        $this->longitute = $longitute;
+        $this->longitude = $longitude;
 
         return $this;
     }
@@ -122,29 +110,28 @@ class Address
         return $this;
     }
 
-    // public function getCity(): ?City
+    public function getCity(): ?City
+    {
+        return $this->city;
+    }
+
+    public function setCity(?City $city): static
+    {
+        $this->city = $city;
+        return $this;
+    }
+
+    // public function getAdministrativeArea(): ?AdministrativeArea
     // {
-    //     return $this->city;
+    //     return $this->administrativeArea;
     // }
 
-    // public function setCity(?City $city): static
+    // public function setAdministrativeArea(?AdministrativeArea $administrativeArea): static
     // {
-    //     $this->city = $city;
+    //     $this->administrativeArea = $administrativeArea;
 
     //     return $this;
     // }
-
-    public function getAdministrativeArea(): ?AdministrativeArea
-    {
-        return $this->administrativeArea;
-    }
-
-    public function setAdministrativeArea(?AdministrativeArea $administrativeArea): static
-    {
-        $this->administrativeArea = $administrativeArea;
-
-        return $this;
-    }
 
     public function getFormattedAddress(): ?string
     {
@@ -154,6 +141,18 @@ class Address
     public function setFormattedAddress(string $formattedAddress): static
     {
         $this->formattedAddress = $formattedAddress;
+
+        return $this;
+    }
+
+    public function getPlaceId(): ?string
+    {
+        return $this->placeId;
+    }
+
+    public function setPlaceId(string $placeId): static
+    {
+        $this->placeId = $placeId;
 
         return $this;
     }

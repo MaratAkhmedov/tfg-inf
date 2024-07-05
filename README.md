@@ -17,11 +17,16 @@ npm install browser-sync --save-dev
 ## Loading fixtures data
 php bin/console doctrine:fixtures:load
 ## Update schema
-php app/console doctrine:schema:update --force
+php bin/console doctrine:schema:update --force
 ## Reload full database (ba careful)
 ```
-php app/console doctrine:database:drop
-php app/console doctrine:database:create
-doctrine:schema:update -f
-doctrine:migrations:migrate
+php bin/console doctrine:database:drop -f
+php bin/console doctrine:database:create
+php bin/console doctrine:schema:update -f
+php bin/console doctrine:migrations:migrate
+```
+
+# To regenerate routes in twig
+```
+php bin/console fos:js-routing:dump
 ```

@@ -1,0 +1,1 @@
+fos.Router.setData({"base_url":"","routes":{"app_property_type_city":{"tokens":[["variable","\/","[^\/]++","city",true],["variable","\/","[^\/]++","type",true],["text","\/property"]],"defaults":[],"requirements":[],"hosttokens":[],"methods":["GET"],"schemes":[]}},"prefix":"","host":"localhost","port":"","scheme":"http","locale":""});

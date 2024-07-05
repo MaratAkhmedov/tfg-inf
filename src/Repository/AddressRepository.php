@@ -2,7 +2,9 @@
 
 namespace App\Repository;
 
+use App\Dto\AddressDTO;
 use App\Entity\Address;
+use App\Entity\City;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -11,9 +13,28 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class AddressRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        private CityRepository $cityRepository
+    ) {
         parent::__construct($registry, Address::class);
+    }
+
+    public function getAddressFromDTO(AddressDTO $addressDTO)
+    {
+        $address = new Address;
+        $address->setPostalCode($addressDTO->getPostalCode());
+        $address->setStreet($addressDTO->getStreet());
+        $address->setLatitude($addressDTO->getLatitude());
+        $address->setLongitude($addressDTO->getLongitude());
+        $address->setFormattedAddress($addressDTO->getFormattedAddress());
+        $address->setPlaceId($addressDTO->getPlaceId());
+
+        $address->setCity(
+            $this->cityRepository->getOrCreateCity($addressDTO->getCity(), $addressDTO->getProvince())
+        );
+
+        return $address;
     }
 
     //    /**

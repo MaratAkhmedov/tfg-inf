@@ -28,122 +28,15 @@
 
         <h2>{{ 'property.form.create'|trans }}</h2>
         
-        {{ form_start(form) }}
-            {#  #}
-            <div class="row">
-                <div class="mb-3">
-                    {{ form_label(form.name) }}
-                    {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(form.name) }}
-                </div>
-            </div>
-
-
-            <div class="row">
-                <div class="mb-3">
-                    {{ form_label(form.description) }}
-                    {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(form.description) }}
-                </div>
-            </div>
-            
-
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="mb-3">
-                        {{ form_label(form.address) }}
-                        {{ form_widget(form.address, {'attr': {'class': 'form-control'}}) }}
-                        {{ form_errors(form.address) }}
-                    </div>
-                </div>
-                
-
-                    <div class="col-md-12 mx-auto">
-                        <div class="mx-auto" style="height: 300px; text-align:center " id="map">
-                        </div>
-                    </div>
-            </div>
-
-            <div class="row">
-                <div class="mb-3 col-md-6">
-                {{ form_label(form.price) }}
-                {{ form_widget(form.price, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(form.price) }}
-                </div>
-
-                <div class="mb-3 col-md-6">
-                    {{ form_label(form.numBathrooms) }}
-                    {{ form_widget(form.numBathrooms, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(form.numBathrooms) }}
-                </div>
-
-                <div class="mb-3 col-md-6">
-                    {{ form_label(form.numRooms) }}
-                    {{ form_widget(form.numRooms, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(form.numRooms) }}
-                </div>
-
-                <div class="mb-3 col-md-6">
-                    {{ form_label(form.maxPersons) }}
-                    {{ form_widget(form.maxPersons, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(form.maxPersons) }}
-                </div>
-
-                <div class="mb-3 col-md-6">
-                    {{ form_label(form.floor) }}
-                    {{ form_widget(form.floor, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(form.floor) }}
-
-                    {{ form_label(form.lastPlant) }}
-                    {{ form_widget(form.lastPlant, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(form.lastPlant) }}
-                </div>
-
-                <div class="mb-3 col-md-6">
-                    {{ form_label(form.square) }}
-                    {{ form_widget(form.square, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(form.square) }}
-                </div>
-
-                <div class="mb-3 col-md-6">
-                    {{ form_label(form.type) }}
-                    {{ form_widget(form.type, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(form.type) }}
-                </div>
-
-
-                <div class="mb-3 col-md-6">
-                    {{ form_label(form.state) }}
-                    {{ form_widget(form.state, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(form.state) }}
-                </div>
-
-                <div class="mb-3 col-md-6">
-                    {{ form_label(form.equipments) }}
-                    {{ form_widget(form.equipments, {'attr': {'class': ''}}) }}
-                    {{ form_errors(form.equipments) }}
-                </div>
-
-                <div class="mb-3 col-md-6">
-                    {{ form_label(form.rules) }}
-                    {{ form_widget(form.rules, {'attr': {'class': ''}}) }}
-                    {{ form_errors(form.rules) }}
-                </div>
-            </div>
-
-            {{ form_widget(form) }}
-
-            <button class="btn btn-success">{{ 'form.save'|trans }}</button>
-        {{ form_end(form) }}
-
-        {# {{ include('property/_form.html.twig') }} #}
+        
+        {{ include('property/_form.html.twig') }}
     </div>
 
 {% endblock %}
 
 
 {% block javascript %}
-    <script src="https://maps.googleapis.com/maps/api/js?key={{app.request.server.get('GOOGLE_MAPS_API_KEY')}}&libraries=places"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{app.request.server.get('GOOGLE_MAP_API_KEY')}}&libraries=places"></script>
 
     <script>
         let map;
@@ -165,7 +58,11 @@
 
             // Inicializar el autocompletado
             const input = document.getElementById('property_address');
-            autocomplete = new google.maps.places.Autocomplete(input);
+            const options = {
+                types: ['address'], // Solo sugerir direcciones completas
+                componentRestrictions: { country: 'ES' } // Opcional: Restringir por país
+            };
+            autocomplete = new google.maps.places.Autocomplete(input, options);
             autocomplete.bindTo('bounds', map);
 
             autocomplete.addListener('place_changed', function() {
@@ -182,6 +79,10 @@
                     console.log("Returned place contains no geometry");
                     return;
                 }
+
+                // Establecer los valores de coordenadas
+                //document.getElementById('property_coordinates').value = place.geometry.location.lat() + "," + place.geometry.location.lng();
+                document.getElementById('property_mapPlaceId').value = place.place_id;
 
                 const icon = {
                     url: place.icon,
@@ -210,6 +111,13 @@
         // Inicializar el mapa al cargar la página
         window.onload = function() {
             initMap();
+
+            // Validate address before submit
+            document.getElementById('property_address').addEventListener('blur', function () {
+                if(document.getElementById('property_mapPlaceId').value == "") {
+                    document.getElementById('property_address').value = '';
+                }
+            });
         };
     </script>
 {% endblock %}

@@ -24,22 +24,22 @@
 				<div id="search-box" class="row col-sm-12 col-md-8 p-lg-5 mx-auto">
 					<h1 class="display-7 fw-normal">Tu vivienda a un paso</h1>
 						<div class="col-sm-12 col-md-6">
-							<select class="form-select" aria-label="Default select example">
+							<select id="property-type-selector" class="form-select" aria-label="Default select example">
 								<option selected value="room">Habitacion</option>
 								<option value="flat">Piso</option>
 							</select>
 						</div>
 						<div class="col-sm-12 col-md-6">
-							<select class="form-select" aria-label="Default select example">
-							{% for autonomousComunity in autonomousComunities %}
-								<option autonomousComunity.id == '1' ? 'selected' : '' value="{{autonomousComunity.id}}">{{autonomousComunity.name}}</option>
+							<select id="city-selector" class="form-select" aria-label="Default select example">
+							{% for city in cities %}
+								<option city.id == '1' ? 'selected' : '' value="{{city.id}}">{{city.name}}</option>
 							{% endfor %}
 							</select>
 						</div>
 						
 						<div class="col-sm-12 pt-2">
 							<!-- TODO: Pass additional search criteria to property -->
-							<a class="btn btn-outline-success w-100"  href="{{ url('app_property_default') }}">{{ 'base.search'|trans }}</a>
+							<button class="btn btn-outline-success w-100"  onclick="searchByTypeAndProperty()">{{ 'base.search'|trans }}</button>
 						</div>					
 					
 				</div>
@@ -93,6 +93,15 @@
 
 {% block javascript %}
 <script>
-
+	function searchByTypeAndProperty() {
+        // Get the values from the select elements
+        var propertyType = document.getElementById('property-type-selector').value;
+        var cityId = document.getElementById('city-selector').value;
+        // Construct the URL (adjust the base URL as needed)
+        var url = Routing.generate('app_property_type_city', { type: propertyType, city: cityId });
+		console.log("url", url)
+        // Redirect to the constructed URL
+        window.location.href = url;
+    }
 </script>
 {% endblock %}

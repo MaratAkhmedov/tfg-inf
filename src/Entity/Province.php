@@ -20,7 +20,7 @@ class Province
     private ?string $name = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $code = null;
+    private ?string $isoCode = null;
 
     /**
      * @var Collection<int, City>
@@ -53,14 +53,14 @@ class Province
         return $this;
     }
 
-    public function getCode(): ?string
+    public function getIsoCode(): ?string
     {
-        return $this->code;
+        return $this->isoCode;
     }
 
-    public function setCode(string $code): static
+    public function setIsoCode(string $isoCode): static
     {
-        $this->code = $code;
+        $this->isoCode = $isoCode;
 
         return $this;
     }

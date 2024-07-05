@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Repository\AutonomousComunityRepository;
+use App\Repository\CityRepository;
 use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -11,12 +11,9 @@ use Symfony\Component\Routing\Annotation\Route;
 #[AsController]
 class IndexController
 {
-    private AutonomousComunityRepository $autonomousComunityRepository;
-
     public function __construct(
-        AutonomousComunityRepository $autonomousComunityRepository
+        private CityRepository $cityRepository
     ) {
-        $this->autonomousComunityRepository = $autonomousComunityRepository;
     }
 
     #[Route('/', 'default')]
@@ -24,7 +21,7 @@ class IndexController
     public function index(): array
     {
         return [
-            "autonomousComunities" => $this->autonomousComunityRepository->findAll()
+            "cities" => $this->cityRepository->findAll()
         ];
     }
 
