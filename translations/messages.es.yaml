@@ -83,5 +83,4 @@ rule:
 dropzone: 
   default_message: Suelte la imagen aquí o haga clic para cargar
   required: Debes subir al menos una foto
-  property:
-    title: 'Cargar las imágenes de las vivendas'
+  title: Imágenes
