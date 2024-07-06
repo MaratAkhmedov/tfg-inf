@@ -36,6 +36,10 @@
                     </div>
                     </div>
                 </div>
+            {% else %}
+                <tr>
+                    <td colspan="12">{{'property.not_found'|trans}}</td>
+                </tr>
             {% endfor %}
         </div>
 	</div>

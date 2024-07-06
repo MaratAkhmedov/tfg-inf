@@ -44,6 +44,7 @@ about:
   contact_text: We are here to help you. If you have any questions, suggestions, or need assistance, do not hesitate to
   contact_link: contact us
 property:
+  not_found: Properties not found
   type:
     flat: Piso
     room: Habitacion

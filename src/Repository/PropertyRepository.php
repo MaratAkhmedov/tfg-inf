@@ -29,7 +29,6 @@ class PropertyRepository extends ServiceEntityRepository
             ->andWhere('p.type = :type')
             ->setParameter('city', $city)
             ->setParameter('type', $type)
-            ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;

@@ -44,6 +44,7 @@ about:
   contact_text: Estamos aquí para ayudarte. Si tienes alguna pregunta, sugerencia o necesitas asistencia, no dudes en
   contact_link: contactarnos
 property:
+  not_found: Viviendas no encontradas
   type:
     flat: Piso
     room: Habitacion
