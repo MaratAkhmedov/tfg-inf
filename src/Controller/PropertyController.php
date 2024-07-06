@@ -62,7 +62,7 @@ class PropertyController extends AbstractController
                         );
 
                         $photo = new Photo();
-                        $photo->setUrl($newFilename);
+                        $photo->setUrl($this->getParameter('photos_prefix') . '/' . $newFilename);
                         $property->addPhoto($photo);
                     } catch (FileException $e) {
                         // Handle exception if something happens during file upload
