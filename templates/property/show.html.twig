@@ -1,72 +1,174 @@
 {% extends 'base.html.twig' %}
+{% block stylesheets %}
+	<style>
+		.carousel-indicators button.thumbnail {
+			width: 100px;
+		}
+		.carousel-indicators button.thumbnail:not(.active) {
+			opacity: 0.7;
+		}
+		.carousel-indicators {
+			position: static;
+		}
+		.carousel-inner {
+			height: 0;
+			padding-bottom: 50%; /* this sets carousel aspect ratio (4:1 here) */
+		}
+
+		.carousel-indicators img {
+			height: 50px; /* Bootstrap handles width already */
+			object-fit: cover; /* or 'contain' if you want stretch instead of crop */
+		}
+
+		.carousel-item {
+			position: absolute !important; /* Bootstrap is insistent */
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+		}
+
+		.carousel-item img {
+			height: 100%; /* Bootstrap handles width already */
+			object-fit: cover; /* or 'contain' if you want stretch instead of crop */
+		}
+
+		@media(max-width: 575px) {
+			.carousel-inner {
+				height: 0;
+				padding-bottom: 70%; /* this sets carousel aspect ratio (4:1 here) */
+			}
+		}
+
+		@media screen and(min-width: 992px) {
+			.carousel {
+				max-width: 70%;
+				margin: 0 auto;
+			}
+		}
+	</style>
+
+{% endblock %}
 
 
-
-{% block title %}{{ property.name }}{% endblock %}
+{% block title %}
+	{{ property.name }}
+{% endblock %}
 
 {% block body %}
-{{dump(property)}}
-    <div class="container">
-        {% set name = property.name %}
-        {% set breadcrumbs = [
+	<div class="container">
+		{% set name = property.name %}
+		{% set breadcrumbs = [
             {'label': 'breadcrumbs.home', 'link': 'default'},
             {'label': 'property.form.properties', 'link': 'referrer'},
             {'label': name|lower|u.truncate(20, '...', false)}
         ] %}
 
-        {% include '/breadcrumbs.html.twig' with {'breadcrumbs': breadcrumbs} %}        
-        
-    </div>
-    <h1>Property</h1>
+		{% include '/breadcrumbs.html.twig' with {'breadcrumbs': breadcrumbs} %}
+		<div class="row mb-5">
+			<div class="col-lg-8">
+				<div id="property-carouserl" class="carousel slide">
+					<div class="carousel-inner">
+						{% for photo in property.photos %}
+							<div class="carousel-item {{loop.first ? 'active' : ''}}">
+								<img src="{{ asset(photo.url) }}" class="d-block w-100" alt="...">
+							</div>
+						{% endfor %}
+					</div>
+					{% if property.photos|length > 1 %}
+						<div class="carousel-indicators">
+							{% for i, photo in property.photos %}
+								<button type="button" data-bs-target="#property-carouserl" data-bs-slide-to="{{i}}" class="{{loop.first ? 'active' : ''}} thumbnail" aria-current="true" aria-label="Slide {{i+1}}">
+									<img src="{{ asset(photo.url) }}" class="d-block w-100" alt="...">
+								</button>
+							{% endfor %}
+						</div>
+					{% endif %}
+				</div>
+			</div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ property.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ property.name }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ property.description }}</td>
-            </tr>
-            <tr>
-                <th>Price</th>
-                <td>{{ property.price }}</td>
-            </tr>
-            <tr>
-                <th>NumBathrooms</th>
-                <td>{{ property.numBathrooms }}</td>
-            </tr>
-            <tr>
-                <th>NumRooms</th>
-                <td>{{ property.numRooms }}</td>
-            </tr>
-            <tr>
-                <th>MaxPersons</th>
-                <td>{{ property.maxPersons }}</td>
-            </tr>
-            <tr>
-                <th>IsLastPlant</th>
-                <td>{{ property.isLastPlant ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Floor</th>
-                <td>{{ property.floor }}</td>
-            </tr>
-            <tr>
-                <th>Square</th>
-                <td>{{ property.square }}</td>
-            </tr>
-        </tbody>
-    </table>
+			<div class="col-lg-4">
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title">Special title treatment</h5>
+						<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+						<a href="#" class="btn btn-primary">Reservar</a>
+					</div>
+				</div>
+			</div>
+		</div>
 
-    <a href="{{ path('app_property_index') }}">back to list</a>
 
-    <a href="{{ path('app_property_edit', {'id': property.id}) }}">edit</a>
+		<h1>{{property.name}}</h1>
 
-    {{ include('property/_delete_form.html.twig') }}
+		<h1 class="mt-3">{{property.price|format_currency('EUR', {rounding_mode: 'floor'})}}</h1>
+
+		{% set address = property.address %}
+		{% set city = address.city|default([]) %}
+		{% set province = city.province|default([]) %}
+		{% set autonomousComunity = province.autonomousComunity|default([]) %}
+
+		{{ address.street|default("") }}
+		|
+		{{ city.name|default("") }}
+		|
+		{{ province.name|default("") }}
+		|
+		{{ autonomousComunity.name|default("") }}
+
+		<h3 class="mt-3">Comentarios del anunciante</h3>
+		<p class="mt-3">{{property.description}}</p>
+
+
+		{# <table class="table">
+							<tbody>
+								<tr>
+									<th>Id</th>
+									<td>{{ property.id }}</td>
+								</tr>
+								<tr>
+									<th>Name</th>
+									<td>{{ property.name }}</td>
+								</tr>
+								<tr>
+									<th>Description</th>
+									<td>{{ property.description }}</td>
+								</tr>
+								<tr>
+									<th>Price</th>
+									<td>{{ property.price }}</td>
+								</tr>
+								<tr>
+									<th>NumBathrooms</th>
+									<td>{{ property.numBathrooms }}</td>
+								</tr>
+								<tr>
+									<th>NumRooms</th>
+									<td>{{ property.numRooms }}</td>
+								</tr>
+								<tr>
+									<th>MaxPersons</th>
+									<td>{{ property.maxPersons }}</td>
+								</tr>
+								<tr>
+									<th>IsLastPlant</th>
+									<td>{{ property.isLastPlant ? 'Yes' : 'No' }}</td>
+								</tr>
+								<tr>
+									<th>Floor</th>
+									<td>{{ property.floor }}</td>
+								</tr>
+								<tr>
+									<th>Square</th>
+									<td>{{ property.square }}</td>
+								</tr>
+							</tbody>
+						</table> 
+		
+				<a href="{{ path('app_property_index') }}">back to list</a>
+		
+				<a href="{{ path('app_property_edit', {'id': property.id}) }}">edit</a>
+		
+				{{ include('property/_delete_form.html.twig') }}#}
+	</div>
 {% endblock %}

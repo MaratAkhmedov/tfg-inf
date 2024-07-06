@@ -35,6 +35,8 @@ class PropertyFixtures extends Fixture implements DependentFixtureInterface
             $property->setAddress($this->generateRandomAddress($i));
             $property->setUser($this->userRepository->findOneBy(['email' => 'owner@test.com']));
 
+            $property->setPrice(rand(100, 1000));
+
             $manager->persist($property);
         }
 
