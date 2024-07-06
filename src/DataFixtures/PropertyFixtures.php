@@ -29,7 +29,7 @@ class PropertyFixtures extends Fixture implements DependentFixtureInterface
             $property->setType($this->propertyTypeRepository->findOneBy(['name' => 'room']));
 
             $photo = new Photo();
-            $photo->setUrl("upload/property/photos/placeholder400x200.png");
+            $photo->setUrl("images/placeholder400x200.png");
 
             $property->addPhoto($photo);
             $property->setAddress($this->generateRandomAddress($i));
