@@ -25,8 +25,9 @@
 					<h1 class="display-7 fw-normal">Tu vivienda a un paso</h1>
 						<div class="col-sm-12 col-md-6">
 							<select id="property-type-selector" class="form-select" aria-label="Default select example">
-								<option selected value="room">Habitacion</option>
-								<option value="flat">Piso</option>
+								{% for propertyType in propertyTypes %}
+									<option city.id == '1' ? 'selected' : '' value="{{propertyType.id}}">{{(propertyType.label)|trans}}</option>
+								{% endfor %}
 							</select>
 						</div>
 						<div class="col-sm-12 col-md-6">

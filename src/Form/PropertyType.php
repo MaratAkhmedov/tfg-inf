@@ -5,12 +5,12 @@ namespace App\Form;
 use App\Entity\Address;
 use App\Entity\Equipment;
 use App\Entity\Property;
+use App\Entity\PropertyType as EntityPropertyType;
 use App\Entity\Rule;
 use App\Entity\State;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
@@ -19,8 +19,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\NotNull;
 
 class PropertyType extends AbstractType
 {
@@ -62,24 +60,23 @@ class PropertyType extends AbstractType
                 'label' => 'property.form.square',
                 'required'   => false
             ])
-            ->add('type', ChoiceType::class, [
+            ->add('type', EntityType::class, [
                 'label' => 'property.form.type',
-                'required'   => true,
-                'choices' => [
-                    'property.type.room' => 'room',
-                    'property.type.flat' => 'flat',
-                ],
+                'class' => EntityPropertyType::class,
+                'choice_label' => 'label',
+                'choice_translation_domain' => true,
+                'required' => true
             ])
             ->add('state', EntityType::class, [
                 'label' => 'property.form.state',
                 'class' => State::class,
-                'choice_label' => 'name',
+                'choice_label' => 'label',
                 'choice_translation_domain' => true
             ])
             ->add('equipments', EntityType::class, [
                 'label' => 'property.form.equipment',
                 'class' => Equipment::class,
-                'choice_label' => 'name',
+                'choice_label' => 'label',
                 'multiple' => true,
                 'choice_translation_domain' => true,
                 'expanded' => true,
@@ -88,7 +85,7 @@ class PropertyType extends AbstractType
             ->add('rules', EntityType::class, [
                 'label' => 'property.form.rules',
                 'class' => Rule::class,
-                'choice_label' => 'name',
+                'choice_label' => 'label',
                 'multiple' => true,
                 'choice_translation_domain' => true,
                 'expanded' => true,

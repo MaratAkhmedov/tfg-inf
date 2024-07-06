@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Address;
 use App\Entity\Property;
 use App\Repository\CityRepository;
+use App\Repository\PropertyTypeRepository;
 use App\Repository\UserRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -14,7 +15,8 @@ class PropertyFixtures extends Fixture implements DependentFixtureInterface
 {
     public function __construct(
         private CityRepository $cityRepository,
-        private UserRepository $userRepository
+        private UserRepository $userRepository,
+        private PropertyTypeRepository $propertyTypeRepository
     ){}
 
     public function load(ObjectManager $manager): void
@@ -24,7 +26,7 @@ class PropertyFixtures extends Fixture implements DependentFixtureInterface
             $property = new Property();
             $property->setName('Propiedad '.$i.' de pruebas');
             $property->setDescription("Es la descripción de la vivienda de pruebas, solo se usa en entorno pre");
-            $property->setType('room');
+            $property->setType($this->propertyTypeRepository->findOneBy(['name' => 'room']));
 
             $property->setAddress($this->generateRandomAddress($i));
             $property->setUser($this->userRepository->findOneBy(['email' => 'owner@test.com']));

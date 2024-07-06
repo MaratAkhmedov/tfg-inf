@@ -46,9 +46,6 @@ class Property
     #[ORM\Column(nullable: true)]
     private ?int $square = null;
 
-    #[ORM\Column(length: 50, nullable: true)]
-    private ?string $type = null;
-
     #[ORM\Column(type: 'datetime', nullable: true)]
     private DateTimeInterface $createdAt;
 
@@ -82,6 +79,10 @@ class Property
      */
     #[ORM\OneToMany(targetEntity: File::class, mappedBy: 'property')]
     private Collection $files;
+
+    #[ORM\ManyToOne(inversedBy: 'properties')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?PropertyType $type = null;
 
     public function __construct()
     {
@@ -199,18 +200,6 @@ class Property
     public function setSquare(?int $square): static
     {
         $this->square = $square;
-
-        return $this;
-    }
-
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(?string $type): static
-    {
-        $this->type = $type;
 
         return $this;
     }
@@ -362,5 +351,25 @@ class Property
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    /**
+     * Get the value of type
+     */ 
+    public function getType(): ?PropertyType
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set the value of type
+     *
+     * @return  self
+     */ 
+    public function setType(?PropertyType $type): static
+    {
+        $this->type = $type;
+
+        return $this;
     }
 }

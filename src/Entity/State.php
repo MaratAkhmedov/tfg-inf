@@ -31,6 +31,9 @@ class State
     #[ORM\OneToMany(targetEntity: Property::class, mappedBy: 'state')]
     private Collection $properties;
 
+    #[ORM\Column(length: 255)]
+    private ?string $label = null;
+
     public function __construct()
     {
         $this->properties = new ArrayCollection();
@@ -103,6 +106,18 @@ class State
                 $property->setState(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLabel(): ?string
+    {
+        return $this->label;
+    }
+
+    public function setLabel(string $label): static
+    {
+        $this->label = $label;
 
         return $this;
     }

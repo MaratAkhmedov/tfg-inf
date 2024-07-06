@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\City;
 use App\Repository\CityRepository;
 use App\Repository\PropertyRepository;
+use App\Repository\PropertyTypeRepository;
 use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -15,7 +16,8 @@ use Symfony\Component\HttpFoundation\Request;
 class IndexController
 {
     public function __construct(
-        private CityRepository $cityRepository
+        private CityRepository $cityRepository,
+        private PropertyTypeRepository $propertyTypeRepository
     ) {
     }
 
@@ -24,16 +26,8 @@ class IndexController
     public function index(): array
     {
         return [
+            "propertyTypes" => $this->propertyTypeRepository->findAll(),
             "cities" => $this->cityRepository->findAll()
-        ];
-    }
-
-    #[Route('/search/{type}/{city}', name: 'app_search_property_type_city', methods: ['GET'], options: ["expose" => true])]
-    #[Template('property/default.html.twig')]
-    public function search(Request $request, string $type, City $city, PropertyRepository $propertyRepository): array
-    {
-        return [
-            'properties' => $propertyRepository->findByCityAndRoom($city, $type)
         ];
     }
 

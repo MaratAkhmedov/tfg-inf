@@ -2,41 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\City;
-use App\Entity\Property;
 use App\Entity\PropertyType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Property>
+ * @extends ServiceEntityRepository<PropertyType>
  */
-class PropertyRepository extends ServiceEntityRepository
+class PropertyTypeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Property::class);
-    }
-    
-    /**
-     * @return Property[] Returns an array of Property objects
-     */
-    public function findByCityAndRoom(City $city, PropertyType $type): array
-    {
-        return $this->createQueryBuilder('p')
-            ->leftJoin('p.address', 'pa')
-            ->andWhere('pa.city = :city')
-            ->andWhere('p.type = :type')
-            ->setParameter('city', $city)
-            ->setParameter('type', $type)
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        parent::__construct($registry, PropertyType::class);
     }
 
 //    /**
-//     * @return Property[] Returns an array of Property objects
+//     * @return PropertyType[] Returns an array of PropertyType objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -50,7 +31,7 @@ class PropertyRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Property
+//    public function findOneBySomeField($value): ?PropertyType
 //    {
 //        return $this->createQueryBuilder('p')
 //            ->andWhere('p.exampleField = :val')

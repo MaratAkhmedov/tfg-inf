@@ -109,28 +109,36 @@ final class Version20240509223125 extends AbstractMigration
 
         // Equipment
         $this->addSql(<<<SQL
-        INSERT INTO equipment (name,`type`,description,icon) 
+        INSERT INTO equipment (id,name,label,`type`,description,icon) 
             VALUES
-            ('equipment.washing_machine',NULL,NULL,'mdi:washing-machine'),
-            ('equipment.microwave',NULL,NULL,'material-symbols:microwave'),
-            ('equipment.elevator',NULL,NULL,'medical-icon:elevators');
+            (1, 'washing_machine', 'equipment.washing_machine',NULL,NULL,'mdi:washing-machine'),
+            (2, 'microwave', 'equipment.microwave',NULL,NULL,'material-symbols:microwave'),
+            (3, 'elevator', 'equipment.elevator',NULL,NULL,'medical-icon:elevators');
         SQL);
 
         // Rule
         $this->addSql(<<<SQL
-        INSERT INTO rule (name, description, icon)
+        INSERT INTO rule (id, name, label, description, icon)
             VALUES
-            ('rule.no_animals', NULL, 'foundation:no-dogs');
+            (1, 'no_animals','rule.no_animals', NULL, 'foundation:no-dogs');
         SQL);
 
         // State
         $this->addSql(<<<SQL
-        INSERT INTO state (name, description, icon)
+        INSERT INTO state (id, name, label, description, icon)
             VALUES
-            ('state.good', NULL, 'circum:face-smile'),
-            ('state.normal', NULL, 'circum:face-meh'),
-            ('state.bad', NULL, 'circum:face-frown');
+            (1, 'good', 'state.good', NULL, 'circum:face-smile'),
+            (2, 'normal', 'state.normal', NULL, 'circum:face-meh'),
+            (3, 'bad', 'state.bad', NULL, 'circum:face-frown');
         SQL);
+
+         // PropertyType
+         $this->addSql(<<<SQL
+         INSERT INTO property_type (id, name, label)
+             VALUES
+             (1, 'room','property.type.room'),
+             (2, 'flat','property.type.flat');
+         SQL);
     }
 
     public function down(Schema $schema): void
