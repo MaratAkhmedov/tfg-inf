@@ -16,229 +16,27 @@
         	{% include '/breadcrumbs.html.twig' with {'breadcrumbs': breadcrumbs} %}
         </div>
 
-        {{dump(properties)}}
-
-
-        {# <div style="max-width:50px; max-height: 50px;">
-        {{ ux_icon('mage:filter') }}
-        </div> #}
 
         <div class="row">
-                <div class="col-md-6 col-lg-4">
-                    <div class="card m-3">
-                    <img class="card-img-top" src="{{ asset("images/placeholder400x200.png") }}" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                        <p class="card-text">
-                            <small class="text-muted">Last updated 3 mins ago</small>
-                        </p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                    </div>
-                </div>
+            {% for property in properties %}
+                {% set now = "now"|date('U') %}
+                {% set updatedAtTimestamp = property.updatedAt|date('U') %}
+                {% set minutesPassed = (now - updatedAtTimestamp) // 60 %}
 
                 <div class="col-md-6 col-lg-4">
                     <div class="card m-3">
                     <img class="card-img-top" src="{{ asset("images/placeholder400x200.png") }}" alt="Card image cap">
                     <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                        <h5 class="card-title">{{ property.name }}</h5>
+                        <p class="card-text">{{ property.description }}</p>
                         <p class="card-text">
-                            <small class="text-muted">Last updated 3 mins ago</small>
+                            <small class="text-muted">{{ 'property.form.last_updated'|trans({'%minutes%': minutesPassed}) }}</small>
                         </p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        <a href="{{ path('app_property_show', {'id': property.id}) }}" class="btn btn-primary">Ver el anuncio</a>
                     </div>
                     </div>
                 </div>
-
-                <div class="col-md-6 col-lg-4">
-                    <div class="card m-3">
-                    <img class="card-img-top" src="{{ asset("images/placeholder400x200.png") }}" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                        <p class="card-text">
-                            <small class="text-muted">Last updated 3 mins ago</small>
-                        </p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-lg-4">
-                    <div class="card m-3">
-                    <img class="card-img-top" src="{{ asset("images/placeholder400x200.png") }}" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                        <p class="card-text">
-                            <small class="text-muted">Last updated 3 mins ago</small>
-                        </p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-lg-4">
-                    <div class="card m-3">
-                    <img class="card-img-top" src="{{ asset("images/placeholder400x200.png") }}" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                        <p class="card-text">
-                            <small class="text-muted">Last updated 3 mins ago</small>
-                        </p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-lg-4">
-                    <div class="card m-3">
-                    <img class="card-img-top" src="{{ asset("images/placeholder400x200.png") }}" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                        <p class="card-text">
-                            <small class="text-muted">Last updated 3 mins ago</small>
-                        </p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-lg-4">
-                    <div class="card m-3">
-                    <img class="card-img-top" src="{{ asset("images/placeholder400x200.png") }}" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                        <p class="card-text">
-                            <small class="text-muted">Last updated 3 mins ago</small>
-                        </p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-lg-4">
-                    <div class="card m-3">
-                    <img class="card-img-top" src="{{ asset("images/placeholder400x200.png") }}" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                        <p class="card-text">
-                            <small class="text-muted">Last updated 3 mins ago</small>
-                        </p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-lg-4">
-                    <div class="card m-3">
-                    <img class="card-img-top" src="{{ asset("images/placeholder400x200.png") }}" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                        <p class="card-text">
-                            <small class="text-muted">Last updated 3 mins ago</small>
-                        </p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-lg-4">
-                    <div class="card m-3">
-                    <img class="card-img-top" src="{{ asset("images/placeholder400x200.png") }}" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                        <p class="card-text">
-                            <small class="text-muted">Last updated 3 mins ago</small>
-                        </p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-lg-4">
-                    <div class="card m-3">
-                    <img class="card-img-top" src="{{ asset("images/placeholder400x200.png") }}" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                        <p class="card-text">
-                            <small class="text-muted">Last updated 3 mins ago</small>
-                        </p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-lg-4">
-                    <div class="card m-3">
-                    <img class="card-img-top" src="{{ asset("images/placeholder400x200.png") }}" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                        <p class="card-text">
-                            <small class="text-muted">Last updated 3 mins ago</small>
-                        </p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                    </div>
-                </div>
-                
+            {% endfor %}
         </div>
-
-		
 	</div>
-
-	{#<table class="table">
-						        <thead>
-						            <tr>
-						                <th>Id</th>
-						                <th>Name</th>
-						                <th>Description</th>
-						                <th>Price</th>
-						                <th>NumBathrooms</th>
-						                <th>NumRooms</th>
-						                <th>MaxPersons</th>
-						                <th>IsLastPlant</th>
-						                <th>Floor</th>
-						                <th>Square</th>
-						                <th>Type</th>
-						                <th>actions</th>
-						            </tr>
-						        </thead>
-						        <tbody>
-						        {% for property in properties %}
-						            <tr>
-						                <td>{{ property.id }}</td>
-						                <td>{{ property.name }}</td>
-						                <td>{{ property.description }}</td>
-						                <td>{{ property.price }}</td>
-						                <td>{{ property.numBathrooms }}</td>
-						                <td>{{ property.numRooms }}</td>
-						                <td>{{ property.maxPersons }}</td>
-						                <td>{{ property.isLastPlant ? 'Yes' : 'No' }}</td>
-						                <td>{{ property.floor }}</td>
-						                <td>{{ property.square }}</td>
-						                <td>{{ property.type }}</td>
-						                <td>
-						                    <a href="{{ path('app_property_show', {'id': property.id}) }}">show</a>
-						                    <a href="{{ path('app_property_edit', {'id': property.id}) }}">edit</a>
-						                </td>
-						            </tr>
-						        {% else %}
-						            <tr>
-						                <td colspan="12">no records found</td>
-						            </tr>
-						        {% endfor %}
-						        </tbody>
-						    </table>#}
-
 {% endblock %}

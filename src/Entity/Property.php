@@ -347,4 +347,20 @@ class Property
     {
         $this->updatedAt = new \DateTimeImmutable();
     }
+
+    /**
+     * Get the value of updatedAt
+     */ 
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Get the value of createdAt
+     */ 
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
 }

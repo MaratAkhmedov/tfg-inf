@@ -65,6 +65,7 @@ property:
     properties: viviendas
     publish: Publicar
     address: Dirección
+    last_updated: 'Última actualización hace %minutes% minutos'
   
 breadcrumbs:
   home: Página principal

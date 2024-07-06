@@ -65,6 +65,7 @@ property:
     equipment: Equipment
     rules: Rules
     address: Address
+    last_updated: 'Last updated %minutes% mins ago'
 breadcrumbs:
   home: Home
   create: create

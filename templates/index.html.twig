@@ -98,7 +98,7 @@
         var propertyType = document.getElementById('property-type-selector').value;
         var cityId = document.getElementById('city-selector').value;
         // Construct the URL (adjust the base URL as needed)
-        var url = Routing.generate('app_property_type_city', { type: propertyType, city: cityId });
+        var url = Routing.generate('app_search_property_type_city', { type: propertyType, city: cityId });
 		console.log("url", url)
         // Redirect to the constructed URL
         window.location.href = url;

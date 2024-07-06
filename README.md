@@ -24,6 +24,7 @@ php bin/console doctrine:database:drop -f
 php bin/console doctrine:database:create
 php bin/console doctrine:schema:update -f
 php bin/console doctrine:migrations:migrate
+php bin/console doctrine:fixtures:load --append
 ```
 
 # To regenerate routes in twig

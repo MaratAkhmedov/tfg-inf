@@ -7,24 +7,17 @@ use App\Entity\Property;
 use App\Form\PropertyType;
 use App\Repository\PropertyRepository;
 use App\Service\IPropertyService;
-use App\Service\PropertyService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/property')]
+#[IsGranted('IS_AUTHENTICATED_FULLY')]
 class PropertyController extends AbstractController
 {
-    #[Route('/search/{type}/{city}', name: 'app_property_type_city', methods: ['GET'], options: ["expose" => true])]
-    public function search(Request $request, string $type, City $city, PropertyRepository $propertyRepository): Response
-    {
-        return $this->render('property/default.html.twig', [
-            'properties' => $propertyRepository->findByCityAndRoom($city, $type),
-        ]);
-    }
-
     #[Route('/', name: 'app_property_default', methods: ['GET'])]
     public function index(PropertyRepository $propertyRepository): Response
     {
@@ -34,7 +27,7 @@ class PropertyController extends AbstractController
     }
 
     // TODO: ADMIN PROPERTY later add it to admin menu
-    #[Route('/admin', name: 'app_property_index', methods: ['GET'])]
+    #[Route('/', name: 'app_property_index', methods: ['GET'])]
     public function admin(PropertyRepository $propertyRepository): Response
     {
         return $this->render('property/index.html.twig', [
