@@ -84,3 +84,5 @@ dropzone:
   default_message: Drop image here or click to upload
   required: You must upload at least one photo
   title: Images
+search:
+  title: Properties

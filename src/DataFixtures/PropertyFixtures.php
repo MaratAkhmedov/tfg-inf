@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Address;
+use App\Entity\Photo;
 use App\Entity\Property;
 use App\Repository\CityRepository;
 use App\Repository\PropertyTypeRepository;
@@ -21,13 +22,16 @@ class PropertyFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager): void
     {
-        // create 20 products! Bam!
         for ($i = 0; $i < 20; $i++) {
             $property = new Property();
             $property->setName('Propiedad '.$i.' de pruebas');
             $property->setDescription("Es la descripción de la vivienda de pruebas, solo se usa en entorno pre");
             $property->setType($this->propertyTypeRepository->findOneBy(['name' => 'room']));
 
+            $photo = new Photo();
+            $photo->setUrl("upload/property/photos/placeholder400x200.png");
+
+            $property->addPhoto($photo);
             $property->setAddress($this->generateRandomAddress($i));
             $property->setUser($this->userRepository->findOneBy(['email' => 'owner@test.com']));
 

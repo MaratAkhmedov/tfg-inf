@@ -84,3 +84,5 @@ dropzone:
   default_message: Suelte la imagen aquí o haga clic para cargar
   required: Debes subir al menos una foto
   title: Imágenes
+search:
+  title: Viviendas
