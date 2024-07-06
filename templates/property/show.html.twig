@@ -2,9 +2,21 @@
 
 
 
-{% block title %}Property{% endblock %}
+{% block title %}{{ property.name }}{% endblock %}
 
 {% block body %}
+{{dump(property)}}
+    <div class="container">
+        {% set name = property.name %}
+        {% set breadcrumbs = [
+            {'label': 'breadcrumbs.home', 'link': 'default'},
+            {'label': 'property.form.properties', 'link': 'referrer'},
+            {'label': name|lower|u.truncate(20, '...', false)}
+        ] %}
+
+        {% include '/breadcrumbs.html.twig' with {'breadcrumbs': breadcrumbs} %}        
+        
+    </div>
     <h1>Property</h1>
 
     <table class="table">

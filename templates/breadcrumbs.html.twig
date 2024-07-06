@@ -1,11 +1,17 @@
 <div class="mt-3 mb-3">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            {% for label, link in breadcrumbs %}
+            {% for breadcrumb in breadcrumbs %}
                 {% if loop.last %}
-                    <li class="breadcrumb-item active" aria-current="page">{{ label|trans }}</li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ breadcrumb.label|trans }}</li>
                 {% else %}
-                    <li class="breadcrumb-item"><a href="{{ url(link) }}">{{ label|trans }}</a></li>
+                    {% if breadcrumb.link is iterable %}
+                        <li class="breadcrumb-item"><a href="{{ url(breadcrumb.link.route_name, link.route_parameters) }}">{{ breadcrumb.label|trans }}</a></li>
+                    {% elseif breadcrumb.link == 'referrer' %}
+                        <li class="breadcrumb-item"><a href="{{ app.request.headers.get('referer')}} ">{{ breadcrumb.label|trans }}</a></li>
+                    {% else %}
+                        <li class="breadcrumb-item"><a href="{{ url(breadcrumb.link) }}">{{ breadcrumb.label|trans }}</a></li>
+                    {% endif %}
                 {% endif %}
             {% endfor %}
         </ol>

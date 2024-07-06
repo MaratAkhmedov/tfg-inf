@@ -70,6 +70,7 @@ property:
 breadcrumbs:
   home: Página principal
   create: crear
+  show: vista
 equipment:
   washing_machine: Lavadora
   microwave: Microondas

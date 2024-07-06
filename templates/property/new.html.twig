@@ -21,11 +21,10 @@
 
     <div class="container">
 
-        {% set breadcrumbs = {
-            'breadcrumbs.home': 'default',
-            'property.form.properties': 'app_property_index',
-            'breadcrumbs.create': 'app_property_new',
-        } %}
+        {% set breadcrumbs = [
+            {'label': 'breadcrumbs.home', 'link': 'default'},
+            {'label': 'breadcrumbs.create', 'link': ''}
+        ] %}
         {% include '/breadcrumbs.html.twig' with {'breadcrumbs': breadcrumbs} %}
 
 

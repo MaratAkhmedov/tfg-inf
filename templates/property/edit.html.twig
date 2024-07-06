@@ -25,11 +25,11 @@
 {% block body %}
     <div class="container">
 
-        {% set breadcrumbs = {
-            'breadcrumbs.home': 'default',
-            'property.form.properties': 'app_property_index',
-            'breadcrumbs.edit': 'app_property_new',
-        } %}
+        {% set breadcrumbs = [
+            {'label': 'breadcrumbs.home', 'link': 'default'},
+            {'label': 'property.form.properties', 'link': 'referrer'},
+            {'label': 'breadcrumbs.edit', 'link': ''}
+        ] %}
         {% include '/breadcrumbs.html.twig' with {'breadcrumbs': breadcrumbs} %}
 
         <h2>{{ 'property.form.create'|trans }}</h2>
