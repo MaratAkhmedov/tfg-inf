@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\File;
+use App\Entity\Photo;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<File>
+ * @extends ServiceEntityRepository<Photo>
  */
-class FileRepository extends ServiceEntityRepository
+class PhotoRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, File::class);
+        parent::__construct($registry, Photo::class);
     }
 
     //    /**
-    //     * @return File[] Returns an array of File objects
+    //     * @return Photo[] Returns an array of Photo objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -31,7 +31,7 @@ class FileRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?File
+    //    public function findOneBySomeField($value): ?Photo
     //    {
     //        return $this->createQueryBuilder('f')
     //            ->andWhere('f.exampleField = :val')

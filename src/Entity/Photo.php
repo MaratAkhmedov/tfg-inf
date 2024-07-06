@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\FileRepository;
+use App\Repository\PhotoRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: FileRepository::class)]
-class File
+#[ORM\Entity(repositoryClass: PhotoRepository::class)]
+class Photo
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -19,7 +19,7 @@ class File
     #[ORM\Column(length: 255)]
     private ?string $type = null;
 
-    #[ORM\ManyToOne(inversedBy: 'files')]
+    #[ORM\ManyToOne(inversedBy: 'photos')]
     private ?Property $property = null;
 
     public function getId(): ?int

@@ -75,10 +75,10 @@ class Property
     private ?Address $address = null;
 
     /**
-     * @var Collection<int, File>
+     * @var Collection<int, Photo>
      */
-    #[ORM\OneToMany(targetEntity: File::class, mappedBy: 'property')]
-    private Collection $files;
+    #[ORM\OneToMany(targetEntity: Photo::class, mappedBy: 'property')]
+    private Collection $photos;
 
     #[ORM\ManyToOne(inversedBy: 'properties')]
     #[ORM\JoinColumn(nullable: false)]
@@ -88,7 +88,7 @@ class Property
     {
         $this->equipments = new ArrayCollection();
         $this->rules = new ArrayCollection();
-        $this->files = new ArrayCollection();
+        $this->photos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -295,29 +295,29 @@ class Property
     }
 
     /**
-     * @return Collection<int, File>
+     * @return Collection<int, Photo>
      */
-    public function getFiles(): Collection
+    public function getPhotos(): Collection
     {
-        return $this->files;
+        return $this->photos;
     }
 
-    public function addFile(File $file): static
+    public function addPhoto(Photo $photo): static
     {
-        if (!$this->files->contains($file)) {
-            $this->files->add($file);
-            $file->setProperty($this);
+        if (!$this->photos->contains($photo)) {
+            $this->photos->add($photo);
+            $photo->setProperty($this);
         }
 
         return $this;
     }
 
-    public function removeFile(File $file): static
+    public function removePhoto(Photo $photo): static
     {
-        if ($this->files->removeElement($file)) {
+        if ($this->photos->removeElement($photo)) {
             // set the owning side to null (unless already changed)
-            if ($file->getProperty() === $this) {
-                $file->setProperty(null);
+            if ($photo->getProperty() === $this) {
+                $photo->setProperty(null);
             }
         }
 
