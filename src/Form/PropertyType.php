@@ -82,7 +82,6 @@ class PropertyType extends AbstractType
                 'choice_label' => 'name',
                 'multiple' => true,
                 'choice_translation_domain' => true,
-                'multiple' => true,
                 'expanded' => true,
                 'required'   => false
             ])
@@ -92,7 +91,6 @@ class PropertyType extends AbstractType
                 'choice_label' => 'name',
                 'multiple' => true,
                 'choice_translation_domain' => true,
-                'multiple' => true,
                 'expanded' => true,
                 'required'   => false
             ])

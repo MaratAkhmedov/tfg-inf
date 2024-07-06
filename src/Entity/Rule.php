@@ -28,7 +28,7 @@ class Rule
     /**
      * @var Collection<int, Property>
      */
-    #[ORM\ManyToMany(targetEntity: Property::class, inversedBy: 'rules')]
+    #[ORM\ManyToMany(targetEntity: Property::class, mappedBy: 'rules')]
     private Collection $properties;
 
     public function __construct()

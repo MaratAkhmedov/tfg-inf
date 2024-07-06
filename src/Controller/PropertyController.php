@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/property')]
 class PropertyController extends AbstractController
 {
-    #[Route('/{type}/{city}', name: 'app_property_type_city', methods: ['GET'], options: ["expose" => true])]
+    #[Route('/search/{type}/{city}', name: 'app_property_type_city', methods: ['GET'], options: ["expose" => true])]
     public function search(Request $request, string $type, City $city, PropertyRepository $propertyRepository): Response
     {
         return $this->render('property/default.html.twig', [

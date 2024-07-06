@@ -31,7 +31,7 @@ class Equipment
     /**
      * @var Collection<int, Property>
      */
-    #[ORM\ManyToMany(targetEntity: Property::class, inversedBy: 'equipments')]
+    #[ORM\ManyToMany(targetEntity: Property::class, mappedBy: 'equipments')]
     private Collection $properties;
 
     public function __construct()

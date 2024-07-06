@@ -3,12 +3,15 @@
 namespace App\Entity;
 
 use App\Repository\PropertyRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 
 #[ORM\Entity(repositoryClass: PropertyRepository::class)]
+#[HasLifecycleCallbacks]
 class Property
 {
     #[ORM\Id]
@@ -46,6 +49,12 @@ class Property
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $type = null;
 
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private DateTimeInterface $createdAt;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private DateTimeInterface $updatedAt;
+
     #[ORM\ManyToOne(inversedBy: 'properties')]
     private ?State $state = null;
 
@@ -55,13 +64,13 @@ class Property
     /**
      * @var Collection<int, Equipment>
      */
-    #[ORM\ManyToMany(targetEntity: Equipment::class, mappedBy: 'properties')]
+    #[ORM\ManyToMany(targetEntity: Equipment::class, inversedBy: 'properties')]
     private Collection $equipments;
 
     /**
      * @var Collection<int, Rule>
      */
-    #[ORM\ManyToMany(targetEntity: Rule::class, mappedBy: 'properties')]
+    #[ORM\ManyToMany(targetEntity: Rule::class, inversedBy: 'properties')]
     private Collection $rules;
 
     #[ORM\OneToOne(inversedBy: 'property', cascade: ['persist', 'remove'], orphanRemoval: true)]
@@ -324,5 +333,18 @@ class Property
         }
 
         return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new \DateTimeImmutable();
+        $this->setUpdatedAtValue();
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdatedAtValue(): void
+    {
+        $this->updatedAt = new \DateTimeImmutable();
     }
 }
