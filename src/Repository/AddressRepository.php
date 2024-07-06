@@ -30,9 +30,11 @@ class AddressRepository extends ServiceEntityRepository
         $address->setFormattedAddress($addressDTO->getFormattedAddress());
         $address->setPlaceId($addressDTO->getPlaceId());
 
-        $address->setCity(
-            $this->cityRepository->getOrCreateCity($addressDTO->getCity(), $addressDTO->getProvince())
-        );
+        if($addressDTO->getCity()) {
+            $address->setCity(
+                $this->cityRepository->getOrCreateCity($addressDTO->getCity(), $addressDTO->getProvince())
+            );
+        }
 
         return $address;
     }

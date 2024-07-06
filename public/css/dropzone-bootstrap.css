@@ -1,0 +1,32 @@
+/* Custom styles to make Dropzone compatible with Bootstrap 5 */
+.dropzone {
+    border: 1px solid #ced4da; /* Use Bootstrap primary color */
+    padding: 20px;
+    border-radius: 0.25rem; /* Bootstrap border radius */
+    background: #f8f9fa; /* Bootstrap light background */
+}
+.dropzone .dz-message {
+    font-size: 1rem; /* Bootstrap font size */
+    color: #6c757d; /* Bootstrap secondary text color */
+}
+.dropzone .dz-preview .dz-error-message {
+    color: #dc3545; /* Bootstrap danger color */
+}
+.dropzone .dz-preview .dz-success-mark,
+.dropzone .dz-preview .dz-error-mark {
+    display: none; /* Hide the default success and error marks */
+}
+.dropzone .dz-preview .dz-progress {
+    height: 1rem;
+    background: rgba(0, 123, 255, 0.1); /* Light primary background */
+}
+.dropzone .dz-preview .dz-progress .dz-upload {
+    background: #0d6efd; /* Bootstrap primary color */
+}
+.dropzone .dz-preview .dz-remove {
+    color: #dc3545; /* Bootstrap danger color */
+    text-decoration: underline;
+}
+.dropzone .dz-image img {
+    border-radius: 0.25rem; /* Bootstrap border radius */
+}

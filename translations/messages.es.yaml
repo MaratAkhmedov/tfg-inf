@@ -67,11 +67,9 @@ property:
     publish: Publicar
     address: Dirección
     last_updated: 'Última actualización hace %minutes% minutos'
-  
 breadcrumbs:
   home: Página principal
   create: crear
-
 equipment:
   washing_machine: Lavadora
   microwave: Microondas
@@ -82,3 +80,8 @@ state:
   bad: Malo
 rule:
   no_animals: Sin animales
+dropzone: 
+  default_message: Suelte la imagen aquí o haga clic para cargar
+  required: Debes subir al menos una foto
+  property:
+    title: 'Cargar las imágenes de las vivendas'

@@ -77,7 +77,7 @@ class Property
     /**
      * @var Collection<int, Photo>
      */
-    #[ORM\OneToMany(targetEntity: Photo::class, mappedBy: 'property')]
+    #[ORM\OneToMany(targetEntity: Photo::class, mappedBy: 'property', cascade: ['persist', 'remove'])]
     private Collection $photos;
 
     #[ORM\ManyToOne(inversedBy: 'properties')]

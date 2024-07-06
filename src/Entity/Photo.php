@@ -16,9 +16,6 @@ class Photo
     #[ORM\Column(length: 255)]
     private ?string $url = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $type = null;
-
     #[ORM\ManyToOne(inversedBy: 'photos')]
     private ?Property $property = null;
 
@@ -35,18 +32,6 @@ class Photo
     public function setUrl(string $url): static
     {
         $this->url = $url;
-
-        return $this;
-    }
-
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): static
-    {
-        $this->type = $type;
 
         return $this;
     }

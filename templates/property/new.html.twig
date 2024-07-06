@@ -1,6 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.css" rel="stylesheet">
+    <link href="{{ asset('css/dropzone-bootstrap.css') }}" rel="stylesheet">
+
 	<style>
         label.required:after {
             content: " *";
@@ -37,6 +40,76 @@
 
 {% block javascript %}
     <script src="https://maps.googleapis.com/maps/api/js?key={{app.request.server.get('GOOGLE_MAP_API_KEY')}}&libraries=places"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
+
+    <script>
+        Dropzone.autoDiscover = false;
+
+        const dropzoneError = document.getElementById("dropzone-error");
+        const submitButton = document.getElementById("submit-button");
+
+        const myDropzone = new Dropzone("#dropzone", {
+            url: "#", // URL is not needed as we'll handle the upload with the form submit
+            autoProcessQueue: false,
+            uploadMultiple: true,
+            parallelUploads: 10,
+            paramName: "photos",
+            maxFilesize: 5, // MB
+            acceptedFiles: "image/*",
+            addRemoveLinks: true,
+            dictDefaultMessage: "{{'dropzone.default_message'|trans}}",
+            maxFiles: 10
+        });
+
+        myDropzone.on("removedfile", function(file) {
+            console.log("removedfile")
+            if (myDropzone.files.length === 0) {
+                myDropzone.element.querySelector(".dz-message").style.display = "block";
+                submitButton.disabled = true; // Disable the submit button if no files are present
+                dropzoneError.classList.remove('d-none');
+            }
+        });
+ 
+        myDropzone.on("addedfile", function(file) {
+            console.log("addedfile")
+            myDropzone.element.querySelector(".dz-message").style.display = "none";
+            dropzoneError.classList.add('d-none');
+            submitButton.disabled = false; // Enable the submit button when a file is added
+        });
+
+        const form = document.getElementById('property-form');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            if (myDropzone.files.length === 0) {
+                dropzoneError.classList.remove('d-none');
+                submitButton.disabled = false; // Enable the submit button when a file is added
+                return
+            }
+
+            const formData = new FormData(form);
+
+            // Append files from Dropzone to formData
+            myDropzone.getAcceptedFiles().forEach(function(file) {
+                formData.append('photos[]', file);
+            });
+
+            // Submit the form with files
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', form.action, true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    // Handle success
+                    window.location.href = "{{ path('app_property_index') }}";
+                } else {
+                    // Handle error
+                    console.error(xhr.responseText);
+                }
+            };
+            xhr.send(formData);
+        });
+    </script>
 
     <script>
         let map;

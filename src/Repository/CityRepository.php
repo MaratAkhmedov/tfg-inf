@@ -18,7 +18,7 @@ class CityRepository extends ServiceEntityRepository
         parent::__construct($registry, City::class);
     }
 
-    public function getOrCreateCity(string $cityName, string $provinceCode): City
+    public function getOrCreateCity(string $cityName, ?string $provinceCode): City
     {
         $city = $this->findOneBy(['name' => $cityName]);
         if ($city) {
@@ -26,7 +26,9 @@ class CityRepository extends ServiceEntityRepository
         } else {
             $city = new City();
             $city->setName($cityName);
-            $city->setProvince($this->provinceRepository->findOneBy(['isoCode' => $provinceCode]));
+            if($provinceCode) {
+                $city->setProvince($this->provinceRepository->findOneBy(['isoCode' => $provinceCode]));
+            }
         }
         $this->getEntityManager()->persist($city);
         $this->getEntityManager()->flush();
