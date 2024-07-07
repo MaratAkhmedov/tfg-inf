@@ -44,10 +44,20 @@ about:
   contact_text: We are here to help you. If you have any questions, suggestions, or need assistance, do not hesitate to
   contact_link: contact us
 property:
+  show:
+    description_title: Ads comments
+    room_units: 'rooms'
+    bathroom_units: 'bathr.'
+    floor: 'Floor %numFloor%'
+    with_elevator: 'with elevator'
+    without_elevator: 'without elevator'
+    equipment_title: 'Equipments'
+    rules_title: 'Rules of the property'
+    map_title: 'Map'
   not_found: Properties not found
   type:
-    flat: Piso
-    room: Habitacion
+    flat: Flat
+    room: Room
   form:
     create: Publish new property
     properties: properties
@@ -59,7 +69,7 @@ property:
     num_rooms: Number of rooms
     max_persons: Maximum number of persons
     floor: Plant
-    last_plant: ¿Is last plant?
+    last_floor: ¿Is last plant?
     square: Surface
     type: Type
     state: State

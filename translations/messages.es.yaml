@@ -44,6 +44,16 @@ about:
   contact_text: Estamos aquí para ayudarte. Si tienes alguna pregunta, sugerencia o necesitas asistencia, no dudes en
   contact_link: contactarnos
 property:
+  show:
+    description_title: Comentarios del anunciantes
+    room_units: 'hab.'
+    bathroom_units: 'baños'
+    floor: 'Planta %numFloor%'
+    with_elevator: 'con ascensor'
+    without_elevator: 'sin ascensor'
+    equipment_title: 'Equipamiento'
+    rules_title: 'Reglas de la vivienda'
+    map_title: 'Mapa'
   not_found: Viviendas no encontradas
   type:
     flat: Piso
@@ -57,7 +67,7 @@ property:
     num_rooms: Número de habitaciones
     max_persons: Número máximo de personas
     floor: Planta
-    last_plant: ¿Es la última planta?
+    last_floor: ¿Es la última planta?
     square: Superficie
     type: Tipo
     state: Estado

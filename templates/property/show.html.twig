@@ -46,6 +46,23 @@
 				margin: 0 auto;
 			}
 		}
+
+		.equipments {
+			/* border: 1px solid #ced4da;
+			border-radius: 0.25rem; 
+			margin: 2rem 0.25rem 0.25rem; */
+			/*background: #f8f9fa; /* Bootstrap light background */*/
+		}
+
+		.equipment-icon,
+		.rule-icon {
+			color: #6c757d;
+		}
+
+		#map {
+			height: 500px; /* Adjust the height as needed */
+			width: 100%;
+		}
 	</style>
 
 {% endblock %}
@@ -65,6 +82,7 @@
         ] %}
 
 		{% include '/breadcrumbs.html.twig' with {'breadcrumbs': breadcrumbs} %}
+
 		<div class="row mb-5">
 			<div class="col-lg-8">
 				<div id="property-carouserl" class="carousel slide">
@@ -101,74 +119,127 @@
 
 		<h1>{{property.name}}</h1>
 
-		<h1 class="mt-3">{{property.price|format_currency('EUR', {rounding_mode: 'floor'})}}</h1>
-
 		{% set address = property.address %}
 		{% set city = address.city|default([]) %}
 		{% set province = city.province|default([]) %}
 		{% set autonomousComunity = province.autonomousComunity|default([]) %}
 
-		{{ address.street|default("") }}
-		|
-		{{ city.name|default("") }}
-		|
-		{{ province.name|default("") }}
-		|
-		{{ autonomousComunity.name|default("") }}
+		<div class="address m-3">
+			{{ address.street|default("") }}
+			|
+			{{ city.name|default("") }}
+			|
+			{{ province.name|default("") }}
+			|
+			{{ autonomousComunity.name|default("") }}
+		</div>
 
-		<h3 class="mt-3">Comentarios del anunciante</h3>
+
+		<h1 class="mt-3">{{property.price|format_currency('EUR', {rounding_mode: 'floor'})}}</h1>
+
+		<div class="building m-3">
+			{% set hasElevator = property.equipments|filter(equipment => equipment.name == 'elevator')|length > 0 %}
+
+
+			{{property.square ~ ' ' ~ 'm²'}}
+			|
+			{{property.numRooms ~ ' ' ~ 'property.show.room_units'|trans }}
+			|
+			{{property.numBathrooms ~ ' ' ~ 'property.show.bathroom_units'|trans }}
+			|
+			{{ 'property.show.floor'|trans({'%numFloor%': property.floor}) }}
+			{{ hasElevator ? 'property.show.with_elevator'|trans : 'property.show.without_elevator'|trans }}
+		</div>
+
+		<div class="equipment-card">
+			<div class="equipment-title">
+				<h2>{{ 'property.show.equipment_title'|trans }}</h2>
+			</div>
+			<div class="equipments row">
+				<div class="d-flex flex-wrap justify-content-start">
+					{% for equipment in property.equipments %}
+						<div class="equipment-element">
+							<div style="icon-container d-flex flex-column align-items-center" class="p-3 text-center">
+								<div class="equipment-icon" style="height: 60px; width:60px;">
+									{{ ux_icon(equipment.icon) }}
+								</div>
+								<span class="">{{equipment.label|trans}}</span>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+
+		<div class="rules-card">
+			<div class="rules-title">
+				<h2>{{ 'property.show.rules_title'|trans }}</h2>
+			</div>
+			<div class="rules row">
+				<div class="d-flex flex-wrap justify-content-start">
+					{% for rule in property.rules %}
+						<div class="rule-element">
+							<div style="icon-container d-flex flex-column align-items-center" class="p-3 text-center">
+								<div class="equipment-icon" style="height: 60px; width:60px;">
+									{{ ux_icon(rule.icon) }}
+								</div>
+								<span class="">{{rule.label|trans}}</span>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+
+
+		<h3 class="mt-4">{{ 'property.show.description_title'|trans }}</h3>
 		<p class="mt-3">{{property.description}}</p>
 
 
-		{# <table class="table">
-							<tbody>
-								<tr>
-									<th>Id</th>
-									<td>{{ property.id }}</td>
-								</tr>
-								<tr>
-									<th>Name</th>
-									<td>{{ property.name }}</td>
-								</tr>
-								<tr>
-									<th>Description</th>
-									<td>{{ property.description }}</td>
-								</tr>
-								<tr>
-									<th>Price</th>
-									<td>{{ property.price }}</td>
-								</tr>
-								<tr>
-									<th>NumBathrooms</th>
-									<td>{{ property.numBathrooms }}</td>
-								</tr>
-								<tr>
-									<th>NumRooms</th>
-									<td>{{ property.numRooms }}</td>
-								</tr>
-								<tr>
-									<th>MaxPersons</th>
-									<td>{{ property.maxPersons }}</td>
-								</tr>
-								<tr>
-									<th>IsLastPlant</th>
-									<td>{{ property.isLastPlant ? 'Yes' : 'No' }}</td>
-								</tr>
-								<tr>
-									<th>Floor</th>
-									<td>{{ property.floor }}</td>
-								</tr>
-								<tr>
-									<th>Square</th>
-									<td>{{ property.square }}</td>
-								</tr>
-							</tbody>
-						</table> 
-		
-				<a href="{{ path('app_property_index') }}">back to list</a>
-		
-				<a href="{{ path('app_property_edit', {'id': property.id}) }}">edit</a>
-		
-				{{ include('property/_delete_form.html.twig') }}#}
+		<div class="row m-1">
+            <div class="map-title">
+				<h2>{{ 'property.show.map_title'|trans }}</h2>
+			</div>
+			<div id="map"></div>
+		</div>
+
+
+		{#
+																																<a href="{{ path('app_property_index') }}">back to list</a>
+																														
+																																<a href="{{ path('app_property_edit', {'id': property.id}) }}">edit</a>
+																														
+																																{{ include('property/_delete_form.html.twig') }}#}
 	</div>
+{% endblock %}
+
+
+{% block javascript %}
+	<script src="https://maps.googleapis.com/maps/api/js?key={{app.request.server.get('GOOGLE_MAP_API_KEY')}}&libraries=places"></script>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', (event) => { // Coordinates (latitude and longitude)
+            const lat = {{ property.address.latitude }};
+            const lng = {{ property.address.longitude }};
+
+            // Initialize the map
+            const map = new google.maps.Map(document.getElementById('map'), {
+                center: {
+                lat: lat,
+                lng: lng
+                },
+                zoom: 14 // Adjust the zoom level as needed
+            });
+
+            // Add a marker at the specified coordinates
+            const marker = new google.maps.Marker({
+                position: {
+                lat: lat,
+                lng: lng
+                },
+                map: map,
+                title: 'Marker at the specified coordinates'
+            });
+        });
+	</script>
 {% endblock %}

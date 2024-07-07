@@ -38,7 +38,7 @@ class Property
     private ?int $maxPersons = null;
 
     #[ORM\Column(nullable: true)]
-    private ?bool $lastPlant = null;
+    private ?bool $lastFloor = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $floor = null;
@@ -168,14 +168,14 @@ class Property
         return $this;
     }
 
-    public function isLastPlant(): ?bool
+    public function islastFloor(): ?bool
     {
-        return $this->lastPlant;
+        return $this->lastFloor;
     }
 
-    public function setLastPlant(?bool $lastPlant): static
+    public function setlastFloor(?bool $lastFloor): static
     {
-        $this->lastPlant = $lastPlant;
+        $this->lastFloor = $lastFloor;
 
         return $this;
     }

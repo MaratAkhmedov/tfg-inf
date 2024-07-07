@@ -52,8 +52,8 @@ class PropertyType extends AbstractType
                 'label' => 'property.form.floor',
                 'required'   => false
             ])
-            ->add('lastPlant', CheckboxType::class, [
-                'label' => 'property.form.last_plant',
+            ->add('lastFloor', CheckboxType::class, [
+                'label' => 'property.form.last_floor',
                 'required'   => false
             ])
             ->add('square', NumberType::class, [
