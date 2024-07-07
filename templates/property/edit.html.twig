@@ -58,7 +58,7 @@
             {% for photo in property.photos %}
                 {
                     name: "{{ photo.url }}",
-                    url: "{{ asset('upload/property/photos/' ~ photo.url) }}"
+                    url: "{{ asset(photo.url) }}"
                 },
             {% endfor %}
         ];
@@ -132,7 +132,7 @@
                     xhr.open('POST', form.action, true);
                     xhr.onload = function () {
                         if (xhr.status === 200) {
-                            window.location.href = "{{ path('app_property_index') }}";
+                            window.location.href = xhr.responseURL
                         } else {
                             console.error(xhr.responseText);
                         }

@@ -99,7 +99,7 @@
             xhr.onload = function () {
                 if (xhr.status === 200) {
                     // Handle success
-                    window.location.href = "{{ path('app_property_index') }}";
+                    window.location.href = xhr.responseURL
                 } else {
                     // Handle error
                     console.error(xhr.responseText);

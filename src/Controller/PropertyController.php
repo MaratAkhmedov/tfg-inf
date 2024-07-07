@@ -73,7 +73,7 @@ class PropertyController extends AbstractController
             $placeId = $form->get('mapPlaceId')->getData();
             $propertyService->generateProperty($property, $placeId);
 
-            return $this->redirectToRoute('app_property_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_property_show', ['id' => $property->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('property/new.html.twig', [
@@ -138,7 +138,7 @@ class PropertyController extends AbstractController
             $mapPlaceId = $form->get('mapPlaceId')->getData();
             $propertyService->generateProperty($property, $mapPlaceId);
 
-            return $this->redirectToRoute('app_property_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_property_show', ['id' => $property->getId()], Response::HTTP_SEE_OTHER);
         }
 
         if ($address = $property->getAddress()) {
