@@ -3,7 +3,7 @@
 {% block title %}Edit Property{% endblock %}
 
 {% block stylesheets %}
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.css" rel="stylesheet">
+    <link href="{{ asset('css/dropzone.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/dropzone-bootstrap.css') }}" rel="stylesheet">
 
 	<style>
@@ -42,7 +42,7 @@
 
 {% block javascript %}
     <script src="https://maps.googleapis.com/maps/api/js?key={{app.request.server.get('GOOGLE_MAP_API_KEY')}}&libraries=places"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
+    <script src="{{ asset('js/dropzone.min.js') }}"></script>
 
     <script>
         Dropzone.autoDiscover = false;

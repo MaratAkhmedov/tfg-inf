@@ -324,6 +324,9 @@
             "./config/routes/web_profiler.yaml"
         ]
     },
+    "symfonycasts/sass-bundle": {
+        "version": "v0.7.0"
+    },
     "symfonycasts/verify-email-bundle": {
         "version": "v1.17.0"
     },

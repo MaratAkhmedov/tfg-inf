@@ -38,4 +38,7 @@ return [
     'jquery' => [
         'version' => '3.7.1',
     ],
+    'just-extend' => [
+        'version' => '5.1.1',
+    ],
 ];

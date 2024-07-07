@@ -1,9 +1,12 @@
 import './bootstrap.js';
-import jquery from 'jquery/dist/jquery.min.js';
+import jquery from './vendor/jquery/jquery.index.js';
+import './vendor/bootstrap/bootstrap.index.js';
+
 const $ = jquery;
 window.$ = window.jQuery = $;
 
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css'; it will be imported with sass
+
 /*
  * Welcome to your app's main JavaScript file!
  *

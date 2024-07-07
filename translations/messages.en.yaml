@@ -61,7 +61,7 @@ property:
   form:
     create: Publish new property
     properties: properties
-    publish: Publish  
+    publish: Publish a property free  
     title: Title
     description: Description
     price: Price

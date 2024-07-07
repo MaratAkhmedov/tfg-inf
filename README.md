@@ -31,3 +31,9 @@ php bin/console doctrine:fixtures:load --append
 ```
 php bin/console fos:js-routing:dump
 ```
+
+# To build new bootstrap template
+```
+php bin/console sass:build
+php bin/console asset-map:compile
+```
