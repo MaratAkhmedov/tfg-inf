@@ -30,7 +30,7 @@
 						<img class="card-img-top" src="{{ firstPhoto is not empty ? (asset(firstPhoto.url) ) : asset('images/placeholder400x200.png') }}" alt="Card image cap">
 						<div class="card-body">
 							<h5 class="card-title">{{ property.name }}</h5>
-							<p class="card-text">{{ property.description }}</p>
+							<p class="card-text">{{ property.description|raw }}</p>
 							<p class="card-text">
 								<small class="text-muted">{{ 'property.form.last_updated'|trans({'%minutes%': minutesPassed}) }}</small>
 							</p>
