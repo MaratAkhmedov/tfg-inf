@@ -3,6 +3,7 @@
 {% block stylesheets %}
     <link href="{{ asset('css/dropzone.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/dropzone-bootstrap.css') }}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
 
 	<style>
         label.required:after {
@@ -40,6 +41,31 @@
 {% block javascript %}
     <script src="https://maps.googleapis.com/maps/api/js?key={{app.request.server.get('GOOGLE_MAP_API_KEY')}}&libraries=places"></script>
     <script src="{{ asset('js/dropzone.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+
+    <script>
+
+        const toolbarOptions = [
+            ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
+            [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+        ];
+        $('.quill-editor').each(function(i, el) {
+            var el = $(this), id = 'quilleditor-' + i, val = el.val(), editor_height = 200;
+            var div = $('<div/>').attr('id', id).css('height', editor_height + 'px').html(val);
+            el.addClass('d-none');
+            el.parent().append(div);
+
+            var quill = new Quill('#' + id, {
+                modules: { toolbar: toolbarOptions},
+                theme: 'snow',
+            });
+            quill.on('text-change', function() {
+                console.log("quill.getContents()", quill.root.innerHTML)
+                $('#editor').html(quill.root.innerHTML);
+            });
+        });
+    </script>
 
     <script>
         Dropzone.autoDiscover = false;

@@ -10,8 +10,9 @@
 
 <div class="row">
 	<div class="mb-3">
+    
 		{{ form_label(form.description) }}
-		{{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+		{{ form_widget(form.description, {'id': 'editor', 'attr': {'class': 'form-control quill-editor'}}) }}
 		{{ form_errors(form.description) }}
 	</div>
 </div>
