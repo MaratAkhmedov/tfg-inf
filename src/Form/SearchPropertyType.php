@@ -24,6 +24,7 @@ class SearchPropertyType extends AbstractType
             ->add('type', EntityType::class, [
                 'label' => 'property.form.type',
                 'class' => PropertyType::class,
+                'data' => $options['currentPropertyType'],
                 'choice_label' => 'label',
                 'choice_translation_domain' => true,
                 'required' => true
@@ -109,7 +110,7 @@ class SearchPropertyType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-
+            'currentPropertyType' => null,
         ]);
     }
 }

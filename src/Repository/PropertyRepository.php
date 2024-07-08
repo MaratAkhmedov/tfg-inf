@@ -64,13 +64,16 @@ class PropertyRepository extends ServiceEntityRepository
             $expressions[] = $this->buildMultiChoiceExpression($expressionBuilder, $numBathrooms, "p.numBathrooms");
         }
         if ($states = $searchCriteria['states'] ?? null) {
-            $expressions[] = $expressionBuilder->in('p.state', $states->toArray());
+            if(!empty($states->toArray()))
+                $expressions[] = $expressionBuilder->in('p.state', $states->toArray());
         }
         if ($rules = $searchCriteria['rules'] ?? null) {
-            $expressions[] = $expressionBuilder->in('p.rules', $rules->toArray());
+            if(!empty($rules->toArray()))
+                $expressions[] = $expressionBuilder->in('p.rules', $rules->toArray());
         }
         if ($equipments = $searchCriteria['equipments'] ?? null) {
-            $expressions[] = $expressionBuilder->in('p.equipments', $equipments->toArray());
+            if(!empty($equipments->toArray()))
+                $expressions[] = $expressionBuilder->in('p.equipments', $equipments->toArray());
         }
 
         $expression = $expressionBuilder->andX(...$expressions);

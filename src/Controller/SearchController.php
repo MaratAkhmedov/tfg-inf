@@ -26,7 +26,9 @@ class SearchController extends AbstractController
         PaginatorInterface $paginator
     ): Response {
         $searchData = [];
-        $searchForm = $this->createForm(SearchPropertyType::class);
+        $searchForm = $this->createForm(SearchPropertyType::class, null, [
+            'currentPropertyType' => $type
+        ]);
         $searchForm->handleRequest($request);
 
         if ($searchForm->isSubmitted() && $searchForm->isValid()) {
