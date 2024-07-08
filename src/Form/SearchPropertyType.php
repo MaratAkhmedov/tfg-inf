@@ -17,8 +17,21 @@ class SearchPropertyType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $priceChoices = array_combine(range(200, 1600, 200), range(200, 1600, 200));
-        $squareChoices = array_combine(range(20, 400, 20), range(20, 400, 20));
+        $priceChoices = array_combine(
+            array_map(
+                fn ($key) => $key . ' €',
+                range(200, 1600, 200)
+            ),
+            range(200, 1600, 200)
+        );
+
+        $squareChoices = array_combine(
+            array_map(
+                fn ($key) => $key . ' m²',
+                range(20, 400, 20)
+            ),
+            range(20, 400, 20)
+        );
 
         $builder
             ->add('type', EntityType::class, [

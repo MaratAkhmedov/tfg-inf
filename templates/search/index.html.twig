@@ -35,16 +35,22 @@
         ] %}
 
 		<h2>{{ 'search.title'|trans }}</h2>
-		<div class="m-3">
-			<div class="d-flex justify-content-between bd-highlight mb-3">
-				<div class="p-2 bd-highlight">
+		<div class="">
+			<div class="d-flex bd-highlight mb-3 gap-3">
+				<div class="me-auto bd-highlight">
 					{% include '/breadcrumbs.html.twig' with {'breadcrumbs': breadcrumbs} %}
 				</div>
 
-				<div class="p-2 bd-highlight">
+				<div class="bd-highlight">
 					<button class="btn btn-primary my-3 d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#propertyFilters" aria-expanded="false" aria-controls="propertyFilters">
 						{{ 'search.form.filters'|trans }}
 					</button>
+				</div>
+
+				<div style="width:30px;height: 100%;" class="bd-highlight pt-2">
+					<a style="" class="" href="#" role="button">
+						<span style="">{{ ux_icon('uiw:map') }}</span>
+					</a>
 				</div>
 			</div>
 		</div>
@@ -140,7 +146,7 @@
 <script>
     $(document).ready(function() {
 		// Automatic updates of price selections 
-    	const priceOptions = Object.fromEntries(Array.from({ length: 8 }, (_, i) => [200 * (i + 1), 200 * (i + 1)]));
+    	const priceOptions = Object.fromEntries(Array.from({ length: 8 }, (_, i) => [200 * (i + 1), 200 * (i + 1) + " €"]));
         function updatePriceMax() {
             const minPrice = parseInt($('.price-min-selector').val());
             const priceMaxSelector = $('.price-max-selector');
@@ -182,7 +188,7 @@
 
 		
 		// Automatic updates of square selections 
-    	const squareOptions = Object.fromEntries(Array.from({ length: 20 }, (_, i) => [20 * (i + 1), 20 * (i + 1)]));
+    	const squareOptions = Object.fromEntries(Array.from({ length: 20 }, (_, i) => [20 * (i + 1), 20 * (i + 1) + " m²"]));
         function updateSquareMax() {
             const minSquare = parseInt($('.square-min-selector').val());
             const squareMaxSelector = $('.square-max-selector');
