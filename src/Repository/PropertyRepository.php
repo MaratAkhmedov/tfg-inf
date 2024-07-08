@@ -9,6 +9,8 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Expression;
 use Doctrine\Common\Collections\ExpressionBuilder;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
@@ -28,17 +30,69 @@ class PropertyRepository extends ServiceEntityRepository
      */
     public function buildFindByCityAndRoomQuery(City $city, PropertyType $type, mixed $searchCriteria): QueryBuilder
     {
-        $queryBuilder = $this->createQueryBuilder('p')
+        $qb = $this->createQueryBuilder('p')
             ->leftJoin('p.address', 'pa')
             ->andWhere('pa.city = :city')
             ->andWhere('p.type = :type')
             ->setParameter('city', $city)
             ->setParameter('type', $type);
 
-        $searchCriteria = $this->buildSearchCriteria($searchCriteria);
-        $queryBuilder->addCriteria($searchCriteria);
+        if ($states = $searchCriteria['states'] ?? null) {
+            if (!empty($states->toArray())) {
+                $qb->andWhere(
+                    $qb->expr()->in(
+                        'p.id',
+                        $this->createQueryBuilder('p2')
+                            ->innerJoin('p2.state', 'ps2', Join::WITH, 'ps2 IN (:states)')
+                            ->groupBy('p2.id')
+                            ->having('COUNT(p2.id) = :stateCount')
+                            ->getDQL()
+                    )
+                );
+                $qb->setParameter('states', $states)
+                    ->setParameter('stateCount', $states->count());
+            }
+        }
 
-        return $queryBuilder;
+        if ($rules = $searchCriteria['rules'] ?? null) {
+            if (!empty($rules->toArray())) {
+                $qb->andWhere(
+                    $qb->expr()->in(
+                        'p.id',
+                        $this->createQueryBuilder('p3')
+                            ->innerJoin('p3.rules', 'pr2', Join::WITH, 'pr2 IN (:rules)')
+                            ->groupBy('p3.id')
+                            ->having('COUNT(p3.id) = :ruleCount')
+                            ->getDQL()
+                    )
+                );
+                $qb->setParameter('rules', $rules)
+                    ->setParameter('ruleCount', $rules->count());
+            }
+        }
+
+        if ($equipments = $searchCriteria['equipments'] ?? null) {
+            if (!empty($equipments->toArray())) {
+                $qb->andWhere(
+                    $qb->expr()->in(
+                        'p.id',
+                        $this->createQueryBuilder('p4')
+                            ->innerJoin('p4.equipments', 'pe4', Join::WITH, 'pe4 IN (:equipments)')
+                            ->groupBy('p4.id')
+                            ->having('COUNT(p4.id) = :equipmentCount')
+                            ->getDQL()
+                    )
+                );
+
+                $qb->setParameter('equipments', $equipments)
+                    ->setParameter('equipmentCount', $equipments->count());
+            }
+        }
+
+        $searchCriteria = $this->buildSearchCriteria($searchCriteria);
+        $qb->addCriteria($searchCriteria);
+
+        return $qb;
     }
 
     private function buildSearchCriteria(mixed $searchCriteria): Criteria
@@ -62,18 +116,6 @@ class PropertyRepository extends ServiceEntityRepository
         }
         if ($numBathrooms = $searchCriteria['bathrooms'] ?? null) {
             $expressions[] = $this->buildMultiChoiceExpression($expressionBuilder, $numBathrooms, "p.numBathrooms");
-        }
-        if ($states = $searchCriteria['states'] ?? null) {
-            if(!empty($states->toArray()))
-                $expressions[] = $expressionBuilder->in('p.state', $states->toArray());
-        }
-        if ($rules = $searchCriteria['rules'] ?? null) {
-            if(!empty($rules->toArray()))
-                $expressions[] = $expressionBuilder->in('p.rules', $rules->toArray());
-        }
-        if ($equipments = $searchCriteria['equipments'] ?? null) {
-            if(!empty($equipments->toArray()))
-                $expressions[] = $expressionBuilder->in('p.equipments', $equipments->toArray());
         }
 
         $expression = $expressionBuilder->andX(...$expressions);
