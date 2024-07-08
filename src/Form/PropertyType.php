@@ -2,7 +2,6 @@
 
 namespace App\Form;
 
-use App\Entity\Address;
 use App\Entity\Equipment;
 use App\Entity\Property;
 use App\Entity\PropertyType as EntityPropertyType;

@@ -6,6 +6,7 @@ use App\Entity\City;
 use App\Entity\Property;
 use App\Entity\PropertyType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -22,17 +23,39 @@ class PropertyRepository extends ServiceEntityRepository
     /**
      * @return Property[] Returns an array of Property objects
      */
-    public function buildFindByCityAndRoomQuery(City $city, PropertyType $type): QueryBuilder
+    public function buildFindByCityAndRoomQuery(City $city, PropertyType $type, mixed $searchCriteria): QueryBuilder
     {
+        $searchCriteria = $this->buildSearchCriteria($searchCriteria);
         $queryBuilder = $this->createQueryBuilder('p')
             ->leftJoin('p.address', 'pa')
             ->andWhere('pa.city = :city')
             ->andWhere('p.type = :type')
             ->setParameter('city', $city)
             ->setParameter('type', $type);
-            
+        
+        $queryBuilder->addCriteria($searchCriteria);
 
         return $queryBuilder;
+    }
+
+    private function buildSearchCriteria(mixed $searchCriteria): Criteria
+    {
+        $expressions = [];
+        $expressionBuilder = Criteria::expr();
+        if($priceMin = $searchCriteria['priceMin'] ?? null) {
+            $expressions[] = $expressionBuilder->gte('p.price', $priceMin);
+        }
+        if($priceMax = $searchCriteria['priceMax'] ?? null) {
+            $expressions[] = $expressionBuilder->lte('p.price', $priceMax);
+        }
+        if($squareMin = $searchCriteria['squareMin'] ?? null) {
+            $expressions[] = $expressionBuilder->gte('p.square', $squareMin);
+        }
+        if($squareMax = $searchCriteria['squareMax'] ?? null) {
+            $expressions[] = $expressionBuilder->lte('p.square', $squareMax);
+        }
+        $expression = $expressionBuilder->andX(...$expressions);
+        return new Criteria($expression);
     }
 
     //    /**

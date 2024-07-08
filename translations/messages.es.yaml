@@ -97,3 +97,10 @@ dropzone:
   title: Imágenes
 search:
   title: Viviendas
+  form:
+    filters: Filtros
+    price: Precio
+    square: Tamaño
+    min_price: Precio mínimo
+    max_price: Precio máximo
+    property_type: Tipo de vivienda

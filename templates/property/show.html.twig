@@ -151,45 +151,47 @@
 			{{ hasElevator ? 'property.show.with_elevator'|trans : 'property.show.without_elevator'|trans }}
 		</div>
 
-		<div class="equipment-card">
-			<div class="equipment-title">
-				<h2>{{ 'property.show.equipment_title'|trans }}</h2>
-			</div>
-			<div class="equipments row">
-				<div class="d-flex flex-wrap justify-content-start">
-					{% for equipment in property.equipments %}
-						<div class="equipment-element">
-							<div style="icon-container d-flex flex-column align-items-center" class="p-3 text-center">
-								<div class="equipment-icon" style="height: 60px; width:60px;">
-									{{ ux_icon(equipment.icon) }}
-								</div>
-								<span class="">{{equipment.label|trans}}</span>
-							</div>
-						</div>
-					{% endfor %}
-				</div>
-			</div>
-		</div>
+        <div class="row">
+            <div class="equipment-card col-md-6">
+                <div class="equipment-title">
+                    <h2>{{ 'property.show.equipment_title'|trans }}</h2>
+                </div>
+                <div class="equipments row">
+                    <div class="d-flex flex-wrap justify-content-start">
+                        {% for equipment in property.equipments %}
+                            <div class="equipment-element">
+                                <div style="icon-container d-flex flex-column align-items-center" class="p-3 text-center">
+                                    <div class="equipment-icon" style="height: 60px; width:60px;">
+                                        {{ ux_icon(equipment.icon) }}
+                                    </div>
+                                    <span class="">{{equipment.label|trans}}</span>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
 
-		<div class="rules-card">
-			<div class="rules-title">
-				<h2>{{ 'property.show.rules_title'|trans }}</h2>
-			</div>
-			<div class="rules row">
-				<div class="d-flex flex-wrap justify-content-start">
-					{% for rule in property.rules %}
-						<div class="rule-element">
-							<div style="icon-container d-flex flex-column align-items-center" class="p-3 text-center">
-								<div class="equipment-icon" style="height: 60px; width:60px;">
-									{{ ux_icon(rule.icon) }}
-								</div>
-								<span class="">{{rule.label|trans}}</span>
-							</div>
-						</div>
-					{% endfor %}
-				</div>
-			</div>
-		</div>
+            <div class="rules-card col-md-6">
+                <div class="rules-title">
+                    <h2>{{ 'property.show.rules_title'|trans }}</h2>
+                </div>
+                <div class="rules row">
+                    <div class="d-flex flex-wrap justify-content-start">
+                        {% for rule in property.rules %}
+                            <div class="rule-element">
+                                <div style="icon-container d-flex flex-column align-items-center" class="p-3 text-center">
+                                    <div class="equipment-icon" style="height: 60px; width:60px;">
+                                        {{ ux_icon(rule.icon) }}
+                                    </div>
+                                    <span class="">{{rule.label|trans}}</span>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 		<h3 class="mt-4">{{ 'property.show.description_title'|trans }}</h3>

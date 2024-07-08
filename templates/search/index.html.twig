@@ -1,20 +1,193 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello SearchController!{% endblock %}
+{% block title %}
+	{{ 'search.title'|trans }}
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	<div class="container">
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+		{% set breadcrumbs = [
+            {'label': 'breadcrumbs.home', 'link': 'default'},
+            {'label': 'property.form.properties', 'link': ''}
+        ] %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>D:/Projects/tfg-inf/src/Controller/SearchController.php</code></li>
-        <li>Your template at <code>D:/Projects/tfg-inf/templates/search/index.html.twig</code></li>
-    </ul>
-</div>
+		<h2>{{ 'search.title'|trans }}</h2>
+		<div class="m-3">
+			<div class="d-flex justify-content-between bd-highlight mb-3">
+				<div class="p-2 bd-highlight">
+					{% include '/breadcrumbs.html.twig' with {'breadcrumbs': breadcrumbs} %}
+				</div>
+
+				<div class="p-2 bd-highlight">
+					<button class="btn btn-primary my-3 d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#propertyFilters" aria-expanded="false" aria-controls="propertyFilters">
+						{{ 'search.form.filters'|trans }}
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div id="propertyFilters" class="collapse d-lg-block col-lg-3 mb-sm-5">
+				{{ form_start(searchForm) }}
+				{{ form_row(searchForm.type) }}
+				<div class="price-label">
+					{{ 'search.form.price'|trans }}
+				</div>
+				<div class="d-flex">
+					<div class="p-2 w-50">
+						{{ form_widget(searchForm.priceMin) }}
+						{{ form_errors(searchForm.priceMin) }}
+					</div>
+					<div class="p-2 w-50">
+						{{ form_widget(searchForm.priceMax) }}
+						{{ form_errors(searchForm.priceMax) }}
+					</div>
+				</div>
+
+				<div class="square-label">
+					{{ 'search.form.square'|trans }}
+				</div>
+				<div class="d-flex">
+					<div class="p-2 w-50">
+						{{ form_widget(searchForm.squareMin) }}
+						{{ form_errors(searchForm.squareMin) }}
+					</div>
+					<div class="p-2 w-50">
+						{{ form_widget(searchForm.squareMax) }}
+						{{ form_errors(searchForm.squareMax) }}
+					</div>
+				</div>
+				{{ form_widget(searchForm.search, { 'attr': {'class': 'btn btn-primary w-100'} }) }}
+				{{ form_end(searchForm) }}
+			</div>
+
+			<div class="col-lg-9">
+				{% for property in pagination.items %}
+					{% set now = "now"|date('U') %}
+					{% set updatedAtTimestamp = property.updatedAt|date('U') %}
+					{% set minutesPassed = (now - updatedAtTimestamp) // 60 %}
+					{% set firstPhoto = property.photos|default([])|first %}
+
+					<div class="">
+						<div class="card mb-3" style="">
+							<div class="row g-0">
+								<div class="col-lg-4 object-fit-cover">
+									<img style="width:100%; height:100%;" src="{{ firstPhoto is not empty ? (asset(firstPhoto.url) ) : asset('images/placeholder400x200.png') }}" class="object-fit-cover img-fluid rounded-start" alt="...">
+								</div>
+								<div class="col-lg-8">
+									<div class="card-body">
+										<h5 class="card-title">{{ property.name }}</h5>
+										<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+										<p class="card-text">
+											<small class="text-body-secondary">{{ 'property.form.last_updated'|trans({'%minutes%': minutesPassed}) }}</small>
+										</p>
+										<a href="{{ path('app_property_show', {'id': property.id}) }}" class="btn btn-primary">Ver el anuncio</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				{% else %}
+					<tr>
+						<td colspan="12">{{'property.not_found'|trans}}</td>
+					</tr>
+				{% endfor %}
+			</div>
+
+		</div>
+
+
+		<div class="d-flex justify-content-center">
+			{{ knp_pagination_render(pagination) }}
+		</div>
+	</div>
+</div>{% endblock %}{% block javascript %}<!-- parse-ignore-start -->
+<script>
+    $(document).ready(function() {
+		// Automatic updates of price selections 
+    	const priceOptions = Object.fromEntries(Array.from({ length: 8 }, (_, i) => [200 * (i + 1), 200 * (i + 1)]));
+        function updatePriceMax() {
+            const minPrice = parseInt($('.price-min-selector').val());
+            const priceMaxSelector = $('.price-max-selector');
+			const selectedMaxPrice = parseInt(priceMaxSelector.val());
+            priceMaxSelector.empty();
+            priceMaxSelector.append('<option value="">max</option>');
+            $.each(priceOptions, function(price, value) {
+                if (isNaN(minPrice) || parseInt(price) >= minPrice) {
+                    priceMaxSelector.append(new Option(value, price));
+                }
+            });
+			if(selectedMaxPrice >= minPrice) {
+				priceMaxSelector.val(selectedMaxPrice);
+			}
+        }
+
+        function updatePriceMin() {
+            const maxPrice = parseInt($('.price-max-selector').val());
+            const priceMinSelector = $('.price-min-selector');
+			const selectedMinPrice = parseInt(priceMinSelector.val());
+            priceMinSelector.empty();
+            priceMinSelector.append('<option value="">min</option>');
+            $.each(priceOptions, function(price, value) {
+                if (isNaN(maxPrice) || parseInt(price) <= maxPrice) {
+                    priceMinSelector.append(new Option(value, price));
+                }
+            });
+			if(selectedMinPrice <= maxPrice) {
+				priceMinSelector.val(selectedMinPrice);
+			}
+        }
+
+        $('.price-min-selector').change(function() {
+            updatePriceMax();
+        });
+        $('.price-max-selector').change(function() {
+            updatePriceMin();
+        });
+
+		
+		// Automatic updates of square selections 
+    	const squareOptions = Object.fromEntries(Array.from({ length: 20 }, (_, i) => [20 * (i + 1), 20 * (i + 1)]));
+        function updateSquareMax() {
+            const minSquare = parseInt($('.square-min-selector').val());
+            const squareMaxSelector = $('.square-max-selector');
+			const selectedMaxSquare = parseInt(squareMaxSelector.val());
+            squareMaxSelector.empty();
+            squareMaxSelector.append('<option value="">max</option>');
+            $.each(squareOptions, function(square, value) {
+                if (isNaN(minSquare) || parseInt(square) >= minSquare) {
+                    squareMaxSelector.append(new Option(value, square));
+                }
+            });
+			if(selectedMaxSquare >= minSquare) {
+				squareMaxSelector.val(selectedMaxSquare);
+			}
+        }
+
+        function updateSquareMin() {
+            const maxSquare = parseInt($('.square-max-selector').val());
+            const squareMinSelector = $('.square-min-selector');
+			const selectedMinSquare = parseInt(squareMinSelector.val());
+            squareMinSelector.empty();
+            squareMinSelector.append('<option value="">min</option>');
+            $.each(squareOptions, function(square, value) {
+                if (isNaN(maxSquare) || parseInt(square) <= maxSquare) {
+                    squareMinSelector.append(new Option(value, square));
+                }
+            });
+			if(selectedMinSquare <= maxSquare) {
+				squareMinSelector.val(selectedMinSquare);
+			}
+        }
+
+        $('.square-min-selector').change(function() {
+            updateSquareMax();
+        });
+        $('.square-max-selector').change(function() {
+            updateSquareMin();
+        });
+    });
+</script>
+
 {% endblock %}

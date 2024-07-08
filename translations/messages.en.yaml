@@ -96,3 +96,9 @@ dropzone:
   title: Images
 search:
   title: Properties
+  form:
+    filters: Filters
+    square: Square
+    min_price: Max. Price
+    max_price: Min. price
+    property_type: Tipo de vivienda
