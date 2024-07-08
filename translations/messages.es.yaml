@@ -98,6 +98,11 @@ dropzone:
 search:
   title: Viviendas
   form:
+    rooms: Habitaciones
+    bathrooms: Baños
+    state: Estado
+    equipments: Equipamiento
+    Rules: Reglas
     filters: Filtros
     price: Precio
     square: Tamaño

@@ -97,6 +97,11 @@ dropzone:
 search:
   title: Properties
   form:
+    rooms: Habitaciones
+    bathrooms: Baños
+    state: Estado
+    equipments: Equipamiento
+    Rules: Reglas
     filters: Filters
     square: Square
     min_price: Max. Price

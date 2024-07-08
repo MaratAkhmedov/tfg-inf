@@ -58,7 +58,9 @@
 						{{ form_errors(searchForm.squareMax) }}
 					</div>
 				</div>
-				{{ form_widget(searchForm.search, { 'attr': {'class': 'btn btn-primary w-100'} }) }}
+				{{ form_row(searchForm.rooms) }}
+				{{ form_row(searchForm.bathrooms) }}
+				{{ form_widget(searchForm.search, { 'attr': {'class': 'btn btn-success w-100'} }) }}
 				{{ form_end(searchForm) }}
 			</div>
 

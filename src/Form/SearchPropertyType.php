@@ -6,7 +6,6 @@ use App\Entity\PropertyType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -49,6 +48,31 @@ class SearchPropertyType extends AbstractType
                 'choices' => $squareChoices,
                 'placeholder' => 'max',
                 'attr' => ['class' => 'square-max-selector']
+            ])
+            ->add('rooms', ChoiceType::class, [
+                'label' => 'search.form.rooms',
+                'required' => false,
+                'choices' => [
+                    "1" => 1,
+                    "2" => 2,
+                    "3" => 3,
+                    "4 o más" => ">=4"
+                ],
+                'expanded' => true,
+                'multiple' => true,
+                'attr' => ['class' => 'rooms']
+            ])
+            ->add('bathrooms', ChoiceType::class, [
+                'label' => 'search.form.bathrooms',
+                'required' => false,
+                'choices' => [
+                    "1" => 1,
+                    "2" => 2,
+                    "3 o más" => ">=3"
+                ],
+                'expanded' => true,
+                'multiple' => true,
+                'attr' => ['class' => 'bathrooms']
             ])
             ->add('search', SubmitType::class, ['label' => 'base.search']);
     }
