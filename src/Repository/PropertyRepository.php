@@ -28,7 +28,6 @@ class PropertyRepository extends ServiceEntityRepository
      */
     public function buildFindByCityAndRoomQuery(City $city, PropertyType $type, mixed $searchCriteria): QueryBuilder
     {
-        $searchCriteria = $this->buildSearchCriteria($searchCriteria);
         $queryBuilder = $this->createQueryBuilder('p')
             ->leftJoin('p.address', 'pa')
             ->andWhere('pa.city = :city')
@@ -36,6 +35,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->setParameter('city', $city)
             ->setParameter('type', $type);
 
+        $searchCriteria = $this->buildSearchCriteria($searchCriteria);
         $queryBuilder->addCriteria($searchCriteria);
 
         return $queryBuilder;
@@ -63,6 +63,16 @@ class PropertyRepository extends ServiceEntityRepository
         if ($numBathrooms = $searchCriteria['bathrooms'] ?? null) {
             $expressions[] = $this->buildMultiChoiceExpression($expressionBuilder, $numBathrooms, "p.numBathrooms");
         }
+        if ($states = $searchCriteria['states'] ?? null) {
+            $expressions[] = $expressionBuilder->in('p.state', $states->toArray());
+        }
+        if ($rules = $searchCriteria['rules'] ?? null) {
+            $expressions[] = $expressionBuilder->in('p.rules', $rules->toArray());
+        }
+        if ($equipments = $searchCriteria['equipments'] ?? null) {
+            $expressions[] = $expressionBuilder->in('p.equipments', $equipments->toArray());
+        }
+
         $expression = $expressionBuilder->andX(...$expressions);
         return new Criteria($expression);
     }

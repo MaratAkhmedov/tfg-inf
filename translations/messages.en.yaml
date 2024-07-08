@@ -99,9 +99,9 @@ search:
   form:
     rooms: Habitaciones
     bathrooms: Baños
-    state: Estado
+    states: Estado
     equipments: Equipamiento
-    Rules: Reglas
+    rules: Reglas
     filters: Filters
     square: Square
     min_price: Max. Price

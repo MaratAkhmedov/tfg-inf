@@ -2,7 +2,10 @@
 
 namespace App\Form;
 
+use App\Entity\Equipment;
 use App\Entity\PropertyType;
+use App\Entity\Rule;
+use App\Entity\State;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -73,6 +76,32 @@ class SearchPropertyType extends AbstractType
                 'expanded' => true,
                 'multiple' => true,
                 'attr' => ['class' => 'bathrooms']
+            ])
+            ->add('states', EntityType::class, [
+                'label' => 'search.form.state',
+                'class' => State::class,
+                'choice_label' => 'label',
+                'choice_translation_domain' => true,
+                'multiple' => true,
+                'expanded' => true,
+            ])
+            ->add('rules', EntityType::class, [
+                'label' => 'search.form.rules',
+                'class' => Rule::class,
+                'choice_label' => 'label',
+                'multiple' => true,
+                'choice_translation_domain' => true,
+                'expanded' => true,
+                'required'   => false
+            ])
+            ->add('equipments', EntityType::class, [
+                'label' => 'search.form.equipments',
+                'class' => Equipment::class,
+                'choice_label' => 'label',
+                'multiple' => true,
+                'choice_translation_domain' => true,
+                'expanded' => true,
+                'required'   => false
             ])
             ->add('search', SubmitType::class, ['label' => 'base.search']);
     }

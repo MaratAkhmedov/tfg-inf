@@ -1,5 +1,27 @@
 {% extends 'base.html.twig' %}
 
+
+{% block stylesheets %}
+	<style>
+		#propertyFilters {
+			border: 1px solid rgb(0, 0, 0, 0.175);
+			border-radius: 0.25rem;;
+			padding: 0.5rem;
+			background: #FCFAFA
+		}
+
+		.property-filter-row {
+			padding-top: 0.5rem;
+			/* border: 1px solid #eb6864;
+			border-radius: 5px; 
+			margin: 0.25rem; */
+			/* margin-top: 0.5rem;
+			border-top: 1px solid #c3c3c3; */
+		}
+	</style>
+
+{% endblock %}
+
 {% block title %}
 	{{ 'search.title'|trans }}
 {% endblock %}
@@ -30,37 +52,47 @@
 		<div class="row">
 			<div id="propertyFilters" class="collapse d-lg-block col-lg-3 mb-sm-5">
 				{{ form_start(searchForm) }}
-				{{ form_row(searchForm.type) }}
-				<div class="price-label">
-					{{ 'search.form.price'|trans }}
-				</div>
-				<div class="d-flex">
-					<div class="p-2 w-50">
-						{{ form_widget(searchForm.priceMin) }}
-						{{ form_errors(searchForm.priceMin) }}
+				{{ form_row(searchForm.type, { 'row_attr': {'class': 'property-filter-row'}}) }}
+
+				<div class="property-filter-row">
+					<div class="price-label">
+						{{ 'search.form.price'|trans }}
 					</div>
-					<div class="p-2 w-50">
-						{{ form_widget(searchForm.priceMax) }}
-						{{ form_errors(searchForm.priceMax) }}
+					<div class="d-flex">
+						<div class="p-2 w-50">
+							{{ form_widget(searchForm.priceMin) }}
+							{{ form_errors(searchForm.priceMin) }}
+						</div>
+						<div class="p-2 w-50">
+							{{ form_widget(searchForm.priceMax) }}
+							{{ form_errors(searchForm.priceMax) }}
+						</div>
 					</div>
 				</div>
 
-				<div class="square-label">
-					{{ 'search.form.square'|trans }}
-				</div>
-				<div class="d-flex">
-					<div class="p-2 w-50">
-						{{ form_widget(searchForm.squareMin) }}
-						{{ form_errors(searchForm.squareMin) }}
+				<div class="property-filter-row">
+					<div class="square-label">
+						{{ 'search.form.square'|trans }}
 					</div>
-					<div class="p-2 w-50">
-						{{ form_widget(searchForm.squareMax) }}
-						{{ form_errors(searchForm.squareMax) }}
+					<div class="d-flex">
+						<div class="p-2 w-50">
+							{{ form_widget(searchForm.squareMin) }}
+							{{ form_errors(searchForm.squareMin) }}
+						</div>
+						<div class="p-2 w-50">
+							{{ form_widget(searchForm.squareMax) }}
+							{{ form_errors(searchForm.squareMax) }}
+						</div>
 					</div>
 				</div>
-				{{ form_row(searchForm.rooms) }}
-				{{ form_row(searchForm.bathrooms) }}
-				{{ form_widget(searchForm.search, { 'attr': {'class': 'btn btn-success w-100'} }) }}
+
+				{{ form_row(searchForm.rooms, { 'row_attr': {'class': 'property-filter-row'}}) }}
+				{{ form_row(searchForm.bathrooms, { 'row_attr': {'class': 'property-filter-row'}}) }}
+				{{ form_row(searchForm.states, { 'row_attr': {'class': 'property-filter-row'}}) }}
+				{{ form_row(searchForm.rules, { 'row_attr': {'class': 'property-filter-row'}}) }}
+				{{ form_row(searchForm.equipments, { 'row_attr': {'class': 'property-filter-row'}}) }}
+
+				{{ form_widget(searchForm.search, { 'attr': {'class': 'btn btn-primary w-100 mt-4 p-1'} }) }}
 				{{ form_end(searchForm) }}
 			</div>
 
@@ -74,7 +106,7 @@
 					<div class="">
 						<div class="card mb-3" style="">
 							<div class="row g-0">
-								<div class="col-lg-4 object-fit-cover">
+								<div style="height: 230px;" class="col-lg-4 object-fit-cover">
 									<img style="width:100%; height:100%;" src="{{ firstPhoto is not empty ? (asset(firstPhoto.url) ) : asset('images/placeholder400x200.png') }}" class="object-fit-cover img-fluid rounded-start" alt="...">
 								</div>
 								<div class="col-lg-8">
