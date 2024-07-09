@@ -2,7 +2,6 @@
 
 namespace App\Form;
 
-use App\Entity\Equipment;
 use App\Entity\PropertyType;
 use App\Entity\Rule;
 use App\Entity\State;
@@ -102,15 +101,6 @@ class SearchPropertyType extends AbstractType
             ->add('rules', EntityType::class, [
                 'label' => 'search.form.rules',
                 'class' => Rule::class,
-                'choice_label' => 'label',
-                'multiple' => true,
-                'choice_translation_domain' => true,
-                'expanded' => true,
-                'required'   => false
-            ])
-            ->add('equipments', EntityType::class, [
-                'label' => 'search.form.equipments',
-                'class' => Equipment::class,
                 'choice_label' => 'label',
                 'multiple' => true,
                 'choice_translation_domain' => true,

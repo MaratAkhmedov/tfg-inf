@@ -108,13 +108,13 @@ final class Version20240509223125 extends AbstractMigration
         SQL);
 
         // Equipment
-        $this->addSql(<<<SQL
-        INSERT INTO equipment (id,name,label,`type`,description,icon) 
-            VALUES
-            (1, 'washing_machine', 'equipment.washing_machine',NULL,NULL,'mdi:washing-machine'),
-            (2, 'microwave', 'equipment.microwave',NULL,NULL,'material-symbols:microwave'),
-            (3, 'elevator', 'equipment.elevator',NULL,NULL,'medical-icon:elevators');
-        SQL);
+        // $this->addSql(<<<SQL
+        // INSERT INTO equipment (id,name,label,`type`,description,icon) 
+        //     VALUES
+        //     (1, 'washing_machine', 'equipment.washing_machine',NULL,NULL,'mdi:washing-machine'),
+        //     (2, 'microwave', 'equipment.microwave',NULL,NULL,'material-symbols:microwave'),
+        //     (3, 'elevator', 'equipment.elevator',NULL,NULL,'medical-icon:elevators');
+        // SQL);
 
         // Rule
         $this->addSql(<<<SQL

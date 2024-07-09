@@ -71,24 +71,6 @@ class PropertyRepository extends ServiceEntityRepository
             }
         }
 
-        if ($equipments = $searchCriteria['equipments'] ?? null) {
-            if (!empty($equipments->toArray())) {
-                $qb->andWhere(
-                    $qb->expr()->in(
-                        'p.id',
-                        $this->createQueryBuilder('p4')
-                            ->innerJoin('p4.equipments', 'pe4', Join::WITH, 'pe4 IN (:equipments)')
-                            ->groupBy('p4.id')
-                            ->having('COUNT(p4.id) = :equipmentCount')
-                            ->getDQL()
-                    )
-                );
-
-                $qb->setParameter('equipments', $equipments)
-                    ->setParameter('equipmentCount', $equipments->count());
-            }
-        }
-
         $searchCriteria = $this->buildSearchCriteria($searchCriteria);
         $qb->addCriteria($searchCriteria);
 

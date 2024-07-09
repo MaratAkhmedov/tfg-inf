@@ -5,7 +5,7 @@
 	<style>
 		#propertyFilters {
 			border: 1px solid rgb(0, 0, 0, 0.175);
-			border-radius: 0.25rem;;
+			border-radius: 0.25rem;
 			padding: 0.5rem;
 			background: #FCFAFA
 		}
@@ -56,50 +56,52 @@
 		</div>
 
 		<div class="row">
-			<div id="propertyFilters" class="collapse d-lg-block col-lg-3 mb-sm-5">
-				{{ form_start(searchForm) }}
-				{{ form_row(searchForm.type, { 'row_attr': {'class': 'property-filter-row'}}) }}
+			<div id="" class="collapse d-lg-block col-lg-3 mb-sm-5">
+				<div id="propertyFilters">
+					{{ form_start(searchForm) }}
+					{{ form_row(searchForm.type, { 'row_attr': {'class': 'property-filter-row'}}) }}
 
-				<div class="property-filter-row">
-					<div class="price-label">
-						{{ 'search.form.price'|trans }}
-					</div>
-					<div class="d-flex">
-						<div class="p-2 w-50">
-							{{ form_widget(searchForm.priceMin) }}
-							{{ form_errors(searchForm.priceMin) }}
+					<div class="property-filter-row">
+						<div class="price-label">
+							{{ 'search.form.price'|trans }}
 						</div>
-						<div class="p-2 w-50">
-							{{ form_widget(searchForm.priceMax) }}
-							{{ form_errors(searchForm.priceMax) }}
+						<div class="d-flex">
+							<div class="p-2 w-50">
+								{{ form_widget(searchForm.priceMin) }}
+								{{ form_errors(searchForm.priceMin) }}
+							</div>
+							<div class="p-2 w-50">
+								{{ form_widget(searchForm.priceMax) }}
+								{{ form_errors(searchForm.priceMax) }}
+							</div>
 						</div>
 					</div>
+
+					<div class="property-filter-row">
+						<div class="square-label">
+							{{ 'search.form.square'|trans }}
+						</div>
+						<div class="d-flex">
+							<div class="p-2 w-50">
+								{{ form_widget(searchForm.squareMin) }}
+								{{ form_errors(searchForm.squareMin) }}
+							</div>
+							<div class="p-2 w-50">
+								{{ form_widget(searchForm.squareMax) }}
+								{{ form_errors(searchForm.squareMax) }}
+							</div>
+						</div>
+					</div>
+
+					{{ form_row(searchForm.rooms, { 'row_attr': {'class': 'property-filter-row'}}) }}
+					{{ form_row(searchForm.bathrooms, { 'row_attr': {'class': 'property-filter-row'}}) }}
+					{{ form_row(searchForm.states, { 'row_attr': {'class': 'property-filter-row'}}) }}
+					{{ form_row(searchForm.rules, { 'row_attr': {'class': 'property-filter-row'}}) }}
+
+					{{ form_widget(searchForm.search, { 'attr': {'class': 'btn btn-primary w-100 mt-4 p-1'} }) }}
+					{{ form_end(searchForm) }}
 				</div>
 
-				<div class="property-filter-row">
-					<div class="square-label">
-						{{ 'search.form.square'|trans }}
-					</div>
-					<div class="d-flex">
-						<div class="p-2 w-50">
-							{{ form_widget(searchForm.squareMin) }}
-							{{ form_errors(searchForm.squareMin) }}
-						</div>
-						<div class="p-2 w-50">
-							{{ form_widget(searchForm.squareMax) }}
-							{{ form_errors(searchForm.squareMax) }}
-						</div>
-					</div>
-				</div>
-
-				{{ form_row(searchForm.rooms, { 'row_attr': {'class': 'property-filter-row'}}) }}
-				{{ form_row(searchForm.bathrooms, { 'row_attr': {'class': 'property-filter-row'}}) }}
-				{{ form_row(searchForm.states, { 'row_attr': {'class': 'property-filter-row'}}) }}
-				{{ form_row(searchForm.rules, { 'row_attr': {'class': 'property-filter-row'}}) }}
-				{{ form_row(searchForm.equipments, { 'row_attr': {'class': 'property-filter-row'}}) }}
-
-				{{ form_widget(searchForm.search, { 'attr': {'class': 'btn btn-primary w-100 mt-4 p-1'} }) }}
-				{{ form_end(searchForm) }}
 			</div>
 
 			<div class="col-lg-9">

@@ -2,7 +2,6 @@
 
 namespace App\Form;
 
-use App\Entity\Equipment;
 use App\Entity\Property;
 use App\Entity\PropertyType as EntityPropertyType;
 use App\Entity\Rule;
@@ -71,15 +70,6 @@ class PropertyType extends AbstractType
                 'class' => State::class,
                 'choice_label' => 'label',
                 'choice_translation_domain' => true
-            ])
-            ->add('equipments', EntityType::class, [
-                'label' => 'property.form.equipment',
-                'class' => Equipment::class,
-                'choice_label' => 'label',
-                'multiple' => true,
-                'choice_translation_domain' => true,
-                'expanded' => true,
-                'required'   => false
             ])
             ->add('rules', EntityType::class, [
                 'label' => 'property.form.rules',

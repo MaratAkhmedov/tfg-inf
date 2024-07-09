@@ -59,12 +59,6 @@ class Property
     private ?User $user = null;
 
     /**
-     * @var Collection<int, Equipment>
-     */
-    #[ORM\ManyToMany(targetEntity: Equipment::class, inversedBy: 'properties')]
-    private Collection $equipments;
-
-    /**
      * @var Collection<int, Rule>
      */
     #[ORM\ManyToMany(targetEntity: Rule::class, inversedBy: 'properties')]
@@ -84,11 +78,20 @@ class Property
     #[ORM\JoinColumn(nullable: false)]
     private ?PropertyType $type = null;
 
+    /**
+     * @var Collection<int, AttributeProperty>
+     */
+    #[ORM\ManyToMany(targetEntity: AttributeProperty::class, mappedBy: 'properties')]
+    private Collection $attributeProperties;
+
+    #[ORM\OneToOne(inversedBy: 'property', cascade: ['persist', 'remove'])]
+    private ?Room $room = null;
+
     public function __construct()
     {
-        $this->equipments = new ArrayCollection();
         $this->rules = new ArrayCollection();
         $this->photos = new ArrayCollection();
+        $this->attributeProperties = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -229,33 +232,6 @@ class Property
     }
 
     /**
-     * @return Collection<int, Equipment>
-     */
-    public function getEquipments(): Collection
-    {
-        return $this->equipments;
-    }
-
-    public function addEquipment(Equipment $equipment): static
-    {
-        if (!$this->equipments->contains($equipment)) {
-            $this->equipments->add($equipment);
-            $equipment->addProperty($this);
-        }
-
-        return $this;
-    }
-
-    public function removeEquipment(Equipment $equipment): static
-    {
-        if ($this->equipments->removeElement($equipment)) {
-            $equipment->removeProperty($this);
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Rule>
      */
     public function getRules(): Collection
@@ -369,6 +345,45 @@ class Property
     public function setType(?PropertyType $type): static
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AttributeProperty>
+     */
+    public function getAttributeProperties(): Collection
+    {
+        return $this->attributeProperties;
+    }
+
+    public function addAttributeProperty(AttributeProperty $attributeProperty): static
+    {
+        if (!$this->attributeProperties->contains($attributeProperty)) {
+            $this->attributeProperties->add($attributeProperty);
+            $attributeProperty->addProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttributeProperty(AttributeProperty $attributeProperty): static
+    {
+        if ($this->attributeProperties->removeElement($attributeProperty)) {
+            $attributeProperty->removeProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function getRoom(): ?Room
+    {
+        return $this->room;
+    }
+
+    public function setRoom(?Room $room): static
+    {
+        $this->room = $room;
 
         return $this;
     }
