@@ -84,6 +84,7 @@ breadcrumbs:
   home: Página principal
   create: crear
   show: vista
+  edit: editar
 flat:
   attributes:
     washing_machine: Lavadora

@@ -83,6 +83,8 @@ property:
 breadcrumbs:
   home: Home
   create: create
+  show: view
+  edit: edit
 flat:
   attributes:  
     washing_machine: Washing machine
