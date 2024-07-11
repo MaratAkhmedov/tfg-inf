@@ -18,6 +18,18 @@
 			/* margin-top: 0.5rem;
 			border-top: 1px solid #c3c3c3; */
 		}
+		.filter-counter {
+            transform: translate(50%, -50%);
+			font-size: 0.75rem;
+			background-color: #eb6864;
+			/*background-color: #f5beb7;*/
+			padding-left:0.07rem;
+			border: 1px solid white;
+			width: 1.25rem;
+			height: 1.25rem;
+			border-radius: 15px;
+			display: none;
+        }
 	</style>
 
 {% endblock %}
@@ -42,8 +54,9 @@
 				</div>
 
 				<div class="bd-highlight">
-					<button class="btn btn-primary my-3 d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#propertyFilters" aria-expanded="false" aria-controls="propertyFilters">
+					<button class="btn btn-primary position-relative my-3" type="button" data-bs-toggle="collapse" data-bs-target="#propertyFiltersCollapse" aria-expanded="false" aria-controls="propertyFilters">
 						{{ 'search.form.filters'|trans }}
+						<span class="filter-counter position-absolute top-0 start-100 translate-middle" id="numFilters"></span>
 					</button>
 				</div>
 
@@ -56,7 +69,7 @@
 		</div>
 
 		<div class="row">
-			<div id="" class="collapse d-lg-block col-lg-3 mb-sm-5">
+			<div id="propertyFiltersCollapse" class="collapse collapse-horizontal col-lg-6 mb-sm-5">
 				<div id="propertyFilters">
 					{{ form_start(searchForm) }}
 					{{ form_row(searchForm.type, { 'row_attr': {'class': 'property-filter-row'}}) }}
@@ -104,7 +117,7 @@
 
 			</div>
 
-			<div class="col-lg-9">
+			<div class="col-lg-6">
 				{% for property in pagination.items %}
 					{% set now = "now"|date('U') %}
 					{% set updatedAtTimestamp = property.updatedAt|date('U') %}
@@ -230,6 +243,51 @@
             updateSquareMin();
         });
     });
+
+
+	// update collapse direction for small devices
+	function updateCollapseClass() {
+		var collapseElement = document.getElementById('propertyFiltersCollapse');
+		if (window.innerWidth >= 992) {
+			collapseElement.classList.add('collapse-horizontal');
+		} else {
+			collapseElement.classList.remove('collapse-horizontal');
+		}
+  	}
+
+	// Actualiza la clase en la carga de la página
+	updateCollapseClass();
+
+	// Actualiza la clase al cambiar el tamaño de la ventana
+	window.addEventListener('resize', updateCollapseClass);
+
+	const filters = {}
+
+	filters.priceMinFilter = "{{searchForm.priceMin.vars.value}}"
+	filters.priceMaxFilter = "{{searchForm.priceMax.vars.value}}"
+	filters.squareMinFilter = "{{searchForm.squareMin.vars.value}}"
+	filters.squareMaxFilter = "{{searchForm.squareMax.vars.value}}"
+	filters.roomsFilter = {{ searchForm.rooms.vars.value|json_encode()|raw }}
+	filters.bathroomsFilter = {{searchForm.bathrooms.vars.value|json_encode()|raw }}
+	filters.statesFilter = {{searchForm.states.vars.value|json_encode()|raw }}
+	filters.rulesFilter = {{searchForm.rules.vars.value|json_encode()|raw }}
+
+	const numFilters = Object.entries(filters).filter(entry => {
+		const [key, value] = entry;
+		if (Array.isArray(value) && value.length > 0) {
+			return true;
+		}else if (!Array.isArray(value) && value) {
+			return true;
+		}
+		return false;
+	});
+
+	if(numFilters.length > 0) {
+		$('#numFilters').html(numFilters.length);
+		$('#numFilters').show();
+	}else{
+		$('#numFilters').hide();
+	}
 </script>
 
 {% endblock %}
