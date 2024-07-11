@@ -1,4 +1,14 @@
 {{ form_start(form, {'attr': {'id': 'property-form'}}) }}
+
+
+<div class="row">
+	<div class="mb-3">
+		{{ form_label(form.type) }}
+		{{ form_widget(form.type, {'attr': {'class': 'form-control'}}) }}
+		{{ form_errors(form.type) }}
+	</div>
+</div>
+
 <div class="row">
 	<div class="mb-3">
 		{{ form_label(form.name) }}
@@ -10,7 +20,7 @@
 
 <div class="row">
 	<div class="mb-3">
-    
+
 		{{ form_label(form.description) }}
 		{{ form_widget(form.description, {'id': 'editor', 'attr': {'class': 'form-control quill-editor'}}) }}
 		{{ form_errors(form.description) }}
@@ -20,8 +30,8 @@
 
 <div class="row">
 	<div class="col-md-12">
+		<h2>{{ form_label(form.address) }}</h2>
 		<div class="mb-3">
-			{{ form_label(form.address) }}
 			{{ form_widget(form.address, {'attr': {'class': 'form-control'}}) }}
 			{{ form_errors(form.address) }}
 		</div>
@@ -31,14 +41,8 @@
 		</div>
 	</div>
 </div>
-<div class="row mb-5 mt-2">
-	<div class="form-group">
-		<label class="form-label required">{{ 'dropzone.title'|trans}}</label>
-		<div id="dropzone" class="dropzone"></div>
-		<div id="dropzone-error" class="text-danger d-none">{{ 'dropzone.required'|trans }}</div>
-	</div>
-</div>
 
+<h2>{{'property.form.property_details'|trans}}</h2>
 
 <div class="row">
 	<div class="mb-3 col-md-4 col-lg-3">
@@ -46,13 +50,6 @@
 		{{ form_widget(form.price, {'attr': {'class': 'form-control'}}) }}
 		{{ form_errors(form.price) }}
 	</div>
-
-	<div class="mb-3 col-md-4 col-lg-3">
-		{{ form_label(form.type) }}
-		{{ form_widget(form.type, {'attr': {'class': 'form-control'}}) }}
-		{{ form_errors(form.type) }}
-	</div>
-
 
 	<div class="mb-3 col-md-4 col-lg-3">
 		{{ form_label(form.state) }}
@@ -103,8 +100,22 @@
 		</div>
 	</div>
 
+	<div class="row" id="form_room_data">
+		<h2>{{ form_label(form.room) }}</h2>
+		{{ form_widget(form.room) }}
+		{{ form_errors(form.room) }}
+	</div>
+
+	<div class="row mb-5 mt-2">
+		<div class="form-group">
+			<h2>
+				<label class="form-label required">{{ 'dropzone.title'|trans}}</label>
+			</h2>
+			<div id="dropzone" class="dropzone"></div>
+			<div id="dropzone-error" class="text-danger d-none">{{ 'dropzone.required'|trans }}</div>
+		</div>
+	</div>
 </div>
-{{ form_widget(form) }}
 
 <button class="btn btn-success" id="submit-button">{{ 'form.save'|trans }}</button>
 {{ form_end(form) }}

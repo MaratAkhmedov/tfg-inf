@@ -63,7 +63,8 @@ class PropertyType extends AbstractType
                 'class' => EntityPropertyType::class,
                 'choice_label' => 'label',
                 'choice_translation_domain' => true,
-                'required' => true
+                'required' => true,
+                'placeholder' => 'property.form.type_placeholder'
             ])
             ->add('state', EntityType::class, [
                 'label' => 'property.form.state',
@@ -78,6 +79,10 @@ class PropertyType extends AbstractType
                 'multiple' => true,
                 'choice_translation_domain' => true,
                 'expanded' => true,
+                'required'   => false
+            ])
+            ->add('room', RoomType::class, [
+                'label' => 'property.form.room',
                 'required'   => false
             ])
             // FIXME: fix problem with address type

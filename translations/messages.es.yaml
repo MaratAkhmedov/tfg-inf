@@ -59,6 +59,8 @@ property:
     flat: Piso
     room: Habitacion
   form:
+    property_details: Detalles de la vivienda
+    type_placeholder: Por favor seleccione el tipo de la vivienda
     create: Publicar nueva vivienda
     title: Título
     description: Descripción
@@ -77,14 +79,16 @@ property:
     publish: Publicar una vivenda gratis
     address: Dirección
     last_updated: 'Última actualización hace %minutes% minutos'
+    room: Detalles de la habitación
 breadcrumbs:
   home: Página principal
   create: crear
   show: vista
-equipment:
-  washing_machine: Lavadora
-  microwave: Microondas
-  elevator: Ascensor
+flat:
+  attributes:
+    washing_machine: Lavadora
+    microwave: Microondas
+    elevator: Ascensor
 state:
   good: Bueno
   normal: Regular
@@ -109,3 +113,13 @@ search:
     min_price: Precio mínimo
     max_price: Precio máximo
     property_type: Tipo de vivienda
+room: 
+  bed:
+    individual: Individual
+    double: Doble
+    other: Otro
+  attributes:
+    private_bathroom: Baño privado
+  form:
+    bed_type: Cama
+    attributes_label: Características de la habitación

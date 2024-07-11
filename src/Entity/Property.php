@@ -84,7 +84,7 @@ class Property
     #[ORM\ManyToMany(targetEntity: AttributeProperty::class, mappedBy: 'properties')]
     private Collection $attributeProperties;
 
-    #[ORM\OneToOne(inversedBy: 'property', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'property', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private ?Room $room = null;
 
     public function __construct()

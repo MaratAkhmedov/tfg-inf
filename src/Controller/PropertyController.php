@@ -91,6 +91,9 @@ class PropertyController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+           if($property->getType()->getName() != 'room') {
+                $property->setRoom(null);
+           }
             
             $files = $request->files->get('photos', []);
 

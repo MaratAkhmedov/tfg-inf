@@ -64,7 +64,6 @@
                 theme: 'snow',
             });
             quill.on('text-change', function() {
-                console.log("quill.getContents()", quill.root.innerHTML)
                 $('#editor').html(quill.root.innerHTML);
             });
         });
@@ -261,5 +260,24 @@
                 }
             });
         };
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            setRoomVisibility()
+            $('#property_type').change(function() {
+                var selectedValue = $(this).val();
+                setRoomVisibility()
+            });
+
+            function setRoomVisibility() {
+                var selectedValue = $('#property_type').val()
+                if (selectedValue == 2) {
+                    $('#form_room_data').hide();
+                } else if (selectedValue == 1) {
+                    $('#form_room_data').show();
+                }
+            }
+        });
     </script>
 {% endblock %}

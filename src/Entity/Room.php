@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\BedType;
 use App\Repository\RoomRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -15,11 +16,11 @@ class Room
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(mappedBy: 'room', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'room', cascade: ['persist'])]
     private ?Property $property = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $bedType = null;
+    private ?BedType $bedType = null;
 
     /**
      * @var Collection<int, AttributeRoom>
@@ -59,12 +60,12 @@ class Room
         return $this;
     }
 
-    public function getBedType(): ?string
+    public function getBedType(): ?BedType
     {
         return $this->bedType;
     }
 
-    public function setBedType(string $bedType): static
+    public function setBedType(?BedType $bedType): static
     {
         $this->bedType = $bedType;
 

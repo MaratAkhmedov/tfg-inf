@@ -59,6 +59,8 @@ property:
     flat: Flat
     room: Room
   form:
+    property_details: Property details
+    type_placeholder: Please select a property type
     create: Publish new property
     properties: properties
     publish: Publish a property free  
@@ -77,13 +79,15 @@ property:
     rules: Rules
     address: Address
     last_updated: 'Last updated %minutes% mins ago'
+    room: Room details
 breadcrumbs:
   home: Home
   create: create
-equipment:
-  washing_machine: Washing machine
-  microwave: Microwave
-  elevator: Elevator
+flat:
+  attributes:  
+    washing_machine: Washing machine
+    microwave: Microwave
+    elevator: Elevator
 state:
   good: Good
   normal: Normal
@@ -107,3 +111,13 @@ search:
     min_price: Max. Price
     max_price: Min. price
     property_type: Tipo de vivienda
+room: 
+  bed:
+    individual: individual
+    double: Double
+    other: Other
+  attributes:
+    private_bathroom: Private bathroom
+  form:
+    bed_type: Bed
+    attributes_label: Room attributes
