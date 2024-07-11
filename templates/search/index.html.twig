@@ -19,16 +19,26 @@
 			border-top: 1px solid #c3c3c3; */
 		}
 		.filter-counter {
-            transform: translate(50%, -50%);
+			transform: translate(50%, -50%);
 			font-size: 0.75rem;
 			background-color: #eb6864;
 			/*background-color: #f5beb7;*/
-			padding-left:0.07rem;
+			padding-left: 0.07rem;
 			border: 1px solid white;
 			width: 1.25rem;
 			height: 1.25rem;
 			border-radius: 15px;
 			display: none;
+		}
+
+		.dropdown-menu-scrollable {
+            max-height: 25rem; /* Altura máxima del dropdown */
+            overflow-y: auto; /* Añadir scroll vertical si se supera la altura máxima */
+        }
+
+		.dropdown-menu-fixed-button {
+            position: sticky;
+            bottom: 0;
         }
 	</style>
 
@@ -54,13 +64,59 @@
 				</div>
 
 				<div class="bd-highlight">
-					<button class="btn btn-primary position-relative my-3" type="button" data-bs-toggle="collapse" data-bs-target="#propertyFiltersCollapse" aria-expanded="false" aria-controls="propertyFilters">
+					<button class="btn btn-primary position-relative my-3 btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-target="#propertyFiltersDropdown" aria-expanded="false" data-bs-auto-close="outside">
 						{{ 'search.form.filters'|trans }}
 						<span class="filter-counter position-absolute top-0 start-100 translate-middle" id="numFilters"></span>
 					</button>
+					<div id="propertyFilters" class="dropdown-menu-end dropdown-menu dropdown-menu-scrollable">
+						{{ form_start(searchForm) }}
+						{{ form_row(searchForm.type, { 'row_attr': {'class': 'property-filter-row'}}) }}
+
+						<div class="property-filter-row">
+							<div class="price-label">
+								{{ 'search.form.price'|trans }}
+							</div>
+							<div class="d-flex">
+								<div class="p-2 w-50">
+									{{ form_widget(searchForm.priceMin) }}
+									{{ form_errors(searchForm.priceMin) }}
+								</div>
+								<div class="p-2 w-50">
+									{{ form_widget(searchForm.priceMax) }}
+									{{ form_errors(searchForm.priceMax) }}
+								</div>
+							</div>
+						</div>
+
+						<div class="property-filter-row">
+							<div class="square-label">
+								{{ 'search.form.square'|trans }}
+							</div>
+							<div class="d-flex">
+								<div class="p-2 w-50">
+									{{ form_widget(searchForm.squareMin) }}
+									{{ form_errors(searchForm.squareMin) }}
+								</div>
+								<div class="p-2 w-50">
+									{{ form_widget(searchForm.squareMax) }}
+									{{ form_errors(searchForm.squareMax) }}
+								</div>
+							</div>
+						</div>
+
+						{{ form_row(searchForm.rooms, { 'row_attr': {'class': 'property-filter-row'}}) }}
+						{{ form_row(searchForm.bathrooms, { 'row_attr': {'class': 'property-filter-row'}}) }}
+						{{ form_row(searchForm.states, { 'row_attr': {'class': 'property-filter-row'}}) }}
+						{{ form_row(searchForm.rules, { 'row_attr': {'class': 'property-filter-row'}}) }}
+						<div class="dropdown-menu-fixed-button">
+							{{ form_widget(searchForm.search, { 'attr': {'class': 'btn btn-primary w-100'} }) }}
+						</div>
+						{{ form_end(searchForm) }}
+
+					</div>
 				</div>
 
-				<div style="width:30px;height: 100%;" class="bd-highlight pt-2">
+				<div style="width:30px;height: 190%; margin-top:10px;" class="bd-highlight pt-2">
 					<a style="" class="" href="#" role="button">
 						<span style="">{{ ux_icon('uiw:map') }}</span>
 					</a>
@@ -69,53 +125,7 @@
 		</div>
 
 		<div class="row">
-			<div id="propertyFiltersCollapse" class="collapse collapse-horizontal col-lg-6 mb-sm-5">
-				<div id="propertyFilters">
-					{{ form_start(searchForm) }}
-					{{ form_row(searchForm.type, { 'row_attr': {'class': 'property-filter-row'}}) }}
 
-					<div class="property-filter-row">
-						<div class="price-label">
-							{{ 'search.form.price'|trans }}
-						</div>
-						<div class="d-flex">
-							<div class="p-2 w-50">
-								{{ form_widget(searchForm.priceMin) }}
-								{{ form_errors(searchForm.priceMin) }}
-							</div>
-							<div class="p-2 w-50">
-								{{ form_widget(searchForm.priceMax) }}
-								{{ form_errors(searchForm.priceMax) }}
-							</div>
-						</div>
-					</div>
-
-					<div class="property-filter-row">
-						<div class="square-label">
-							{{ 'search.form.square'|trans }}
-						</div>
-						<div class="d-flex">
-							<div class="p-2 w-50">
-								{{ form_widget(searchForm.squareMin) }}
-								{{ form_errors(searchForm.squareMin) }}
-							</div>
-							<div class="p-2 w-50">
-								{{ form_widget(searchForm.squareMax) }}
-								{{ form_errors(searchForm.squareMax) }}
-							</div>
-						</div>
-					</div>
-
-					{{ form_row(searchForm.rooms, { 'row_attr': {'class': 'property-filter-row'}}) }}
-					{{ form_row(searchForm.bathrooms, { 'row_attr': {'class': 'property-filter-row'}}) }}
-					{{ form_row(searchForm.states, { 'row_attr': {'class': 'property-filter-row'}}) }}
-					{{ form_row(searchForm.rules, { 'row_attr': {'class': 'property-filter-row'}}) }}
-
-					{{ form_widget(searchForm.search, { 'attr': {'class': 'btn btn-primary w-100 mt-4 p-1'} }) }}
-					{{ form_end(searchForm) }}
-				</div>
-
-			</div>
 
 			<div class="col-lg-6">
 				{% for property in pagination.items %}
@@ -243,23 +253,6 @@
             updateSquareMin();
         });
     });
-
-
-	// update collapse direction for small devices
-	function updateCollapseClass() {
-		var collapseElement = document.getElementById('propertyFiltersCollapse');
-		if (window.innerWidth >= 992) {
-			collapseElement.classList.add('collapse-horizontal');
-		} else {
-			collapseElement.classList.remove('collapse-horizontal');
-		}
-  	}
-
-	// Actualiza la clase en la carga de la página
-	updateCollapseClass();
-
-	// Actualiza la clase al cambiar el tamaño de la ventana
-	window.addEventListener('resize', updateCollapseClass);
 
 	const filters = {}
 
