@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\City;
+use App\Entity\Property;
 use App\Entity\PropertyType;
 use App\Form\SearchPropertyType;
 use App\Repository\PropertyRepository;
@@ -42,14 +43,24 @@ class SearchController extends AbstractController
             $searchData = $data;
         }
         $builder = $propertyRepository->buildFindByCityAndRoomQuery($city, $type, $searchData);
-        
+        $paginator = $paginator->paginate(
+            $builder, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            12 /*limit per page*/
+        );
+
+        $coordinates = array_map(
+            fn (Property $item) => [
+                'lat' => $item->getAddress()->getLatitude(),
+                'lng' => $item->getAddress()->getLongitude()
+            ], 
+            (array)$paginator->getItems()
+        );
+
         return $this->render('search/index.html.twig', [
             'searchForm' => $searchForm->createView(),
-            'pagination' => $paginator->paginate(
-                $builder, /* query NOT result */
-                $request->query->getInt('page', 1), /*page number*/
-                12 /*limit per page*/
-            )
+            'pagination' => $paginator,
+            'coordinates' => $coordinates
         ]);
     }
 }
