@@ -191,27 +191,37 @@
 						{% set minutesPassed = (now - updatedAtTimestamp) // 60 %}
 						{% set firstPhoto = property.photos|default([])|first %}
 
-						<a href="{{ path('app_property_show', {'id': property.id}) }}" class="card-link" property-link-id="{{ property.id }}">
-							<div class="card mb-3" property-id="{{ property.id }}">
-								<div class="row g-0">
-									<div class="col-lg-4 object-fit-cover">
-										<img style="width:100%; height:100%;" src="{{ firstPhoto is not empty ? (asset(firstPhoto.url) ) : asset('images/placeholder400x200.png') }}" class="object-fit-cover img-fluid rounded-start" alt="...">
-									</div>
-									<div class="col-lg-8">
-										<div class="card-body">
-											<div class="d-flex justify-content-between">
-												<h5 class="card-title">{{ property.name }}</h5>
-												<h5 class="card-title price">{{property.price|format_currency('EUR', {rounding_mode: 'floor'})}}</h5>
-											</div>
-											<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-											<p class="card-text">
-												<small class="text-body-secondary">{{ 'property.form.last_updated'|trans({'%minutes%': minutesPassed}) }}</small>
-											</p>
+						<div class="card mb-3" property-id="{{ property.id }}">
+							<div class="row g-0">
+								<div class="col-lg-4 object-fit-cover">
+									<img style="width:100%; height:100%;" src="{{ firstPhoto is not empty ? (asset(firstPhoto.url) ) : asset('images/placeholder400x200.png') }}" class="object-fit-cover img-fluid rounded-start" alt="...">
+								</div>
+								<div class="col-lg-8">
+									<div class="card-body">
+										<div class="d-flex justify-content-between">
+											<h5 class="card-title">{{ property.name }}</h5>
+											<h5 class="card-title price">{{property.price|format_currency('EUR', {rounding_mode: 'floor'})}}</h5>
 										</div>
+										<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+										<div class="d-flex justify-content-between">
+											<div class="">
+												<p class="card-text">
+													<small class="text-body-secondary">{{ 'property.form.last_updated'|trans({'%minutes%': minutesPassed}) }}</small>
+												</p>
+											</div>
+											<a href="{{ path('app_property_show', {'id': property.id}) }}" class="stretched-link"></a>
+
+											<div class="" style="width:30px; height: 30px;z-index:3;position:relative;">
+												<a class="" href="#" role="button">
+													{{ ux_icon('mdi:favourite') }}
+												</a>
+											</div>
+										</div>
+
 									</div>
 								</div>
 							</div>
-						</a>
+						</div>
 					{% else %}
 						<tr>
 							<td colspan="12">{{'property.not_found'|trans}}</td>
