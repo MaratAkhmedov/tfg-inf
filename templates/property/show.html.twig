@@ -190,6 +190,7 @@
 
 {% block javascript %}
 	<script src="https://maps.googleapis.com/maps/api/js?key={{app.request.server.get('GOOGLE_MAP_API_KEY')}}&libraries=places"></script>
+	<script src="{{ asset('js/map_styles.js') }}"></script>
 
 	<script>
 		document.addEventListener('DOMContentLoaded', (event) => { // Coordinates (latitude and longitude)
@@ -202,7 +203,13 @@
                 lat: lat,
                 lng: lng
                 },
-                zoom: 14 // Adjust the zoom level as needed
+                zoom: 14, // Adjust the zoom level as needed
+				styles: mapStyles,
+				zoomControl: false, // Deshabilitar botones de zoom
+				streetViewControl: false, // Deshabilitar Street View
+				mapTypeControl: false,      // Deshabilitar el control de tipo de mapa
+				fullscreenControl: false,   // Deshabilitar el control de pantalla completa
+				gestureHandling: 'greedy' // Permitir el desplazamiento y zoom sin la tecla CTRL
             });
 
             // Add a marker at the specified coordinates

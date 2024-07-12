@@ -45,6 +45,7 @@
     <script src="https://maps.googleapis.com/maps/api/js?key={{app.request.server.get('GOOGLE_MAP_API_KEY')}}&libraries=places"></script>
     <script src="{{ asset('js/dropzone.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+    <script src="{{ asset('js/map_styles.js') }}"></script>
 
     <script>
 
@@ -178,7 +179,13 @@
             // Inicializar el mapa
             map = new google.maps.Map(document.getElementById('map'), {
                 center: currentPosition,
-                zoom: 16
+                zoom: 16,
+                styles: mapStyles,
+                zoomControl: false, // Deshabilitar botones de zoom
+                streetViewControl: false, // Deshabilitar Street View
+                mapTypeControl: false,      // Deshabilitar el control de tipo de mapa
+                fullscreenControl: false,   // Deshabilitar el control de pantalla completa
+                gestureHandling: 'greedy' // Permitir el desplazamiento y zoom sin la tecla CTRL
             });
 
             const icon = {
@@ -205,6 +212,16 @@
             };
             autocomplete = new google.maps.places.Autocomplete(input, options);
             autocomplete.bindTo('bounds', map);
+
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault(); // Prevent form submission
+                    const firstResult = $('.pac-container .pac-item:first').text();
+                    input.value = firstResult;
+                    // You might want to trigger a change event or form submission here
+                    input.dispatchEvent(new Event('change'));
+                }
+            });
 
             autocomplete.addListener('place_changed', function() {
                 const place = autocomplete.getPlace();

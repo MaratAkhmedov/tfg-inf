@@ -45,11 +45,12 @@
 			text-decoration: none;
 			color: inherit;
 		}
-		.card:hover, .card.hover {
+		.card:hover,
+		.card.hover {
 			text-decoration: none;
 			box-shadow: 0 0 1rem rgb(235, 104, 100, 0.7);
-			-webkit-transition : box-shadow ease-in-out .15s;
-      		transition : box-shadow ease-in-out .15s;
+			-webkit-transition: box-shadow ease-in-out 0.15s;
+			transition: box-shadow ease-in-out 0.15s;
 		}
 
 
@@ -87,6 +88,10 @@
 		#property-cards {
 			padding-top: 140px;
 			position: sticky;
+		}
+
+		.gm-style iframe + div {
+			border: none !important;
 		}
 
 		@media(min-width: 991.98px) {
@@ -370,12 +375,14 @@
     function initMap() {
 		var bounds = new google.maps.LatLngBounds();
         map = new google.maps.Map(document.getElementById('map'), {
+			center: { lat: 39.46975, lng: -0.37739 },
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             styles: mapStyles,
 			zoomControl: false, // Deshabilitar botones de zoom
 			streetViewControl: false, // Deshabilitar Street View
 			mapTypeControl: false,      // Deshabilitar el control de tipo de mapa
-			fullscreenControl: false   // Deshabilitar el control de pantalla completa
+			fullscreenControl: false,   // Deshabilitar el control de pantalla completa
+			gestureHandling: 'greedy' // Permitir el desplazamiento y zoom sin la tecla CTRL
         });
 
 		function icon(marker, isHighlighted) {
@@ -438,6 +445,10 @@
 			})
 		}
 
+		if(markersData.length == 0) {
+			var position = new google.maps.LatLng(39.46975, -0.37739);
+			bounds.extend(position);
+		} 
 
         markersData.forEach(function(marker) {
             var position = new google.maps.LatLng(marker.lat, marker.lng);
