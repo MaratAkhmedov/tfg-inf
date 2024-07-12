@@ -420,7 +420,7 @@
 		function smallIcon() {
 			return ({
             	url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
-					<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" style="">
+					<svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" style="">
 					    <style>
 							.property-marker-map {
 								background-color: #eb6864; 
@@ -469,6 +469,15 @@
 					}
 				})
 			})
+
+
+			propertyMarker.addListener('click', (e) => {
+				const href = Routing.generate('app_property_show', {id: propertyMarker.propertyId})
+				window.location.href = href;
+			})
+
+						const href = Routing.generate('app_property_show', {id: marker.id})
+
 
 			propertyMarker.addListener('mouseout', (e) => {
 				if(e.changeReverseSide) {

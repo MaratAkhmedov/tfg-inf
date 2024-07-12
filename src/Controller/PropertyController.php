@@ -19,7 +19,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 #[Route('/property')]
 class PropertyController extends AbstractController
 {
-    #[Route('/{id}', name: 'app_property_show', methods: ['GET'], requirements: ['id' => '\d+'])]
+    #[Route('/{id}', name: 'app_property_show', methods: ['GET'], requirements: ['id' => '\d+'], options: ["expose" => true])]
     public function show(Property $property): Response
     {
         // TODO: check if can see the property
