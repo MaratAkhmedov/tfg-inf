@@ -51,6 +51,48 @@
 		.card-link:hover .card {
 			box-shadow: 0 0 0.75rem rgb(0, 0, 0, 0.175);
 		}
+
+		#map {
+			position: fixed !important;
+			top: 11vh;
+			height: 89vh;
+			width: 48%;
+		}
+
+		#navigation-bar {
+			padding-top: 60px;
+			width: 50%;
+			padding-left: 0.5rem;
+			padding-right: 1.5rem;
+			background-color: white;
+			margin-left: 0.70rem;
+			z-index: 1000; /* Asegura que esté por encima de otros elementos */
+			border-radius: 0.25rem;
+
+		}
+
+		@media(max-width: 991.98px) {
+			#navigation-bar {
+				margin-left: 0;
+				margin-right: 0;
+				padding-right: 1rem;
+				padding-left: 1rem;
+				width: 100%;
+				padding-top: 70px;
+				z-index: 1000; /* Asegura que esté por encima de otros elementos */
+			}
+		}
+
+		#property-cards {
+			padding-top: 140px;
+			position: sticky;
+		}
+
+		@media(min-width: 991.98px) {
+			footer {
+				width: 51%;
+			}
+		}
 	</style>
 
 {% endblock %}
@@ -60,117 +102,123 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container">
+	<div class="container-fluid">
 
 		{% set breadcrumbs = [
             {'label': 'breadcrumbs.home', 'link': 'default'},
             {'label': 'property.form.properties', 'link': ''}
         ] %}
 
-		<div class="">
-			<div class="d-flex bd-highlight mb-3 gap-3">
-				<div class="me-auto bd-highlight">
-					{% include '/breadcrumbs.html.twig' with {'breadcrumbs': breadcrumbs} %}
-				</div>
-
-				<div class="bd-highlight">
-					<button class="btn btn-primary position-relative my-3 btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-target="#propertyFiltersDropdown" aria-expanded="false" data-bs-auto-close="outside">
-						{{ 'search.form.filters'|trans }}
-						<span class="filter-counter position-absolute top-0 start-100 translate-middle" id="numFilters"></span>
-					</button>
-					<div id="propertyFilters" class="dropdown-menu-end dropdown-menu dropdown-menu-scrollable">
-						{{ form_start(searchForm) }}
-						{{ form_row(searchForm.type, { 'row_attr': {'class': 'property-filter-row'}}) }}
-
-						<div class="property-filter-row">
-							<div class="price-label">
-								{{ 'search.form.price'|trans }}
-							</div>
-							<div class="d-flex">
-								<div class="p-2 w-50">
-									{{ form_widget(searchForm.priceMin) }}
-									{{ form_errors(searchForm.priceMin) }}
-								</div>
-								<div class="p-2 w-50">
-									{{ form_widget(searchForm.priceMax) }}
-									{{ form_errors(searchForm.priceMax) }}
-								</div>
-							</div>
-						</div>
-
-						<div class="property-filter-row">
-							<div class="square-label">
-								{{ 'search.form.square'|trans }}
-							</div>
-							<div class="d-flex">
-								<div class="p-2 w-50">
-									{{ form_widget(searchForm.squareMin) }}
-									{{ form_errors(searchForm.squareMin) }}
-								</div>
-								<div class="p-2 w-50">
-									{{ form_widget(searchForm.squareMax) }}
-									{{ form_errors(searchForm.squareMax) }}
-								</div>
-							</div>
-						</div>
-
-						{{ form_row(searchForm.rooms, { 'row_attr': {'class': 'property-filter-row'}}) }}
-						{{ form_row(searchForm.bathrooms, { 'row_attr': {'class': 'property-filter-row'}}) }}
-						{{ form_row(searchForm.states, { 'row_attr': {'class': 'property-filter-row'}}) }}
-						{{ form_row(searchForm.rules, { 'row_attr': {'class': 'property-filter-row'}}) }}
-						<div class="dropdown-menu-fixed-button">
-							{{ form_widget(searchForm.search, { 'attr': {'class': 'btn btn-primary w-100'} }) }}
-						</div>
-						{{ form_end(searchForm) }}
-
-					</div>
-				</div>
-
-				<div style="width:30px;height: 190%; margin-top:10px;" class="bd-highlight pt-2 d-lg-none">
-					<a style="" class="" href="#" role="button" data-bs-toggle="modal" data-bs-target="#mapModal">
-						<span style="">{{ ux_icon('uiw:map') }}</span>
-					</a>
-				</div>
-			</div>
-		</div>
 
 		<div class="row">
+			<div class="col-lg-6 aside">
+				<div id="navigation-bar" class="fixed-top">
+					<div class="d-flex bd-highlight gap-3">
+						<div class="me-auto bd-highlight">
+							{% include '/breadcrumbs.html.twig' with {'breadcrumbs': breadcrumbs} %}
+						</div>
 
+						<div class="bd-highlight">
+							<button class="btn btn-primary position-relative my-3 btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-target="#propertyFiltersDropdown" aria-expanded="false" data-bs-auto-close="outside">
+								{{ 'search.form.filters'|trans }}
+								<span class="filter-counter position-absolute top-0 start-100 translate-middle" id="numFilters"></span>
+							</button>
+							<div id="propertyFilters" class="dropdown-menu-end dropdown-menu dropdown-menu-scrollable">
+								{{ form_start(searchForm) }}
+								{{ form_row(searchForm.type, { 'row_attr': {'class': 'property-filter-row'}}) }}
 
-			<div class="col-lg-6">
-				{% for property in pagination.items %}
-					{% set now = "now"|date('U') %}
-					{% set updatedAtTimestamp = property.updatedAt|date('U') %}
-					{% set minutesPassed = (now - updatedAtTimestamp) // 60 %}
-					{% set firstPhoto = property.photos|default([])|first %}
-
-					<a href="{{ path('app_property_show', {'id': property.id}) }}" class="card-link">
-						<div class="card mb-3">
-							<div class="row g-0">
-								<div class="col-lg-4 object-fit-cover">
-									<img style="width:100%; height:100%;" src="{{ firstPhoto is not empty ? (asset(firstPhoto.url) ) : asset('images/placeholder400x200.png') }}" class="object-fit-cover img-fluid rounded-start" alt="...">
+								<div class="property-filter-row">
+									<div class="price-label">
+										{{ 'search.form.price'|trans }}
+									</div>
+									<div class="d-flex">
+										<div class="p-2 w-50">
+											{{ form_widget(searchForm.priceMin) }}
+											{{ form_errors(searchForm.priceMin) }}
+										</div>
+										<div class="p-2 w-50">
+											{{ form_widget(searchForm.priceMax) }}
+											{{ form_errors(searchForm.priceMax) }}
+										</div>
+									</div>
 								</div>
-								<div class="col-lg-8">
-									<div class="card-body">
-										<h5 class="card-title">{{ property.name }}</h5>
-										<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-										<p class="card-text">
-											<small class="text-body-secondary">{{ 'property.form.last_updated'|trans({'%minutes%': minutesPassed}) }}</small>
-										</p>
+
+								<div class="property-filter-row">
+									<div class="square-label">
+										{{ 'search.form.square'|trans }}
+									</div>
+									<div class="d-flex">
+										<div class="p-2 w-50">
+											{{ form_widget(searchForm.squareMin) }}
+											{{ form_errors(searchForm.squareMin) }}
+										</div>
+										<div class="p-2 w-50">
+											{{ form_widget(searchForm.squareMax) }}
+											{{ form_errors(searchForm.squareMax) }}
+										</div>
+									</div>
+								</div>
+
+								{{ form_row(searchForm.rooms, { 'row_attr': {'class': 'property-filter-row'}}) }}
+								{{ form_row(searchForm.bathrooms, { 'row_attr': {'class': 'property-filter-row'}}) }}
+								{{ form_row(searchForm.states, { 'row_attr': {'class': 'property-filter-row'}}) }}
+								{{ form_row(searchForm.rules, { 'row_attr': {'class': 'property-filter-row'}}) }}
+								<div class="dropdown-menu-fixed-button">
+									{{ form_widget(searchForm.search, { 'attr': {'class': 'btn btn-primary w-100'} }) }}
+								</div>
+								{{ form_end(searchForm) }}
+
+							</div>
+						</div>
+
+						<div style="width:30px;height: 190%; margin-top:10px;" class="bd-highlight pt-2 d-lg-none">
+							<a style="" class="" href="#" role="button" data-bs-toggle="modal" data-bs-target="#mapModal">
+								<span style="">{{ ux_icon('uiw:map') }}</span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div id="property-cards" class="">
+					{% for property in pagination.items %}
+						{% set now = "now"|date('U') %}
+						{% set updatedAtTimestamp = property.updatedAt|date('U') %}
+						{% set minutesPassed = (now - updatedAtTimestamp) // 60 %}
+						{% set firstPhoto = property.photos|default([])|first %}
+
+						<a href="{{ path('app_property_show', {'id': property.id}) }}" class="card-link">
+							<div class="card mb-3">
+								<div class="row g-0">
+									<div class="col-lg-4 object-fit-cover">
+										<img style="width:100%; height:100%;" src="{{ firstPhoto is not empty ? (asset(firstPhoto.url) ) : asset('images/placeholder400x200.png') }}" class="object-fit-cover img-fluid rounded-start" alt="...">
+									</div>
+									<div class="col-lg-8">
+										<div class="card-body">
+											<h5 class="card-title">{{ property.name }}</h5>
+											<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+											<p class="card-text">
+												<small class="text-body-secondary">{{ 'property.form.last_updated'|trans({'%minutes%': minutesPassed}) }}</small>
+											</p>
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-					</a>
-				{% else %}
-					<tr>
-						<td colspan="12">{{'property.not_found'|trans}}</td>
-					</tr>
-				{% endfor %}
+						</a>
+					{% else %}
+						<tr>
+							<td colspan="12">{{'property.not_found'|trans}}</td>
+						</tr>
+					{% endfor %}
+				</div>
+
+
+				<div class="d-flex justify-content-center">
+					{{ knp_pagination_render(pagination) }}
+				</div>
 			</div>
 
+
 			<div class="col-lg-6 d-none d-lg-block">
-				<div style="height: 75vh; width: 100%;" id="map"></div>
+				<div id="map"></div>
 			</div>
 
 			<!-- Modal para dispositivos pequeños -->
@@ -191,9 +239,6 @@
 		</div>
 
 
-		<div class="d-flex justify-content-center">
-			{{ knp_pagination_render(pagination) }}
-		</div>
 	</div>
 </div>{% endblock %}{% block javascript %}<!-- parse-ignore-start -->
 <script src="https://maps.googleapis.com/maps/api/js?key={{app.request.server.get('GOOGLE_MAP_API_KEY')}}"></script>

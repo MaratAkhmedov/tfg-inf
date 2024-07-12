@@ -37,11 +37,15 @@
 				/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 				background: linear-gradient(to right, rgba(252,243,240,255), rgba(253,239,230,255));
 			}
+
+			.content {
+				min-height: calc( 100vh - 120px )
+			}
 		</style>
 		{% block stylesheets %}{% endblock %}
 	</head>
 	<body>
-		<nav class="navbar navbar-expand-lg bg-light gradient-custom ">
+		<nav class="navbar navbar-expand-lg bg-light gradient-custom fixed-top">
 			<div class="container">
 				<a class="navbar-brand" href="{{ url("default") }}">
 					<img src="https://bcassetcdn.com/public/blog/wp-content/uploads/2021/11/10190851/Louis-Vuitton-1.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
@@ -89,8 +93,9 @@
 				</ul>
 			</div>
 		</nav>
-		{% block body %}{% endblock %}
-
+		<div class="content">
+			{% block body %}{% endblock %}
+		</div>
 
 		<footer class=" mt-4 bg-dark text-white text-center p-3">
 			<p>&copy;
