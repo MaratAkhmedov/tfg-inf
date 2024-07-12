@@ -460,14 +460,12 @@
 
 				markers.forEach(m => {
 					if (m.propertyId != propertyMarker.propertyId) {
-						console.log("setting MIN z-index", marker.id, google.maps.Marker.MIN_ZINDEX)
-						//m.setVisible(false);
 						m.setIcon(smallIcon());
-						m.setZIndex(0);  // Bring to front
+						m.setZIndex(0);
 					}else{
 						m.setVisible(true);
 						m.setIcon(icon(marker, true))
-						m.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);  // Bring to front
+						m.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
 					}
 				})
 			})
