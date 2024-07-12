@@ -52,7 +52,8 @@ class SearchController extends AbstractController
         $coordinates = array_map(
             fn (Property $item) => [
                 'lat' => $item->getAddress()->getLatitude(),
-                'lng' => $item->getAddress()->getLongitude()
+                'lng' => $item->getAddress()->getLongitude(),
+                'id' => $item->getId()
             ], 
             (array)$paginator->getItems()
         );

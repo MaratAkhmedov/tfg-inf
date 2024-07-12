@@ -45,12 +45,13 @@
 			text-decoration: none;
 			color: inherit;
 		}
-		.card-link:hover {
+		.card:hover, .card.hover {
 			text-decoration: none;
+			box-shadow: 0 0 1rem rgb(235, 104, 100, 0.7);
+			-webkit-transition : box-shadow ease-in-out .15s;
+      		transition : box-shadow ease-in-out .15s;
 		}
-		.card-link:hover .card {
-			box-shadow: 0 0 0.75rem rgb(0, 0, 0, 0.175);
-		}
+
 
 		#map {
 			position: fixed !important;
@@ -185,15 +186,18 @@
 						{% set minutesPassed = (now - updatedAtTimestamp) // 60 %}
 						{% set firstPhoto = property.photos|default([])|first %}
 
-						<a href="{{ path('app_property_show', {'id': property.id}) }}" class="card-link">
-							<div class="card mb-3">
+						<a href="{{ path('app_property_show', {'id': property.id}) }}" class="card-link" property-link-id="{{ property.id }}">
+							<div class="card mb-3" property-id="{{ property.id }}">
 								<div class="row g-0">
 									<div class="col-lg-4 object-fit-cover">
 										<img style="width:100%; height:100%;" src="{{ firstPhoto is not empty ? (asset(firstPhoto.url) ) : asset('images/placeholder400x200.png') }}" class="object-fit-cover img-fluid rounded-start" alt="...">
 									</div>
 									<div class="col-lg-8">
 										<div class="card-body">
-											<h5 class="card-title">{{ property.name }}</h5>
+											<div class="d-flex justify-content-between">
+												<h5 class="card-title">{{ property.name }}</h5>
+												<h5 class="card-title price">{{property.price|format_currency('EUR', {rounding_mode: 'floor'})}}</h5>
+											</div>
 											<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
 											<p class="card-text">
 												<small class="text-body-secondary">{{ 'property.form.last_updated'|trans({'%minutes%': minutesPassed}) }}</small>
@@ -359,8 +363,9 @@
 	}
             
 	// Inicializar el mapa
-
-	let map;
+	var map;
+    var markersData = {{ coordinates|json_encode()|raw }};
+    var markers = [];
 
     function initMap() {
 		var bounds = new google.maps.LatLngBounds();
@@ -372,16 +377,114 @@
 			mapTypeControl: false,      // Deshabilitar el control de tipo de mapa
 			fullscreenControl: false   // Deshabilitar el control de pantalla completa
         });
-        var markers = {{ coordinates|json_encode()|raw }};
-		
-        markers.forEach(function(marker) {
+
+		function icon(marker, isHighlighted) {
+			const price = $('#property-cards [property-id="'+ marker.id +'"]').find('.price').text();
+			return ({
+            	url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+					<svg xmlns="http://www.w3.org/2000/svg" width="${isHighlighted ? 70 : 60}" height="${isHighlighted ? 30 : 28}" style="margin-bottom:2px;">
+					    <style>
+							.property-marker-map {
+								background-color: #eb6864; 
+								color:white; 
+								border-radius: 15px; 
+								border: 1px solid black;  
+								font-size: 12px; 
+								text-align: center;
+								align-content: center;
+								margin: 5px;
+							}
+							.property-marker-map-highlighted {
+								background-color: #eb6864; 
+								color:white; 
+								border-radius: 15px; 
+								border: 1px solid black;  
+								font-size: 12px; 
+								text-align: center;
+								text-align: center;
+								align-content: center;
+								width: 90%;
+								height: 90%;
+							}
+						</style>
+						<foreignObject x="0" y="0" width="100%" height="100%" style="margin: 2px;">
+						<div xmlns="http://www.w3.org/1999/xhtml" class="${isHighlighted ? 'property-marker-map-highlighted' : 'property-marker-map' }">
+							${price}
+						</div>
+						</foreignObject>
+					</svg>
+            	`),
+			})
+		}
+
+		function smallIcon() {
+			return ({
+            	url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+					<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" style="">
+					    <style>
+							.property-marker-map {
+								background-color: #eb6864; 
+								border-radius: 15px; 
+								border: 1px solid black;  
+								width: 90%;
+								height: 90%;
+							}
+						</style>
+						<foreignObject x="0" y="0" width="100%" height="100%" style="margin: 2px;">
+						<div xmlns="http://www.w3.org/1999/xhtml" class="property-marker-map"></div>
+						</foreignObject>
+					</svg>
+            	`),
+			})
+		}
+
+
+        markersData.forEach(function(marker) {
             var position = new google.maps.LatLng(marker.lat, marker.lng);
             bounds.extend(position);
-            new google.maps.Marker({
+
+            const propertyMarker = new google.maps.Marker({
                 position: position,
-                map: map
+                map: map,
+				icon: icon(marker, false)
             });
+
+			propertyMarker.propertyId = marker.id;
+
+
+			propertyMarker.addListener('mouseover', (e) => {
+				if(e.changeReverseSide) {
+					$('#property-cards [property-id="'+ marker.id +'"]').addClass("hover");
+					$('#property-cards [property-id="'+ marker.id +'"]')[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+				}
+
+				markers.forEach(m => {
+					if (m.propertyId != propertyMarker.propertyId) {
+						console.log("setting MIN z-index", marker.id, google.maps.Marker.MIN_ZINDEX)
+						//m.setVisible(false);
+						m.setIcon(smallIcon());
+						m.setZIndex(0);  // Bring to front
+					}else{
+						m.setVisible(true);
+						m.setIcon(icon(marker, true))
+						m.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);  // Bring to front
+					}
+				})
+			})
+
+			propertyMarker.addListener('mouseout', (e) => {
+				if(e.changeReverseSide) {
+					$('#property-cards [property-id="'+ marker.id +'"]').removeClass("hover");
+				}
+				markers.forEach(m => {
+					m.setVisible(true);
+					m.setIcon(icon(marker, false))
+				})
+          	});
+
+			markers.push(propertyMarker)
         });
+
         map.fitBounds(bounds);
 
 		// Ajustamos el zoom máximo para evitar un zoom demasiado cercano
@@ -408,6 +511,21 @@
 	window.onload = function() {
         initMap();
     };
+
+
+	// card hover
+	$('.card').hover(function() {
+        var propertyId = $(this).attr('property-id');
+		const markerData = markersData.find(m => m.id == propertyId);
+		const marker = markers.find(m => m.propertyId == markerData.id);
+        google.maps.event.trigger(marker, 'mouseover', {changeReverseSide: false});
+    },
+    function() {
+       var propertyId = $(this).attr('property-id');
+		const markerData = markersData.find(m => m.id == propertyId);
+		const marker = markers.find(m => m.propertyId == markerData.id);
+        google.maps.event.trigger(marker, 'mouseout', {changeReverseSide: false});
+    });
 </script>
 
 {% endblock %}
