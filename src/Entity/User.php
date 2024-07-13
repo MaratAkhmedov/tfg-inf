@@ -44,6 +44,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Property::class, mappedBy: 'state')]
     private Collection $properties;
 
+    #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Owner $ownerData = null;
+
     public function __construct()
     {
         $this->properties = new ArrayCollection();
@@ -162,6 +165,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $property->setState(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getOwnerData(): ?Owner
+    {
+        return $this->ownerData;
+    }
+
+    public function setOwnerData(?Owner $ownerData): static
+    {
+        $this->ownerData = $ownerData;
 
         return $this;
     }

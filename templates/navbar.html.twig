@@ -16,9 +16,6 @@
 					<a class="nav-link" href="{{ url("contact") }}">{{ 'contact.title'|trans }}</a>
 				</li>
 				{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-					<li class="nav-item">
-						<a class="nav-link" href="{{ url("app_property_new") }}">{{ 'property.form.publish'|trans }}</a>
-					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 							<span style="">{{ ux_icon('bi:gear') }}</span>
@@ -30,7 +27,11 @@
 							</li>
 							<li><hr class="dropdown-divider"></li>
 							<li>
-								<a class="dropdown-item" href="{{url('app_property_index')}}">{{ 'base.client_area'|trans }}</a>
+								{% if is_granted('ROLE_OWNER') %}
+									<a class="dropdown-item" href="{{url('app_property_index')}}">{{ 'base.client_area'|trans }}</a>
+								{% else %}
+									<a class="dropdown-item" href="{{url('app_property_edit')}}">{{ 'base.client_area'|trans }}</a>
+								{% endif %}
 							</li>
 							<li>
 								<a class="dropdown-item" href="{{ url('app_logout')}}">{{ 'base.logout'|trans }}</a>

@@ -1,44 +1,161 @@
 {% extends "base_with_navbar.html.twig" %}
 
-{% block title %}Register{% endblock %}
+{% block stylesheets %}
+	{{ parent() }}
+	<link href="{{ asset('css/dropzone.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('css/dropzone-bootstrap.css') }}" rel="stylesheet">
+	<style>
+		label.required:after {
+			content: " *";
+			color: red;
+		}
+	</style>
+
+{% endblock %}
+
+{% block title %}
+	{{ 'user.form.create_title'|trans }}
+{% endblock %}
 
 {% block content %}
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
+	{% for flash_error in app.flashes('verify_email_error') %}
+		<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+	{% endfor %}
 
-    <div class="container">
-        <h1>Register</h1>
+	<div class="container">
+		<h1>{{ 'user.form.create_title'|trans }}</h1>
+        {{ include('user/_form.html.twig') }}
 
-        {{ form_errors(userForm) }}
+	</div>
 
-        {{ form_start(userForm) }}
-            <div class="mb-3">
-                {{ form_label(userForm.email) }}
-                {{ form_widget(userForm.email, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(userForm.email) }}
-            </div>
+{% endblock %}
 
-            <div class="mb-3">
-                {{ form_label(userForm.plainPassword) }}
-                {{ form_widget(userForm.plainPassword, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(userForm.plainPassword) }}
-            </div>
 
-            <div class="mb-3">
-                {{ form_label(userForm.agreeTerms) }}
-                {{ form_widget(userForm.agreeTerms, {'attr': {'class': 'form-check'}}) }}
-                {{ form_errors(userForm.agreeTerms) }}
-            </div>
+{% block javascript %}<!-- parse-ignore-start -->
+<script src="{{ asset('js/dropzone.min.js') }}"></script>
 
-            {# {{ form_row(userForm.email) }}
-            {{ form_row(userForm.plainPassword, {
-                label: 'Password'
-            }) }}
-            {{ form_row(userForm.agreeTerms) }}#}
+<script>
+    $(document).ready(function() {
+        setOwnerVisibilityAndRequiredAttributes()
 
-            <button type="submit" class="btn btn-primary">Register</button>
-        {{ form_end(userForm) }}
-    </div>
-    
+        $('#user_role').change(function() {
+            setOwnerVisibilityAndRequiredAttributes()
+        });
+        function setOwnerVisibilityAndRequiredAttributes() {
+            var selectedValue = $('#user_role').val()
+            const conditionalRequireIds = ['user_ownerData_dni', 'user_ownerData_firstName', 'user_ownerData_lastName', 'user_ownerData_description']
+
+            if (selectedValue == 'renter') {
+                $('#dropzone-foto').hide();
+                $('#form_owner_data').hide();
+                requireAttribute(conditionalRequireIds, false);
+            } else if (selectedValue == 'owner') {
+                $('#form_owner_data').show();
+                $('#dropzone-foto').show();
+                requireAttribute(conditionalRequireIds, true);
+            }
+        }
+
+        function requireAttribute(fieldIdArray, isRequired) {
+            fieldIdArray.forEach(fieldId => {
+                var nodeToRequire = $(`#${fieldId}`);
+                if(isRequired) {
+                    nodeToRequire.attr('required', 'required');
+                    nodeToRequire.siblings("label").addClass('required')
+                }else{
+                    nodeToRequire.removeAttr('required');
+                    nodeToRequire.siblings("label").removeClass('required')
+                }
+            });
+        }
+    });
+</script>
+
+<script>
+        Dropzone.autoDiscover = false;
+
+        const dropzoneError = document.getElementById("dropzone-error");
+        const submitButton = document.getElementById("user_register");
+
+        const myDropzone = new Dropzone("#dropzone", {
+            url: "#", // URL is not needed as we'll handle the upload with the form submit
+            autoProcessQueue: false,
+            uploadMultiple: false,
+            parallelUploads: 1,
+            paramName: "photos",
+            maxFilesize: 5, // MB
+            acceptedFiles: "image/*",
+            addRemoveLinks: true,
+            dictDefaultMessage: "{{'dropzone.default_message'|trans}}",
+            maxFiles: 1,
+            multiple: false
+        });
+
+        myDropzone.on("removedfile", function(file) {
+            console.log("removedfile")
+            if (myDropzone.files.length === 0 && $('#user_role').val() == 'owner') {
+                myDropzone.element.querySelector(".dz-message").style.display = "block";
+                submitButton.disabled = true; // Disable the submit button if no files are present
+                dropzoneError.classList.remove('d-none');
+            }
+        });
+ 
+        myDropzone.on("addedfile", function(file) {
+            if (this.files[1] != null) {
+                this.removeFile(this.files[0]);
+            }
+            myDropzone.element.querySelector(".dz-message").style.display = "none";
+            dropzoneError.classList.add('d-none');
+            submitButton.disabled = false; // Enable the submit button when a file is added
+        });
+
+        const form = document.getElementById('user-form');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+
+            const formData = new FormData(form);
+
+            if($('#user_role').val() === 'renter') {
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', form.action, true);
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        // Handle success
+                        window.location.href = xhr.responseURL
+                    } else {
+                        // Handle error
+                        console.error(xhr.responseText);
+                    }
+                };
+                xhr.send(formData);
+            }
+
+            if (myDropzone.files.length === 0) {
+                dropzoneError.classList.remove('d-none');
+                submitButton.disabled = false; // Enable the submit button when a file is added
+                return
+            }
+
+            // Append file from Dropzone to formData
+            if(myDropzone.getAcceptedFiles().length > 0) {
+                formData.append('photo', myDropzone.getAcceptedFiles()[0]);
+            }
+
+            // Submit the form with files
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', form.action, true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    // Handle success
+                    window.location.href = xhr.responseURL
+                } else {
+                    // Handle error
+                    console.error(xhr.responseText);
+                }
+            };
+            xhr.send(formData);
+        });
+    </script>
 {% endblock %}

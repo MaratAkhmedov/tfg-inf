@@ -17,13 +17,12 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-#[Route('admin/property')]
-class AdminPropertyController extends AbstractController
+#[Route('owner/property')]
+class OwnerPropertyController extends AbstractController
 {    
     // TODO: ADMIN PROPERTY later add it to admin menu
     #[Route('/', name: 'app_property_index', methods: ['GET'])]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function admin(Request $request, PropertyRepository $propertyRepository, PaginatorInterface $paginator): Response
+    public function index(Request $request, PropertyRepository $propertyRepository, PaginatorInterface $paginator): Response
     {
         $user = $this->getUser();
         
@@ -37,7 +36,6 @@ class AdminPropertyController extends AbstractController
     }
 
     #[Route('/new', name: 'app_property_new', methods: ['GET', 'POST'])]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function new(Request $request, IPropertyService $propertyService, SluggerInterface $slugger): Response
     {
         $property = new Property();

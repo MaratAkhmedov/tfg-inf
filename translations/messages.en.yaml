@@ -11,6 +11,23 @@ footer:
   text: University Real Estate Portal. All rights reserved.
 user:
   access: Enter
+  type:
+    owner: Owner
+    renter: Renter
+  form:
+    owner: Owner data
+    role_title: Role
+    create_title: Create account
+    update_title: Update account
+    create: Create
+    update: Update
+    general_data: Datos generales
+owner:
+  form:
+    first_name: First name
+    last_name: Last name
+    dni: DNI
+    description: Description
 contact:
   title: Contact
   header: Contact

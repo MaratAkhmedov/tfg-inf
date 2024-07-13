@@ -13,14 +13,11 @@ enum BedType: string implements TranslatableInterface
 
     public function trans(TranslatorInterface $translator, ?string $locale = null): string
     {
-        // Translate enum from name (Left, Center or Right)
-        return $translator->trans($this->name, locale: $locale);
-
         // Translate enum using custom labels
         return match ($this) {
-            self::Individual  => $translator->trans('room.form.bed.type.individual', locale: $locale),
-            self::Double => $translator->trans('room.form.bed.type.double', locale: $locale),
-            self::Other  => $translator->trans('room.form.bed.type.other', locale: $locale),
+            self::Individual  => $translator->trans('room.bed.individual', locale: $locale),
+            self::Double => $translator->trans('room.bed.double', locale: $locale),
+            self::Other  => $translator->trans('room.bed.other', locale: $locale),
         };
     }
 }

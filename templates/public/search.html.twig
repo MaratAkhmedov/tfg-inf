@@ -260,7 +260,9 @@
 
 
 	</div>
-</div>{% endblock %}{% block javascript %}<!-- parse-ignore-start -->
+</div>{% endblock %}
+
+{% block javascript %}<!-- parse-ignore-start -->
 <script src="https://maps.googleapis.com/maps/api/js?key={{app.request.server.get('GOOGLE_MAP_API_KEY')}}"></script>
 <script src="{{ asset('js/map_styles.js') }}"></script>
 

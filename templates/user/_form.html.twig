@@ -1,0 +1,39 @@
+{{ form_start(userForm, {'attr': {'id': 'user-form'}}) }}
+<h3 class="pt-3">{{ 'user.form.general_data'|trans }}</h3>
+<div class="mb-3">
+	{{ form_label(userForm.email) }}
+	{{ form_widget(userForm.email, {'attr': {'class': 'form-control'}}) }}
+	{{ form_errors(userForm.email) }}
+</div>
+
+{% if isEdit is not defined %}
+<div class="mb-3">
+	{{ form_label(userForm.plainPassword) }}
+	{{ form_widget(userForm.plainPassword, {'attr': {'class': 'form-control'}}) }}
+	{{ form_errors(userForm.plainPassword) }}
+</div>
+{% endif %}
+
+
+
+<div class="mb-3">
+	{{ form_label(userForm.role) }}
+	{{ form_widget(userForm.role, {'attr': {'class': 'form-control'}}) }}
+	{{ form_errors(userForm.role) }}
+</div>
+
+<div style="display: none" class="row" id="form_owner_data">
+	<h3 class="pt-3">{{ form_label(userForm.ownerData) }}</h3>
+	{{ form_widget(userForm.ownerData) }}
+	{{ form_errors(userForm.ownerData) }}
+</div>
+
+<div style="display: none" class="row mb-5 mt-2" id="dropzone-foto">
+	<div class="form-group">
+		<label class="form-label required">Foto del propietario</label>
+		<div id="dropzone" class="dropzone"></div>
+		<div id="dropzone-error" class="text-danger d-none">{{ 'dropzone.required'|trans }}</div>
+	</div>
+</div>
+
+{{ form_end(userForm) }}

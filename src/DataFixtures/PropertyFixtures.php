@@ -3,6 +3,8 @@
 namespace App\DataFixtures;
 
 use App\Entity\Address;
+use App\Entity\Photo;
+use App\Entity\Property;
 use App\Repository\CityRepository;
 use App\Repository\PropertyTypeRepository;
 use App\Repository\UserRepository;
@@ -21,21 +23,17 @@ class PropertyFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {
         for ($i = 0; $i < 20; $i++) {
-            // $property = new Property();
-            // $property->setName('Propiedad '.$i.' de pruebas');
-            // $property->setDescription("Es la descripción de la vivienda de pruebas, solo se usa en entorno pre");
-            // $property->setType($this->propertyTypeRepository->findOneBy(['name' => 'room']));
-
-            // $photo = new Photo();
-            // $photo->setUrl("images/placeholder400x200.png");
-
-            // $property->addPhoto($photo);
-            // $property->setAddress($this->generateRandomAddress($i));
-            // $property->setUser($this->userRepository->findOneBy(['email' => 'owner@test.com']));
-
-            // $property->setPrice(rand(100, 1000));
-
-            // $manager->persist($property);
+            $property = new Property();
+            $property->setName('Propiedad '.$i.' de pruebas');
+            $property->setDescription("Es la descripción de la vivienda de pruebas, solo se usa en entorno pre");
+            $property->setType($this->propertyTypeRepository->findOneBy(['name' => 'room']));
+            $photo = new Photo();
+            $photo->setUrl("images/placeholder400x200.png");
+            $property->addPhoto($photo);
+            $property->setAddress($this->generateRandomAddress($i));
+            $property->setUser($this->userRepository->findOneBy(['email' => 'owner@test.com']));
+            $property->setPrice(rand(100, 1000));
+            $manager->persist($property);
         }
 
         $manager->flush();    

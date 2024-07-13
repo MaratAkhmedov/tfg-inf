@@ -11,6 +11,24 @@ footer:
   text: Portal Inmobiliario Universitario. Todos los derechos reservados.
 user:
   access: Entrar
+  type:
+    owner: Propietario
+    renter: Inquilino
+  form:
+    owner: Datos del propietario
+    role_title: Rol 
+    create_title: Crear cuenta
+    update_title: Actualizar cuenta
+    create: Crear
+    update: Actualizar
+    role_placeholder: Por favor seleccione el rol del usuario
+    general_data: Datos generales
+owner:
+  form:
+    first_name: Nombre
+    last_name: Apellidos
+    dni: DNI
+    description: Descripción
 contact:
   title: Contacto
   header: Contacto

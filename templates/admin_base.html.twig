@@ -60,10 +60,18 @@
 					{# {{ 'base.brand'|trans }} #}
 					</a>
 					<ul class="pt-3 nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+						{% if is_granted('ROLE_OWNER') %}
+							<li>
+								<a href="{{ url('app_property_index')}}" class="nav-link px-2 align-middle {{ routeName == 'app_property_index' ? 'active' : ''}}">
+									<i class="fs-4 bi-table"></i>
+									<span class="ms-1 d-none d-md-inline">Viviendas publicadas</span>
+								</a>
+							</li>
+						{% endif %}
 						<li>
-							<a href="#" class="nav-link px-2 align-middle {{ routeName == 'app_property_index' ? 'active' : ''}}">
-								<i class="fs-4 bi-table"></i>
-								<span class="ms-1 d-none d-md-inline">Viviendas publicadas</span>
+							<a href="{{ url('app_property_edit')}}" class="nav-link px-2 align-middle {{ routeName == 'app_property_edit' ? 'active' : ''}}">
+								<i class="fs-4 bi-person"></i>
+								<span class="ms-1 d-none d-md-inline">Perfil</span>
 							</a>
 						</li>
 						<li>
@@ -74,8 +82,8 @@
 						</li>
 						<li>
 							<a href="#" class="nav-link px-2 align-middle">
-								<i class="fs-4 bi-person"></i>
-								<span class="ms-1 d-none d-md-inline">Perfil</span>
+								<i class="fs-4 bi-heart"></i>
+								<span class="ms-1 d-none d-md-inline">Favoritos</span>
 							</a>
 						</li>
 					</ul>
@@ -85,7 +93,7 @@
 				<nav class="navbar navbar-light gradient-custom">
 					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 						<li>
-							<a class="nav-link align-middle px-0" href="#">Sign out</a>
+							<a class="dropdown-item" href="{{ url('app_logout')}}">{{ 'base.logout'|trans }}</a>
 						</li>
 					</ul>
 				</nav>

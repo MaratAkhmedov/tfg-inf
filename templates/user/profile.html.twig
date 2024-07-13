@@ -1,0 +1,175 @@
+{% extends "admin_base.html.twig" %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link href="{{ asset('css/dropzone.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('css/dropzone-bootstrap.css') }}" rel="stylesheet">
+	<style>
+		label.required:after {
+			content: " *";
+			color: red;
+		}
+	</style>
+
+{% endblock %}
+
+{% block title %}
+	{{ 'user.form.update_title'|trans }}
+{% endblock %}
+
+{% block content %}
+	{% for flash_error in app.flashes('verify_email_error') %}
+		<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+	{% endfor %}
+
+	<div class="container">
+		<h1>{{ 'user.form.update_title'|trans }}</h1>
+		{{ include('user/_form.html.twig') }}
+
+	</div>
+
+{% endblock %}
+
+
+{% block javascript %}<!-- parse-ignore-start -->
+<script src="{{ asset('js/dropzone.min.js') }}"></script>
+
+<script>
+    $(document).ready(function() {
+        const role = "{{role}}"
+        $('#user_role').val(role)
+        setOwnerVisibilityAndRequiredAttributes()
+
+        $('#user_role').change(function() {
+            setOwnerVisibilityAndRequiredAttributes()
+        });
+        function setOwnerVisibilityAndRequiredAttributes() {
+            var selectedValue = $('#user_role').val()
+            const conditionalRequireIds = ['user_ownerData_dni', 'user_ownerData_firstName', 'user_ownerData_lastName', 'user_ownerData_description']
+
+            if (selectedValue == 'renter') {
+                $('#dropzone-foto').hide();
+                $('#form_owner_data').hide();
+                requireAttribute(conditionalRequireIds, false);
+            } else if (selectedValue == 'owner') {
+                $('#form_owner_data').show();
+                $('#dropzone-foto').show();
+                requireAttribute(conditionalRequireIds, true);
+            }
+        }
+
+        function requireAttribute(fieldIdArray, isRequired) {
+            fieldIdArray.forEach(fieldId => {
+                var nodeToRequire = $(`#${fieldId}`);
+                if(isRequired) {
+                    nodeToRequire.attr('required', 'required');
+                    nodeToRequire.siblings("label").addClass('required')
+                }else{
+                    nodeToRequire.removeAttr('required');
+                    nodeToRequire.siblings("label").removeClass('required')
+                }
+            });
+        }
+    });
+</script>
+
+<script>
+        Dropzone.autoDiscover = false;
+
+        // Function to fetch the image size
+        async function fetchImageSize(url) {
+            const response = await fetch(url);
+            const blob = await response.blob();
+            return blob.size;
+        }
+        
+        let existingFiles = [];
+        {% if fotoUrl is not empty %}
+            existingFiles = [{
+                name: "{{ fotoUrl }}",
+                url: "{{ asset(fotoUrl) }}"
+            }],
+        {% endif %}
+
+        console.log("existingFiles", existingFiles)
+
+        const dropzoneError = document.getElementById("dropzone-error");
+        const submitButton = document.getElementById("user_register");
+
+        const myDropzone = new Dropzone("#dropzone", {
+            url: "#", // URL is not needed as we'll handle the upload with the form submit
+            autoProcessQueue: false,
+            uploadMultiple: false,
+            parallelUploads: 1,
+            paramName: "photo",
+            maxFilesize: 5, // MB
+            acceptedFiles: "image/*",
+            addRemoveLinks: true,
+            dictDefaultMessage: "{{'dropzone.default_message'|trans}}",
+            maxFiles: 1,
+            multiple: false,
+            init: function() {
+                const dropzone = this;
+                const deletedFiles = [];
+
+                existingFiles.forEach(async function(file) {
+                    const size = await fetchImageSize(file.url);
+                    const mockFile = { name: file.name, size: size};   
+                    dropzone.files.push(mockFile);                 
+                    dropzone.displayExistingFile(mockFile, file.url);
+                });
+
+                dropzone.on("removedfile", function(file) {
+                    if (file.name && !file.processing) {
+                        deletedFiles.push(file.name);
+                    }
+                    if (dropzone.files.length === 0) {
+                        dropzone.element.querySelector(".dz-message").style.display = "block";
+                        submitButton.disabled = true; // Disable the submit button if no files are present
+                        dropzoneError.classList.remove('d-none');
+                    }
+                });
+ 
+                dropzone.on("addedfile", function(file) {
+                    dropzone.element.querySelector(".dz-message").style.display = "none";
+                    dropzoneError.classList.add('d-none');
+                    submitButton.disabled = false; // Enable the submit button when a file is added
+                });
+
+                const submitButton = document.getElementById("user_register");
+                const form = document.getElementById('user-form');
+
+                submitButton.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    if (myDropzone.files.length === 0) {
+                        dropzoneError.classList.remove('d-none');
+                        submitButton.disabled = false; // Enable the submit button when a file is added
+                        return
+                    }
+
+                    const formData = new FormData(form);
+
+                    if(dropzone.getAcceptedFiles().length > 0) { // Exclude preloaded files
+                        formData.append('photo', dropzone.getAcceptedFiles()[0]);
+                    }
+
+                    formData.append('deletedFiles', JSON.stringify(deletedFiles));
+
+                    // Submit the form with files
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('POST', form.action, true);
+                    xhr.onload = function () {
+                        if (xhr.status === 200) {
+                            window.location.href = xhr.responseURL
+                        } else {
+                            console.error(xhr.responseText);
+                        }
+                    };
+                    xhr.send(formData);
+                });
+            }
+        });
+    </script>
+{% endblock %}
