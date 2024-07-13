@@ -125,3 +125,9 @@ room:
   form:
     bed_type: Bed
     attributes_label: Room attributes
+admin:
+  properties:
+    title: Published properties
+    not_found: Properties not found
+    actions: Actions
+    create: Publish

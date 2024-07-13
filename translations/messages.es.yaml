@@ -126,3 +126,9 @@ room:
   form:
     bed_type: Cama
     attributes_label: Características de la habitación
+admin:
+  properties:
+    title: Viviendas publicadas
+    not_found: Viviendas no encontradas
+    actions: Acciones
+    create: Publicar

@@ -24,8 +24,10 @@ class AdminPropertyController extends AbstractController
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function admin(PropertyRepository $propertyRepository): Response
     {
-        return $this->render('property/index.html.twig', [
-            'properties' => $propertyRepository->findAll(),
+        $user = $this->getUser();
+        
+        return $this->render('admin/properties.html.twig', [
+            'properties' => $propertyRepository->findBy(['user' => $user]),
         ]);
     }
 
@@ -38,6 +40,7 @@ class AdminPropertyController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $property->setUser($this->getUser());
             // Handle uploaded files
             $files = $request->files->get('photos', []);
             foreach ($files as $file) {
