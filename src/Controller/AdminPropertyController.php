@@ -16,18 +16,9 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-#[Route('/property')]
-class PropertyController extends AbstractController
-{
-    #[Route('/{id}', name: 'app_property_show', methods: ['GET'], requirements: ['id' => '\d+'], options: ["expose" => true])]
-    public function show(Property $property): Response
-    {
-        // TODO: check if can see the property
-        return $this->render('property/show.html.twig', [
-            'property' => $property,
-        ]);
-    }
-
+#[Route('admin/property')]
+class AdminPropertyController extends AbstractController
+{    
     // TODO: ADMIN PROPERTY later add it to admin menu
     #[Route('/', name: 'app_property_index', methods: ['GET'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]

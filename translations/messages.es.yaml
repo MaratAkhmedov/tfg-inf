@@ -5,6 +5,7 @@ form:
 base:
   brand: UniWave
   search: Buscar
+  client_area: Área de clientes 
 footer:
   text: Portal Inmobiliario Universitario. Todos los derechos reservados.
 user:

@@ -1,8 +1,10 @@
-{% extends 'base.html.twig' %}
+{% extends "base_with_navbar.html.twig" %}
 
 {% block title %}Edit Property{% endblock %}
 
 {% block stylesheets %}
+    {{ parent() }}
+
     <link href="{{ asset('css/dropzone.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/dropzone-bootstrap.css') }}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
@@ -23,7 +25,7 @@
 
 {% endblock %}
 
-{% block body %}
+{% block content %}
     <div class="container">
 
         {% set breadcrumbs = [

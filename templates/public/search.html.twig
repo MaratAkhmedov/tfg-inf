@@ -1,7 +1,8 @@
-{% extends 'base.html.twig' %}
+{% extends "base_with_navbar.html.twig" %}
 
 
 {% block stylesheets %}
+    {{ parent() }}
 	<style>
 		#propertyFilters {
 			border: 1px solid rgb(0, 0, 0, 0.175);
@@ -62,7 +63,7 @@
 		}
 
 		#navigation-bar {
-			padding-top: 60px;
+			padding-top: 58px;
 			width: 50%;
 			padding-left: 0.5rem;
 			padding-right: 1.5rem;
@@ -86,7 +87,7 @@
 		}
 
 		#property-cards {
-			padding-top: 140px;
+			padding-top: 85px !important;
 			position: sticky;
 		}
 
@@ -107,7 +108,7 @@
 	{{ 'search.title'|trans }}
 {% endblock %}
 
-{% block body %}
+{% block content %}
 	<div class="container-fluid">
 
 		{% set breadcrumbs = [
@@ -474,7 +475,8 @@
 
 
 			propertyMarker.addListener('mouseover', (e) => {
-				if(e.changeReverseSide) {
+				console.log("e.dontChangeReverseSide",e.dontChangeReverseSide)
+				if(!e.dontChangeReverseSide) {
 					$('#property-cards [property-id="'+ marker.id +'"]').addClass("hover");
 					$('#property-cards [property-id="'+ marker.id +'"]')[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
 				}
@@ -501,7 +503,7 @@
 
 
 			propertyMarker.addListener('mouseout', (e) => {
-				if(e.changeReverseSide) {
+				if(!e.dontChangeReverseSide) {
 					$('#property-cards [property-id="'+ marker.id +'"]').removeClass("hover");
 				}
 				markers.forEach(m => {
@@ -546,13 +548,13 @@
         var propertyId = $(this).attr('property-id');
 		const markerData = markersData.find(m => m.id == propertyId);
 		const marker = markers.find(m => m.propertyId == markerData.id);
-        google.maps.event.trigger(marker, 'mouseover', {changeReverseSide: false});
+        google.maps.event.trigger(marker, 'mouseover', {dontChangeReverseSide: true});
     },
     function() {
        var propertyId = $(this).attr('property-id');
 		const markerData = markersData.find(m => m.id == propertyId);
 		const marker = markers.find(m => m.propertyId == markerData.id);
-        google.maps.event.trigger(marker, 'mouseout', {changeReverseSide: false});
+        google.maps.event.trigger(marker, 'mouseout', {dontChangeReverseSide: true});
     });
 </script>
 

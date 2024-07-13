@@ -1,5 +1,6 @@
-{% extends "base.html.twig" %}
+{% extends "base_with_navbar.html.twig" %}
 {% block stylesheets %}
+	{{ parent() }}
 	<style>
 		#cover {
 			background-image: url("{{asset('images/sample3.webp')}}");
@@ -17,7 +18,7 @@
 
 {% endblock %}
 
-{% block body %}
+{% block content %}
 	<div id="cover" class="">
 		<div class="gradient">
 			<div class="container">

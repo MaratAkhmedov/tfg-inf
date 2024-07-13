@@ -1,12 +1,13 @@
-{% extends "base.html.twig" %}
+{% extends "base_with_navbar.html.twig" %}
 {% block stylesheets %}
+    {{ parent() }}
 	<style>
 		
 	</style>
 
 {% endblock %}
 
-{% block body %}
+{% block content %}
 	<main class="container my-5">
         <section class="contact-us">
             <h1 class="mb-4">{{ 'contact.header'|trans }}</h1>

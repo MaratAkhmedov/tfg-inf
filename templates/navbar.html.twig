@@ -1,0 +1,48 @@
+<nav class="navbar navbar-expand-lg bg-light gradient-custom fixed-top">
+	<div class="container">
+		<a class="navbar-brand" href="{{ url("default") }}">
+			<img src="https://bcassetcdn.com/public/blog/wp-content/uploads/2021/11/10190851/Louis-Vuitton-1.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+			{{ 'base.brand'|trans }}
+		</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav ms-auto mb-lg-0">
+				<li class="nav-item">
+					<a class="nav-link" href="{{ url("about_us") }}">{{ 'about.title'|trans }}</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{ url("contact") }}">{{ 'contact.title'|trans }}</a>
+				</li>
+				{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+					<li class="nav-item">
+						<a class="nav-link" href="{{ url("app_property_new") }}">{{ 'property.form.publish'|trans }}</a>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							<span style="">{{ ux_icon('bi:gear') }}</span>
+						</a>
+						<ul class="dropdown-menu dropdown-menu-right">
+							<li>
+								<a class="dropdown-item" href="#">{{ ux_icon('bi:person-circle') }}
+									{{ app.user.email }}</a>
+							</li>
+							<li><hr class="dropdown-divider"></li>
+							<li>
+								<a class="dropdown-item" href="{{url("app_dashboard")}}">{{ 'base.client_area'|trans }}</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="#">Logout</a>
+							</li>
+						</ul>
+					</li>
+				</li>
+			{% else %}
+				<li class="nav-item">
+					<a class="nav-link" href="{{ url("app_login") }}">{{ 'user.access'|trans }}</a>
+				</li>
+			{% endif %}
+		</ul>
+	</div>
+</nav>

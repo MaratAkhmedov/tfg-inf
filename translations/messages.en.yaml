@@ -5,6 +5,7 @@ form:
 base:
   brand: UniWave
   search: Search
+  client_area: Client área
 footer:
   text: University Real Estate Portal. All rights reserved.
 user:

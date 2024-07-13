@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Repository\CityRepository;
+use App\Repository\PropertyTypeRepository;
 use App\Entity\City;
 use App\Entity\Property;
 use App\Entity\PropertyType;
@@ -12,13 +14,52 @@ use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/search')]
-class SearchController extends AbstractController
+#[AsController]
+class PublicController extends AbstractController
 {
-    #[Route('/{type}/{city}', name: 'app_search_property_type_city', methods: ['GET', 'POST'], options: ["expose" => true])]
-    #[Template('search/index.html.twig')]
+    public function __construct(
+        private CityRepository $cityRepository,
+        private PropertyTypeRepository $propertyTypeRepository
+    ) {
+    }
+
+    #[Route('/', 'default')]
+    #[Template('public/index.html.twig')]
+    public function index(): array
+    {
+        return [
+            "propertyTypes" => $this->propertyTypeRepository->findAll(),
+            "cities" => $this->cityRepository->findAll()
+        ];
+    }
+
+    #[Route('/contact', 'contact')]
+    #[Template('public/contact.html.twig')]
+    public function contact(): array
+    {
+        return [];
+    }
+
+    #[Route('/about', 'about_us')]
+    #[Template('public/about.html.twig')]
+    public function about(): array
+    {
+        return [];
+    }
+
+    #[Route('property/{id}', name: 'app_property_show', methods: ['GET'], requirements: ['id' => '\d+'], options: ["expose" => true])]
+    public function show(Property $property): Response
+    {
+        // TODO: check if can see the property
+        return $this->render('public/property.html.twig', [
+            'property' => $property,
+        ]);
+    }
+
+    #[Route('search/{type}/{city}', name: 'app_search_property_type_city', methods: ['GET', 'POST'], options: ["expose" => true])]
     public function search(
         Request $request,
         PropertyType $type,
@@ -58,7 +99,7 @@ class SearchController extends AbstractController
             (array)$paginator->getItems()
         );
 
-        return $this->render('search/index.html.twig', [
+        return $this->render('public/search.html.twig', [
             'searchForm' => $searchForm->createView(),
             'pagination' => $paginator,
             'coordinates' => $coordinates
