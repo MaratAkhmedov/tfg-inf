@@ -8,13 +8,14 @@ use App\Form\PropertyType;
 use App\Repository\PropertyRepository;
 use App\Service\IPropertyService;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 #[Route('admin/property')]
 class AdminPropertyController extends AbstractController
@@ -22,12 +23,16 @@ class AdminPropertyController extends AbstractController
     // TODO: ADMIN PROPERTY later add it to admin menu
     #[Route('/', name: 'app_property_index', methods: ['GET'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function admin(PropertyRepository $propertyRepository): Response
+    public function admin(Request $request, PropertyRepository $propertyRepository, PaginatorInterface $paginator): Response
     {
         $user = $this->getUser();
         
         return $this->render('admin/properties.html.twig', [
-            'properties' => $propertyRepository->findBy(['user' => $user]),
+            'pagination' => $paginator = $paginator->paginate(
+                $propertyRepository->findUserProperties($user),
+                $request->query->getInt('page', 1), /*page number*/
+                2 /*limit per page*/
+            ),
         ]);
     }
 

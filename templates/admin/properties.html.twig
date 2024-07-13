@@ -22,7 +22,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				{% for property in properties %}
+				{% for property in pagination.items %}
 					<tr>
 						<td>{{ property.id }}</td>
 						<td>{{ property.name }}</td>
@@ -47,5 +47,8 @@
 				{% endfor %}
 			</tbody>
 		</table>
+		<div class="d-flex justify-content-center">
+			{{ knp_pagination_render(pagination) }}
+		</div>
 	</div>
 {% endblock %}

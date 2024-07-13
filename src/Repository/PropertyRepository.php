@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\City;
 use App\Entity\Property;
 use App\Entity\PropertyType;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Expression;
@@ -23,6 +24,19 @@ class PropertyRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Property::class);
+    }
+
+    /**
+     * @return Property[] Returns an array of Property objects
+     */
+    public function findUserProperties(User $user): QueryBuilder
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->leftJoin('p.address', 'pa')
+            ->andWhere('p.user = :user')
+            ->setParameter('user', $user);
+
+        return $qb;
     }
 
     /**
