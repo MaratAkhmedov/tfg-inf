@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\RegistrationFormType;
+use App\Form\UserType;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -17,7 +17,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
-class RegistrationController extends AbstractController
+class UserController extends AbstractController
 {
     public function __construct(private EmailVerifier $emailVerifier)
     {
@@ -32,7 +32,7 @@ class RegistrationController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('registration/login.html.twig', [
+        return $this->render('user/login.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error,
         ]);
@@ -48,7 +48,7 @@ class RegistrationController extends AbstractController
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -64,12 +64,14 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+            $this->emailVerifier->sendEmailConfirmation(
+                'app_verify_email',
+                $user,
                 (new TemplatedEmail())
                     ->from(new Address('igugle4@gmail.com', 'Marat Akhmedov'))
                     ->to($user->getEmail())
                     ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
+                    ->htmlTemplate('user/confirmation_email.html.twig')
             );
 
             // do anything else you need here, like send an email
@@ -77,8 +79,8 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('default');
         }
 
-        return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form,
+        return $this->render('user/register.html.twig', [
+            'userForm' => $form,
         ]);
     }
 

@@ -31,7 +31,7 @@ class AdminPropertyController extends AbstractController
             'pagination' => $paginator = $paginator->paginate(
                 $propertyRepository->findUserProperties($user),
                 $request->query->getInt('page', 1), /*page number*/
-                2 /*limit per page*/
+                10 /*limit per page*/
             ),
         ]);
     }
