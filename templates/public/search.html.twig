@@ -301,7 +301,14 @@
                     console.error(error);
 					spinner.hide();
 					notConfirmedFavoriteIcon.show()
-                    alert('Error al agregar a favoritos.');
+					if (xhr.status === 401) {
+						var response = JSON.parse(xhr.responseText);
+						if (response.redirect) {
+							window.location.href = response.redirect;
+						}
+					}else{
+						alert('Error al agregar a favoritos.');
+					}
                 }
             });
 		}
@@ -326,7 +333,14 @@
                     console.error(error);
 					spinner.hide();
 					confirmedFavoriteIcon.show()
-                    alert('Error al quitar de favoritos.');
+                    if (xhr.status === 401) {
+						var response = JSON.parse(xhr.responseText);
+						if (response.redirect) {
+							window.location.href = response.redirect;
+						}
+					}else{
+						alert('Error al quitar de favoritos.');
+					}
                 }
             });
 		}

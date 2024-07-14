@@ -18,12 +18,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/favorite')]
-#[IsGranted('ROLE_OWNER')]
 class FavoriteController extends AbstractController
 {
     #[Route('/add/{property}', name: 'app_add_favorite', methods: ['PUT'], options: ["expose" => true])]
     public function add(Property $property, EntityManagerInterface $entityManager): JsonResponse
     {
+        if (!$this->isGranted('ROLE_USER')) {
+            return new JsonResponse(['redirect' => $this->generateUrl('app_login')], 401);
+        }
         $user = $this->getUser();
         $favorite = new Favorite();
         $favorite->setUser($user);
@@ -36,6 +38,9 @@ class FavoriteController extends AbstractController
     #[Route('/remove/{property}', name: 'app_remove_favorite', methods: ['DELETE'], options: ["expose" => true])]
     public function remove(Property $property, EntityManagerInterface $entityManager, FavoriteRepository $favoriteRepository): JsonResponse
     {
+        if (!$this->isGranted('ROLE_USER')) {
+            return new JsonResponse(['redirect' => $this->generateUrl('app_login')], 401);
+        }
         $user = $this->getUser();
         $favorite = $favoriteRepository->findOneBy(['property' => $property, 'user' => $user]);
         $entityManager->remove($favorite);
@@ -44,6 +49,7 @@ class FavoriteController extends AbstractController
     }
 
     #[Route('/search', name: 'app_search_favorite', methods: ['GET', 'POST'], options: ["expose" => true])]
+    #[IsGranted('ROLE_USER')]
     public function searchFavorites(
         Request $request,
         PropertyRepository $propertyRepository,
