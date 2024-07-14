@@ -27,7 +27,7 @@
 				<ul class="navbar-nav ms-auto mb-lg-0">
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							<span style="">{{ ux_icon('bi:gear') }}</span>
+							<span>{{ ux_icon('bi:gear') }}</span>
 						</a>
 						<ul class="dropdown-menu dropdown-menu-right">
 							<li>
@@ -43,7 +43,7 @@
 							</li>
 						</ul>
 					</li>
-				</li>
+				</ul>
 			</div>
 		</div>
 	</nav>
@@ -59,7 +59,7 @@
 						src="https://bcassetcdn.com/public/blog/wp-content/uploads/2021/11/10190851/Louis-Vuitton-1.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
 					{# {{ 'base.brand'|trans }} #}
 					</a>
-					<ul class="pt-3 nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+					<ul class="d-flex flex-column pt-3 nav nav-pills mb-sm-auto mb-0" id="menu">
 						{% if is_granted('ROLE_OWNER') %}
 							<li>
 								<a href="{{ url('app_property_index')}}" class="nav-link px-2 align-middle {{ routeName == 'app_property_index' ? 'active' : ''}}">
