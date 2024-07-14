@@ -36,6 +36,12 @@ class PublicController extends AbstractController
         ];
     }
 
+    #[Route('/phpinfo', 'phpinfo')]
+    public function phpinfo():Response
+    {
+        return new Response(phpinfo());
+    }
+
     #[Route('/contact', 'contact')]
     #[Template('public/contact.html.twig')]
     public function contact(): array
