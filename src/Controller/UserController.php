@@ -155,7 +155,6 @@ class UserController extends AbstractController
             }
 
             // Handle deleted files
-            // Handle deleted files
             $deletedFiles = json_decode($request->request->get('deletedFiles', '[]'), true);
             foreach ($deletedFiles as $filename) {
                 $filePath = $this->getParameter('public_directory').'/'.$filename;

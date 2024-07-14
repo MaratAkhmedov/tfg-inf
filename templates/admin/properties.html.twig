@@ -37,7 +37,12 @@
 								<div style="width: 25px; height:25px;">
 									<a href="{{ path('app_property_edit', {'id': property.id}) }}">{{ ux_icon('mingcute:edit-line') }}</a>
 								</div>
-							</div>
+
+								<form method="post" action="{{ path('app_property_delete', {'id': property.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+									<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ property.id) }}">
+									<button class="btn p-0 m-0">{{ ux_icon('mi:delete-alt', {style: 'color: rgb(235,104,100);width: 25px;height: 25px;'}) }}</button>
+
+								</form>
 						</td>
 					</tr>
 				{% else %}

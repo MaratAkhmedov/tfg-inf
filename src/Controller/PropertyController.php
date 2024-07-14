@@ -8,6 +8,7 @@ use App\Form\PropertyType;
 use App\Repository\PropertyRepository;
 use App\Service\IPropertyService;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -16,10 +17,11 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
 #[Route('owner/property')]
 #[IsGranted('ROLE_OWNER')]
-class OwnerPropertyController extends AbstractController
+class PropertyController extends AbstractController
 {    
     // TODO: ADMIN PROPERTY later add it to admin menu
     #[Route('/', name: 'app_property_index', methods: ['GET'])]
@@ -155,7 +157,11 @@ class OwnerPropertyController extends AbstractController
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function delete(Request $request, Property $property, EntityManagerInterface $entityManager): Response
     {
-        //TODO: check if is an owner
+        $user = $this->getUser();
+        if($property->getUser()->getUserIdentifier() != $user->getUserIdentifier()) {
+            throw new Exception("Not authorized");
+        }
+        
         if ($this->isCsrfTokenValid('delete' . $property->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($property);
             $entityManager->flush();
