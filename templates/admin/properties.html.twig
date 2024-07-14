@@ -26,7 +26,7 @@
 					<tr>
 						<td>{{ property.id }}</td>
 						<td>{{ property.name }}</td>
-						<td>{{property.price|format_currency('EUR', {rounding_mode: 'floor'})}}</td>
+						<td>{{ property.price|format_currency('EUR', {rounding_mode: 'floor'}) }}</td>
 						<td>{{ property.floor }}</td>
 						<td>{{ property.square ~ ' ' ~ 'm²' }}</td>
 						<td>

@@ -30,7 +30,7 @@
 								{% if is_granted('ROLE_OWNER') %}
 									<a class="dropdown-item" href="{{url('app_property_index')}}">{{ 'base.client_area'|trans }}</a>
 								{% else %}
-									<a class="dropdown-item" href="{{url('app_property_edit')}}">{{ 'base.client_area'|trans }}</a>
+									<a class="dropdown-item" href="{{url('app_user_profile_edit')}}">{{ 'base.client_area'|trans }}</a>
 								{% endif %}
 							</li>
 							{% if is_granted('ROLE_USER') %}

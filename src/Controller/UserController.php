@@ -116,7 +116,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/profile/edit', name: 'app_property_edit', methods: ['GET', 'POST'])]
+    #[Route('/profile/edit', name: 'app_user_profile_edit', methods: ['GET', 'POST'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function profile(Request $request, UserRepository $userRepository, SluggerInterface $slugger, EntityManagerInterface $entityManager): Response
     {
