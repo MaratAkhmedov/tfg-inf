@@ -6,6 +6,7 @@ base:
   brand: UniWave
   search: Buscar
   client_area: Área de clientes
+  favorites: Favoritos
   logout: Salir
 footer:
   text: Portal Inmobiliario Universitario. Todos los derechos reservados.

@@ -9,6 +9,7 @@ use App\Entity\Property;
 use App\Entity\PropertyType;
 use App\Form\SearchPropertyType;
 use App\Repository\PropertyRepository;
+use App\Repository\UserRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -95,7 +96,55 @@ class PublicController extends AbstractController
                 'lat' => $item->getAddress()->getLatitude(),
                 'lng' => $item->getAddress()->getLongitude(),
                 'id' => $item->getId()
-            ], 
+            ],
+            (array)$paginator->getItems()
+        );
+
+        return $this->render('public/search.html.twig', [
+            'searchForm' => $searchForm->createView(),
+            'pagination' => $paginator,
+            'coordinates' => $coordinates
+        ]);
+    }
+
+    #[Route('search/favorites', name: 'app_search_favorites', methods: ['GET', 'POST'], options: ["expose" => true])]
+    public function searchFavorites(
+        Request $request,
+        PropertyRepository $propertyRepository,
+        UserRepository $userRepository,
+        PaginatorInterface $paginator
+    ): Response {
+        $type = $this->propertyTypeRepository->findOneBy(['name' => 'room']);
+        $searchData = [];
+        $searchForm = $this->createForm(SearchPropertyType::class, null, [
+            'currentPropertyType' => $type
+        ]);
+        $searchForm->handleRequest($request);
+
+        if ($searchForm->isSubmitted() && $searchForm->isValid()) {
+            $data = $searchForm->getData();
+            if($data['type'] ?? null) {
+                $type = $data['type'];
+            }
+            $searchData = $data;
+        }
+        $builder = $propertyRepository->buildUserFavouriteQuery(
+            $userRepository->findOneBy(['email' => $this->getUser()->getUserIdentifier()]),
+            $type,
+            $searchData
+        );
+        $paginator = $paginator->paginate(
+            $builder,
+            $request->query->getInt('page', 1),
+            12
+        );
+
+        $coordinates = array_map(
+            fn (Property $item) => [
+                'lat' => $item->getAddress()->getLatitude(),
+                'lng' => $item->getAddress()->getLongitude(),
+                'id' => $item->getId()
+            ],
             (array)$paginator->getItems()
         );
 

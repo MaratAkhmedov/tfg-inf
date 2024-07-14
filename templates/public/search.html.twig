@@ -2,7 +2,7 @@
 
 
 {% block stylesheets %}
-    {{ parent() }}
+	{{ parent() }}
 	<style>
 		#propertyFilters {
 			border: 1px solid rgb(0, 0, 0, 0.175);
@@ -211,10 +211,18 @@
 												</p>
 											</div>
 											<a href="{{ path('app_property_show', {'id': property.id}) }}" class="stretched-link"></a>
+											{% set isFavorite = false %}
 
+											{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+												{% set isFavorite = property.favorites | filter(favorite => favorite.property.id == property.id and favorite.user.id == app.user.getId()) | length > 0 %}
+											{% endif %}
 											<div class="" style="width:30px; height: 30px;z-index:3;position:relative;">
-												<a class="" href="#" role="button">
-													{{ ux_icon('mdi:favourite') }}
+												<a class="favorite-link" role="button">
+													{{ ux_icon('mdi:heart-outline', {class: 'not-confirmed-favourite-icon', style: (isFavorite ? 'display: none;' : '')}) }}
+													{{ ux_icon('mdi:heart', {class: 'confirmed-favourite-icon', style: (isFavorite ? '' : 'display: none;')}) }}
+													<div style="display: none;" class="spinner spinner-grow text-primary" role="status">
+														<span class="visually-hidden">Loading...</span>
+													</div>
 												</a>
 											</div>
 										</div>
@@ -223,11 +231,10 @@
 								</div>
 							</div>
 						</div>
-					{% else %}
-						<tr>
-							<td colspan="12">{{'property.not_found'|trans}}</td>
-						</tr>
 					{% endfor %}
+					<div id="property-not-found-message" class="p-2" style="display: none">
+						{{'property.not_found'|trans}}
+					</div>
 				</div>
 
 
@@ -260,14 +267,71 @@
 
 
 	</div>
-</div>{% endblock %}
-
-{% block javascript %}<!-- parse-ignore-start -->
+</div>{% endblock %}{% block javascript %}<!-- parse-ignore-start -->
 <script src="https://maps.googleapis.com/maps/api/js?key={{app.request.server.get('GOOGLE_MAP_API_KEY')}}"></script>
 <script src="{{ asset('js/map_styles.js') }}"></script>
 
 <script>
     $(document).ready(function() {
+		// add favourite icon click
+		$('.favorite-link').on('click', function () {
+            var propertyId = $(this).closest('[property-id]').attr('property-id');
+			var notConfirmedFavoriteIcon = $(this).find('.not-confirmed-favourite-icon')
+			var confirmedFavoriteIcon = $(this).find('.confirmed-favourite-icon')
+			var spinner = $(this).find('.spinner')
+			
+			if(notConfirmedFavoriteIcon.is(':visible')) {
+				addToFavorite(propertyId, spinner, confirmedFavoriteIcon, notConfirmedFavoriteIcon);
+			}else if(confirmedFavoriteIcon.is(':visible')){
+				removeFromFavorite(propertyId, spinner, confirmedFavoriteIcon, notConfirmedFavoriteIcon)
+			}
+        });
+
+		function addToFavorite(propertyId, spinner, confirmedFavoriteIcon, notConfirmedFavoriteIcon) {
+			spinner.show()
+			notConfirmedFavoriteIcon.hide()
+			$.ajax({
+                url: Routing.generate('app_add_favorite', { property: propertyId}),
+                type: 'PUT',
+                success: function (response) {
+					spinner.hide();
+					confirmedFavoriteIcon.show()
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+					spinner.hide();
+					notConfirmedFavoriteIcon.show()
+                    alert('Error al agregar a favoritos.');
+                }
+            });
+		}
+
+		function removeFromFavorite(propertyId, spinner, confirmedFavoriteIcon, notConfirmedFavoriteIcon) {
+			var currentRoute = "{{app.request.get('_route')}}"
+			spinner.show()
+			confirmedFavoriteIcon.hide()
+			$.ajax({
+                url: Routing.generate('app_remove_favorite', { property: propertyId}),
+                type: 'DELETE',
+                success: function (response) {
+					spinner.hide();
+					if(currentRoute == 'app_search_favorites') {	// remove card from app
+						$('#property-cards [property-id="'+ propertyId +'"]').remove();
+						initMap()
+					}else{
+						notConfirmedFavoriteIcon.show()
+					}
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+					spinner.hide();
+					confirmedFavoriteIcon.show()
+                    alert('Error al quitar de favoritos.');
+                }
+            });
+		}
+
+
 		// Automatic updates of price selections 
     	const priceOptions = Object.fromEntries(Array.from({ length: 8 }, (_, i) => [200 * (i + 1), 200 * (i + 1) + " €"]));
         function updatePriceMax() {
@@ -385,7 +449,21 @@
     var markersData = {{ coordinates|json_encode()|raw }};
     var markers = [];
 
+	function refreshMarkers() {
+		markersData = markersData.filter(marker => $('#property-cards [property-id="'+ marker.id +'"]').length > 0);
+	}
+
+	function checkNoMarkers() {
+		if(markersData.length > 0) {
+			$('#property-not-found-message').hide();
+		}else{
+			$('#property-not-found-message').show();
+		}
+	}
+
     function initMap() {
+		refreshMarkers();
+		checkNoMarkers();
 		var bounds = new google.maps.LatLngBounds();
         map = new google.maps.Map(document.getElementById('map'), {
 			center: { lat: 39.46975, lng: -0.37739 },
@@ -477,10 +555,10 @@
 
 
 			propertyMarker.addListener('mouseover', (e) => {
-				console.log("e.dontChangeReverseSide",e.dontChangeReverseSide)
-				if(!e.dontChangeReverseSide) {
-					$('#property-cards [property-id="'+ marker.id +'"]').addClass("hover");
-					$('#property-cards [property-id="'+ marker.id +'"]')[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+				const propertyIdCard = $('#property-cards [property-id="'+ marker.id +'"]');
+				if(!e.dontChangeReverseSide && (propertyIdCard.length > 0)) {
+					propertyIdCard.addClass("hover");
+					propertyIdCard[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
 				}
 
 				markers.forEach(m => {

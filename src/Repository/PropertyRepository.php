@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\City;
+use App\Entity\Favorite;
 use App\Entity\Property;
 use App\Entity\PropertyType;
 use App\Entity\User;
@@ -42,14 +43,20 @@ class PropertyRepository extends ServiceEntityRepository
     /**
      * @return Property[] Returns an array of Property objects
      */
-    public function buildFindByCityAndRoomQuery(City $city, PropertyType $type, mixed $searchCriteria): QueryBuilder
+    public function buildFindByCityAndRoomQuery(?City $city, ?PropertyType $type, mixed $searchCriteria): QueryBuilder
     {
         $qb = $this->createQueryBuilder('p')
-            ->leftJoin('p.address', 'pa')
-            ->andWhere('pa.city = :city')
-            ->andWhere('p.type = :type')
-            ->setParameter('city', $city)
-            ->setParameter('type', $type);
+            ->leftJoin('p.address', 'pa');
+
+        if ($city) {
+            $qb->andWhere('pa.city = :city')
+                ->setParameter('city', $city);
+        }
+
+        if ($type) {
+            $qb->andWhere('p.type = :type')
+                ->setParameter('type', $type);
+        }
 
         if ($states = $searchCriteria['states'] ?? null) {
             if (!empty($states->toArray())) {
@@ -90,6 +97,19 @@ class PropertyRepository extends ServiceEntityRepository
 
         return $qb;
     }
+
+    public function buildUserFavouriteQuery(User $user, ?PropertyType $type, mixed $searchCriteria): QueryBuilder
+    {
+        $qb = $this->buildFindByCityAndRoomQuery(null, $type, $searchCriteria);
+        $propertyIds = array_map(function (Favorite $favorite) {
+            return $favorite->getProperty()->getId();
+        }, $user->getFavorites()->toArray());
+        
+        $qb->andWhere('p.id IN (:propertyIds)');
+        $qb->setParameter('propertyIds', $propertyIds);
+        return $qb;
+    }
+
 
     private function buildSearchCriteria(mixed $searchCriteria): Criteria
     {
