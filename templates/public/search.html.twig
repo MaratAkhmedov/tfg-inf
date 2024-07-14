@@ -315,7 +315,7 @@
                 type: 'DELETE',
                 success: function (response) {
 					spinner.hide();
-					if(currentRoute == 'app_search_favorites') {	// remove card from app
+					if(currentRoute == 'app_search_favorite') {	// remove card from app
 						$('#property-cards [property-id="'+ propertyId +'"]').remove();
 						initMap()
 					}else{

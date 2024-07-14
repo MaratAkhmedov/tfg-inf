@@ -36,10 +36,11 @@ class SearchPropertyType extends AbstractType
             ->add('type', EntityType::class, [
                 'label' => 'property.form.type',
                 'class' => PropertyType::class,
-                'data' => $options['currentPropertyType'],
+                'data' => $options['currentPropertyType'] ?? null,
                 'choice_label' => 'label',
                 'choice_translation_domain' => true,
-                'required' => true
+                'required' => false,
+                'placeholder' => 'search.form.type_placeholder',
             ])
             ->add('priceMin', ChoiceType::class, [
                 'required' => false,

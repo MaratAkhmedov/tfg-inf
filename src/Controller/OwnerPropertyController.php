@@ -18,6 +18,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 #[Route('owner/property')]
+#[IsGranted('ROLE_OWNER')]
 class OwnerPropertyController extends AbstractController
 {    
     // TODO: ADMIN PROPERTY later add it to admin menu
@@ -80,7 +81,6 @@ class OwnerPropertyController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_property_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function edit(Request $request, Property $property, IPropertyService $propertyService, SluggerInterface $slugger, EntityManagerInterface $entityManager): Response
     {
         //TODO: check if is an owner

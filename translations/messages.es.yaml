@@ -136,6 +136,7 @@ search:
     max_price: Precio máximo
     property_type: Tipo de vivienda
     map: Mapa
+    type_placeholder: Todos
 room: 
   bed:
     individual: Individual

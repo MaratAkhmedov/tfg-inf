@@ -34,7 +34,7 @@
 								{% endif %}
 							</li>
 							{% if is_granted('ROLE_USER') %}
-								<li><a class="dropdown-item" href="{{url('app_search_favorites')}}">{{ 'base.favorites'|trans }}</a></li>
+								<li><a class="dropdown-item" href="{{url('app_search_favorite')}}">{{ 'base.favorites'|trans }}</a></li>
 							{% endif %}
 							<li>
 								<a class="dropdown-item" href="{{ url('app_logout')}}">{{ 'base.logout'|trans }}</a>
