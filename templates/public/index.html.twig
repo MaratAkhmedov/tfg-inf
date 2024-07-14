@@ -27,8 +27,9 @@
 						<div class="col-sm-12 col-md-6">
 							<select id="property-type-selector" class="form-select" aria-label="Default select example">
 								{% for propertyType in propertyTypes %}
-									<option city.id == '1' ? 'selected' : '' value="{{propertyType.id}}">{{(propertyType.label)|trans}}</option>
+									<option propertyType.id == '1' ? 'selected' : '' value="{{propertyType.id}}">{{(propertyType.label)|trans}}</option>
 								{% endfor %}
+								<option value="">{{ 'search.form.type_placeholder'|trans}}</option>
 							</select>
 						</div>
 						<div class="col-sm-12 col-md-6">
