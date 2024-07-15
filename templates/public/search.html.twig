@@ -624,16 +624,12 @@
 
 	// Escucha el evento cuando el modal se muestra
 	$('#mapModal').on('shown.bs.modal', function () {
-		//console.log("El modal se muestra", $("#map").children("div").show())
-		$("#map-modal-container").append($("#map").children("div"));
-		google.maps.event.trigger(map, 'resize');
 		initMap(true)
     });
 
 	// Escucha el evento cuando el modal se oculta
     $('#mapModal').on('hidden.bs.modal', function () {
-		$("#map").empty().append($("#map-modal-container").children("div"))
-      	google.maps.event.trigger(map, 'resize');
+		initMap(false)
     });
 
 	window.onload = function() {
