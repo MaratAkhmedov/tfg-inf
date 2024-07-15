@@ -62,6 +62,11 @@
 			width: 48%;
 		}
 
+		#map-modal-container {
+			height: 100%;
+			width: 100%;
+		}
+
 		#navigation-bar {
 			padding-top: 58px;
 			width: 50%;
@@ -247,25 +252,21 @@
 			<div class="col-lg-6 d-none d-lg-block">
 				<div id="map"></div>
 			</div>
-
-			<!-- Modal para dispositivos pequeños -->
-			<div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
-				<div class="modal-dialog modal-fullscreen">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="mapModalLabel">{{ 'search.form.map'|trans }}</h5>
-							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-						</div>
-						<div class="modal-body">
-							<div id="map-modal-container"></div>
-						</div>
-					</div>
-				</div>
-			</div>
-
 		</div>
-
-
+	</div>
+</div>
+<!-- Modal para dispositivos pequeños -->
+<div class="modal" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-fullscreen">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="mapModalLabel">{{ 'search.form.map'|trans }}</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div id="map-modal-container"></div>
+			</div>
+		</div>
 	</div>
 </div>{% endblock %}{% block javascript %}<!-- parse-ignore-start -->
 <script src="https://maps.googleapis.com/maps/api/js?key={{app.request.server.get('GOOGLE_MAP_API_KEY')}}"></script>
@@ -324,7 +325,7 @@
 					spinner.hide();
 					if(currentRoute == 'app_search_favorite') {	// remove card from app
 						$('#property-cards [property-id="'+ propertyId +'"]').remove();
-						initMap()
+						initMap(false)
 					}else{
 						notConfirmedFavoriteIcon.show()
 					}
@@ -475,11 +476,12 @@
 		}
 	}
 
-    function initMap() {
+    function initMap(isMobile) {
+		const mapElement = isMobile ? document.getElementById('map-modal-container') : document.getElementById('map')
 		refreshMarkers();
 		checkNoMarkers();
 		var bounds = new google.maps.LatLngBounds();
-        map = new google.maps.Map(document.getElementById('map'), {
+        map = new google.maps.Map(mapElement, {
 			center: { lat: 39.46975, lng: -0.37739 },
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             styles: mapStyles,
@@ -622,18 +624,20 @@
 
 	// Escucha el evento cuando el modal se muestra
 	$('#mapModal').on('shown.bs.modal', function () {
+		//console.log("El modal se muestra", $("#map").children("div").show())
 		$("#map-modal-container").append($("#map").children("div"));
 		google.maps.event.trigger(map, 'resize');
+		initMap(true)
     });
 
 	// Escucha el evento cuando el modal se oculta
     $('#mapModal').on('hidden.bs.modal', function () {
-			$("#map").empty().append($("#map-modal-container").children("div"))
-      		google.maps.event.trigger(map, 'resize');
+		$("#map").empty().append($("#map-modal-container").children("div"))
+      	google.maps.event.trigger(map, 'resize');
     });
 
 	window.onload = function() {
-        initMap();
+        initMap(false);
     };
 
 
