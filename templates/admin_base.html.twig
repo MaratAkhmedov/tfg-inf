@@ -83,17 +83,8 @@
 					</ul>
 				</div>
 			</div>
-			<div class="inside" style="padding-left: 0px; !important">
-				<nav class="navbar navbar-light gradient-custom">
-					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-						<li>
-							<a class="dropdown-item" href="{{ url('app_logout')}}">{{ 'base.logout'|trans }}</a>
-						</li>
-					</ul>
-				</nav>
-
-
-				<div class="col col-md-9 col-xl-10 p-3">
+			<div class="col col-md-9 col-xl-10 p-3">
+				<div class="inside mt-5" style="padding-left: 0px; !important">
 					<div class="inside-content">
 						{% block content %}{% endblock %}
 					</div>
@@ -101,4 +92,4 @@
 			</div>
 		</div>
 	</div>
-{% endblock %}
+</div>{% endblock %}
