@@ -14,82 +14,49 @@
 {% endblock %}
 {% block body %}
 	{% set routeName = app.request.attributes.get('_route') %}
-	<nav class="navbar navbar-expand-lg bg-light gradient-custom fixed-top">
-		<div class="container-fluid">
-			<a class="navbar-brand" href="{{ url("default") }}">
-				<img src="https://bcassetcdn.com/public/blog/wp-content/uploads/2021/11/10190851/Louis-Vuitton-1.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-				{{ 'base.brand'|trans }}
-			</a>
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav ms-auto mb-lg-0">
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							<span>{{ ux_icon('bi:gear') }}</span>
+    {% include '/navbar.html.twig' with {'containerClass': "container-fluid"} %}
+
+
+<!-- As a heading -->
+<div class="container-fluid">
+	<div class="row flex-nowrap">
+		<div class="col-2 col-md-3 col-xl-2 px-sm-2 px-0 bg-light">
+			<div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-black min-vh-100">
+				<a class="navbar-brand pb-3" href="{{ url("default") }}">
+					<img
+					src="https://bcassetcdn.com/public/blog/wp-content/uploads/2021/11/10190851/Louis-Vuitton-1.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+				{# {{ 'base.brand'|trans }} #}
+				</a>
+				<ul class="d-flex flex-column pt-3 nav nav-pills mb-sm-auto mb-0" id="menu">
+					{% if is_granted('ROLE_OWNER') %}
+						<li>
+							<a href="{{ url('app_property_index')}}" class="nav-link px-2 align-middle {{ routeName == 'app_property_index' ? 'active' : ''}}">
+								<i class="fs-4 bi-table"></i>
+								<span class="ms-1 d-none d-md-inline">Anuncios</span>
+							</a>
+						</li>
+					{% endif %}
+					<li>
+						<a href="{{ url('app_user_profile_edit')}}" class="nav-link px-2 align-middle {{ routeName == 'app_user_profile_edit' ? 'active' : ''}}">
+							<i class="fs-4 bi-person"></i>
+							<span class="ms-1 d-none d-md-inline">Perfil</span>
 						</a>
-						<ul class="dropdown-menu dropdown-menu-right">
-							<li>
-								<a class="dropdown-item" href="#">{{ ux_icon('bi:person-circle') }}
-									{{ app.user.email }}</a>
-							</li>
-							<li><hr class="dropdown-divider"></li>
-							<li>
-								<a class="dropdown-item" href="{{url("app_property_index")}}">{{ 'base.client_area'|trans }}</a>
-							</li>
-							<li>
-								<a class="dropdown-item" href="{{ url('app_logout')}}">{{ 'base.logout'|trans }}</a>
-							</li>
-						</ul>
+					</li>
+					<li>
+						<a href="#" class="nav-link px-2 align-middle">
+							<i class="fs-4 bi-chat"></i>
+							<span class="ms-1 d-none d-md-inline">Mensajes</span>
+						</a>
 					</li>
 				</ul>
 			</div>
 		</div>
-	</nav>
-
-
-	<!-- As a heading -->
-	<div class="container-fluid">
-		<div class="row flex-nowrap">
-			<div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-light">
-				<div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-black min-vh-100">
-					<a class="navbar-brand pb-3" href="{{ url("default") }}">
-						<img
-						src="https://bcassetcdn.com/public/blog/wp-content/uploads/2021/11/10190851/Louis-Vuitton-1.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-					{# {{ 'base.brand'|trans }} #}
-					</a>
-					<ul class="d-flex flex-column pt-3 nav nav-pills mb-sm-auto mb-0" id="menu">
-						{% if is_granted('ROLE_OWNER') %}
-							<li>
-								<a href="{{ url('app_property_index')}}" class="nav-link px-2 align-middle {{ routeName == 'app_property_index' ? 'active' : ''}}">
-									<i class="fs-4 bi-table"></i>
-									<span class="ms-1 d-none d-md-inline">Anuncios</span>
-								</a>
-							</li>
-						{% endif %}
-						<li>
-							<a href="{{ url('app_user_profile_edit')}}" class="nav-link px-2 align-middle {{ routeName == 'app_user_profile_edit' ? 'active' : ''}}">
-								<i class="fs-4 bi-person"></i>
-								<span class="ms-1 d-none d-md-inline">Perfil</span>
-							</a>
-						</li>
-						<li>
-							<a href="#" class="nav-link px-2 align-middle">
-								<i class="fs-4 bi-chat"></i>
-								<span class="ms-1 d-none d-md-inline">Mensajes</span>
-							</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-			<div class="col col-md-9 col-xl-10 p-3">
-				<div class="inside mt-5" style="padding-left: 0px; !important">
-					<div class="inside-content">
-						{% block content %}{% endblock %}
-					</div>
+		<div class="col-10 col-md-9 col-xl-10 p-3">
+			<div class="inside mt-5" style="padding-left: 0px; !important">
+				<div class="inside-content">
+					{% block content %}{% endblock %}
 				</div>
 			</div>
 		</div>
 	</div>
-</div>{% endblock %}
+</div></div>{% endblock %}

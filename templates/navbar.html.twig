@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg bg-light gradient-custom fixed-top">
-	<div class="container">
+	<div class="{{ containerClass is defined ? containerClass : "container" }}">
 		<a class="navbar-brand" href="{{ url("default") }}">
 			<img src="https://bcassetcdn.com/public/blog/wp-content/uploads/2021/11/10190851/Louis-Vuitton-1.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
 			{{ 'base.brand'|trans }}
