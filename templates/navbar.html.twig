@@ -9,6 +9,38 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav ms-auto mb-lg-0">
+				{% set html_gear_ul %}
+				<li class="d-flex align-items-center gap-2 m-2">
+					<a style="" class="nav-link" href="#">{{ ux_icon('bi:person-circle') }}</a>
+					<span class="text-center" style="display:inline">
+						{{ app.user.email }}
+					</span>
+				</li>
+				<li><hr class="dropdown-divider"></li>
+				<li>
+					{% if is_granted('ROLE_OWNER') %}
+						<a class="nav-link" href="{{url('app_property_index')}}">{{ 'base.client_area'|trans }}</a>
+					{% else %}
+						<a class="nav-link" href="{{url('app_user_profile_edit')}}">{{ 'base.client_area'|trans }}</a>
+					{% endif %}
+				</li>
+				{% endset %}
+
+				{% set html_logout %}
+				{% if is_granted('ROLE_USER') %}
+					<li>
+						<a class="nav-link" href="{{url('app_search_favorite')}}">{{ 'base.favorites'|trans }}</a>
+					</li>
+					<li>
+						<a class="nav-link" href="{{ url('app_logout')}}">{{ 'base.logout'|trans }}</a>
+					</li>
+				{% endif %}
+				{% endset %}
+
+				<div class="d-block d-md-none">
+					{{ html_gear_ul | raw }}
+				</div>
+
 				<li class="nav-item">
 					<a class="nav-link" href="{{ url("about_us") }}">{{ 'about.title'|trans }}</a>
 				</li>
@@ -16,32 +48,20 @@
 					<a class="nav-link" href="{{ url("contact") }}">{{ 'contact.title'|trans }}</a>
 				</li>
 				{% if is_granted('ROLE_USER') %}
-					<li class="nav-item dropdown">
+					<li class="nav-item dropdown d-none d-lg-block">
 						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 							<span style="">{{ ux_icon('bi:gear') }}</span>
 						</a>
 						<ul class="dropdown-menu dropdown-menu-right">
-							<li>
-								<a class="dropdown-item" href="#">{{ ux_icon('bi:person-circle') }}
-									{{ app.user.email }}</a>
-							</li>
-							<li><hr class="dropdown-divider"></li>
-							<li>
-								{% if is_granted('ROLE_OWNER') %}
-									<a class="dropdown-item" href="{{url('app_property_index')}}">{{ 'base.client_area'|trans }}</a>
-								{% else %}
-									<a class="dropdown-item" href="{{url('app_user_profile_edit')}}">{{ 'base.client_area'|trans }}</a>
-								{% endif %}
-							</li>
-							{% if is_granted('ROLE_USER') %}
-								<li><a class="dropdown-item" href="{{url('app_search_favorite')}}">{{ 'base.favorites'|trans }}</a></li>
-							{% endif %}
-							<li>
-								<a class="dropdown-item" href="{{ url('app_logout')}}">{{ 'base.logout'|trans }}</a>
-							</li>
+							{{ html_gear_ul | raw }}
+							{{ html_logout | raw }}
 						</ul>
 					</li>
 				</li>
+				<div class="d-block d-md-none">
+					{{ html_logout | raw }}
+				</div>
+
 			{% else %}
 				<li class="nav-item">
 					<a class="nav-link" href="{{ url("app_login") }}">{{ 'user.access'|trans }}</a>
