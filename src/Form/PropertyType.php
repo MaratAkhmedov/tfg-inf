@@ -27,6 +27,10 @@ class PropertyType extends AbstractType
                 'label' => 'property.form.title',
                 'required'   => true,
             ])
+            ->add('shortDescription', TextareaType::class, [
+                'label' => 'property.form.short_description',
+                'required'   => false,
+            ])
             ->add('description', TextareaType::class, [
                 'label' => 'property.form.description',
                 'required'   => false,
@@ -40,10 +44,6 @@ class PropertyType extends AbstractType
             ])
             ->add('numRooms', IntegerType::class, [
                 'label' => 'property.form.num_rooms',
-                'required'   => false
-            ])
-            ->add('maxPersons', IntegerType::class, [
-                'label' => 'property.form.max_persons',
                 'required'   => false
             ])
             ->add('floor', IntegerType::class, [

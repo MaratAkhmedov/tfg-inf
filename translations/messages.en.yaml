@@ -85,7 +85,8 @@ property:
     properties: properties
     publish: Publish a property free  
     title: Title
-    description: Description
+    short_description: Short description
+    description: Detailed description
     price: Price
     num_bathrooms: Number of bathrooms
     num_rooms: Number of rooms

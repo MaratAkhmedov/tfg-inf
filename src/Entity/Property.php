@@ -22,6 +22,9 @@ class Property
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
 
+    #[ORM\Column(length: 255, nullable: false)]
+    private ?string $shortDescription = null;
+
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
@@ -33,9 +36,6 @@ class Property
 
     #[ORM\Column(nullable: true)]
     private ?int $numRooms = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?int $maxPersons = null;
 
     #[ORM\Column(nullable: true)]
     private ?bool $lastFloor = null;
@@ -162,18 +162,6 @@ class Property
     public function setNumRooms(?int $numRooms): static
     {
         $this->numRooms = $numRooms;
-
-        return $this;
-    }
-
-    public function getMaxPersons(): ?int
-    {
-        return $this->maxPersons;
-    }
-
-    public function setMaxPersons(?int $maxPersons): static
-    {
-        $this->maxPersons = $maxPersons;
 
         return $this;
     }
@@ -421,6 +409,26 @@ class Property
                 $favorite->setProperty(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * Get the value of shortDescription
+     */ 
+    public function getShortDescription(): ?string
+    {
+        return $this->shortDescription;
+    }
+
+    /**
+     * Set the value of shortDescription
+     *
+     * @return  self
+     */ 
+    public function setShortDescription(?string $shortDescription)
+    {
+        $this->shortDescription = $shortDescription;
 
         return $this;
     }

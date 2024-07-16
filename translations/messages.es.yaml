@@ -84,7 +84,8 @@ property:
     type_placeholder: Por favor seleccione el tipo de la vivienda
     create: Publicar nueva vivienda
     title: Título
-    description: Descripción
+    short_description: Descripción corta
+    description: Descripción mas detallada
     price: Precio
     num_bathrooms: Número de baños
     num_rooms: Número de habitaciones
