@@ -1,121 +1,137 @@
 {{ form_start(form, {'attr': {'id': 'property-form'}}) }}
 
-
-<div class="row">
-	<div class="mb-3">
-		{{ form_label(form.type) }}
-		{{ form_widget(form.type, {'attr': {'class': 'form-control'}}) }}
-		{{ form_errors(form.type) }}
-	</div>
-</div>
-
-<div class="row">
-	<div class="mb-3">
-		{{ form_label(form.name) }}
-		{{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
-		{{ form_errors(form.name) }}
-	</div>
-</div>
-
-<div class="row">
-	<div class="mb-3">
-		{{ form_label(form.shortDescription) }}
-		{{ form_widget(form.shortDescription) }}
-		{{ form_errors(form.shortDescription) }}
-	</div>
-</div>
-
-<div class="row">
-	<div class="mb-3">
-		{{ form_label(form.description) }}
-		{{ form_widget(form.description, {'id': 'editor', 'attr': {'class': 'form-control quill-editor'}}) }}
-		{{ form_errors(form.description) }}
-	</div>
-</div>
-
-
-<div class="row">
-	<div class="col-md-12">
-		<h2>{{ form_label(form.address) }}</h2>
+{% if flow.getCurrentStepNumber() == 1 %}
+	<div class="row">
 		<div class="mb-3">
-			{{ form_widget(form.address, {'attr': {'class': 'form-control'}}) }}
-			{{ form_errors(form.address) }}
-		</div>
-
-		<div class="col-md-12 mx-auto mb-4">
-			<div class="mx-auto" style="height: 300px; text-align:center " id="map"></div>
+			{{ form_label(form.type) }}
+			{{ form_widget(form.type, {'attr': {'class': 'form-control'}}) }}
+			{{ form_errors(form.type) }}
 		</div>
 	</div>
-</div>
 
-<h2>{{'property.form.property_details'|trans}}</h2>
-
-<div class="row">
-	<div class="mb-3 col-md-4 col-lg-3">
-		{{ form_label(form.price) }}
-		{{ form_widget(form.price, {'attr': {'class': 'form-control'}}) }}
-		{{ form_errors(form.price) }}
+	<div class="row">
+		<div class="mb-3">
+			{{ form_label(form.name) }}
+			{{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+			{{ form_errors(form.name) }}
+		</div>
 	</div>
 
-	<div class="mb-3 col-md-4 col-lg-3">
-		{{ form_label(form.state) }}
-		{{ form_widget(form.state, {'attr': {'class': 'form-control'}}) }}
-		{{ form_errors(form.state) }}
+	<div class="row">
+		<div class="mb-3">
+			{{ form_label(form.shortDescription) }}
+			{{ form_widget(form.shortDescription) }}
+			{{ form_errors(form.shortDescription) }}
+		</div>
 	</div>
 
-	<div class="mb-3 col-md-4 col-lg-3">
-		{{ form_label(form.numBathrooms) }}
-		{{ form_widget(form.numBathrooms, {'attr': {'class': 'form-control'}}) }}
-		{{ form_errors(form.numBathrooms) }}
+	<div class="row">
+		<div class="mb-3">
+			{{ form_label(form.description) }}
+			{{ form_widget(form.description, {'id': 'editor', 'attr': {'class': 'form-control quill-editor'}}) }}
+			{{ form_errors(form.description) }}
+		</div>
 	</div>
+{% endif %}
 
-	<div class="mb-3 col-md-4 col-lg-3">
-		{{ form_label(form.numRooms) }}
-		{{ form_widget(form.numRooms, {'attr': {'class': 'form-control'}}) }}
-		{{ form_errors(form.numRooms) }}
+{% if flow.getCurrentStepNumber() == 2 %}
+	<div class="row">
+		<div class="col-md-12">
+			<h2>{{ form_label(form.address) }}</h2>
+			<div class="mb-3">
+				{{ form_widget(form.address, {'attr': {'class': 'form-control'}}) }}
+				{{ form_errors(form.address) }}
+			</div>
+
+			<div class="col-md-12 mx-auto mb-4">
+				<div class="mx-auto" style="height: 300px; text-align:center " id="map"></div>
+			</div>
+		</div>
 	</div>
+{% endif %}
 
-	<div class="mb-3 col-md-4 col-lg-3">
-		{{ form_label(form.square) }}
-		{{ form_widget(form.square, {'attr': {'class': 'form-control'}}) }}
-		{{ form_errors(form.square) }}
-	</div>
-
-	<div class="mb-3 col-md-4 col-lg-3">
-		{{ form_label(form.floor) }}
-		{{ form_widget(form.floor, {'attr': {'class': 'form-control'}}) }}
-		{{ form_errors(form.floor) }}
-
-		{{ form_label(form.lastFloor) }}
-		{{ form_widget(form.lastFloor, {'attr': {'class': 'form-control'}}) }}
-		{{ form_errors(form.lastFloor) }}
-	</div>
-
+{% if flow.getCurrentStepNumber() == 3 %}
+	<h2>{{'property.form.property_details'|trans}}</h2>
 
 	<div class="row">
 		<div class="mb-3 col-md-4 col-lg-3">
-			{{ form_label(form.rules) }}
-			{{ form_widget(form.rules, {'attr': {'class': ''}}) }}
-			{{ form_errors(form.rules) }}
+			{{ form_label(form.price) }}
+			{{ form_widget(form.price, {'attr': {'class': 'form-control'}}) }}
+			{{ form_errors(form.price) }}
 		</div>
-	</div>
 
-	<div class="row" id="form_room_data">
-		<h2>{{ form_label(form.room) }}</h2>
-		{{ form_widget(form.room) }}
-		{{ form_errors(form.room) }}
-	</div>
-
-	<div class="row mb-5 mt-2">
-		<div class="form-group">
-			<h2>
-				<label class="form-label required">{{ 'dropzone.title'|trans}}</label>
-			</h2>
-			<div id="dropzone" class="dropzone"></div>
-			<div id="dropzone-error" class="text-danger d-none">{{ 'dropzone.required'|trans }}</div>
+		<div class="mb-3 col-md-4 col-lg-3">
+			{{ form_label(form.state) }}
+			{{ form_widget(form.state, {'attr': {'class': 'form-control'}}) }}
+			{{ form_errors(form.state) }}
 		</div>
-	</div>
-</div>
 
-<button class="btn btn-success" id="submit-button">{{ 'form.save'|trans }}</button>
+		<div class="mb-3 col-md-4 col-lg-3">
+			{{ form_label(form.numBathrooms) }}
+			{{ form_widget(form.numBathrooms, {'attr': {'class': 'form-control'}}) }}
+			{{ form_errors(form.numBathrooms) }}
+		</div>
+
+		<div class="mb-3 col-md-4 col-lg-3">
+			{{ form_label(form.numRooms) }}
+			{{ form_widget(form.numRooms, {'attr': {'class': 'form-control'}}) }}
+			{{ form_errors(form.numRooms) }}
+		</div>
+
+		<div class="mb-3 col-md-4 col-lg-3">
+			{{ form_label(form.square) }}
+			{{ form_widget(form.square, {'attr': {'class': 'form-control'}}) }}
+			{{ form_errors(form.square) }}
+		</div>
+
+		<div class="mb-3 col-md-4 col-lg-3">
+			{{ form_label(form.floor) }}
+			{{ form_widget(form.floor, {'attr': {'class': 'form-control'}}) }}
+			{{ form_errors(form.floor) }}
+
+			{{ form_label(form.lastFloor) }}
+			{{ form_widget(form.lastFloor, {'attr': {'class': 'form-control'}}) }}
+			{{ form_errors(form.lastFloor) }}
+		</div>
+
+
+		<div class="row">
+			<div class="mb-3 col-md-4 col-lg-3">
+				{{ form_label(form.rules) }}
+				{{ form_widget(form.rules, {'attr': {'class': ''}}) }}
+				{{ form_errors(form.rules) }}
+			</div>
+		</div>
+	{% endif %}
+
+	{% if flow.getCurrentStepNumber() == 4 %}
+		<div class="row" id="form_room_data">
+			<h2>{{ form_label(form.room) }}</h2>
+			{{ form_widget(form.room) }}
+			{{ form_errors(form.room) }}
+		</div>
+	{% endif %}
+	{% if flow.getCurrentStepNumber() == 5 %}
+		{{dump(form)}}
+		<div class="mb-3">
+			{{ form_label(form.images) }}
+			{{ form_widget(form.images, {'id': 'images', 'attr': {'class': ''}}) }}
+			{{ form_errors(form.images) }}
+		</div>
+		<div class="row mb-5 mt-2">
+			<div class="form-group">
+				<h2>
+					<label class="form-label required">{{ 'dropzone.title'|trans}}</label>
+				</h2>
+				<div id="dropzone" class="dropzone"></div>
+				<div id="dropzone-error" class="text-danger d-none">{{ 'dropzone.required'|trans }}</div>
+			</div>
+		</div>
+	{% endif %}
+
+	{% include '@CraueFormFlow/FormFlow/buttons.html.twig' with {
+		craue_formflow_button_class_last: 'btn btn-primary',
+		craue_formflow_button_class_back: 'btn',
+		craue_formflow_button_class_reset: 'btn btn-warning',
+	} %}</div>
 {{ form_end(form) }}

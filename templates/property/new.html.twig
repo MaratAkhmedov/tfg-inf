@@ -29,17 +29,26 @@
         ] %}
         {% include '/breadcrumbs.html.twig' with {'breadcrumbs': breadcrumbs} %}
 
-
+        {{dump(flow.getImages())}}
         <h2>{{ 'property.form.create'|trans }}</h2>
+        <div class="row">
+        <div class="col-md-3">
+            <div>
+                Steps:
+                {% include '@CraueFormFlow/FormFlow/stepList.html.twig' %}
+            </div>
+        </div>
+        <div class="col-md-9">
+            {{ include('property/_form.html.twig') }}
+        </div>
+        </div>
         
-        
-        {{ include('property/_form.html.twig') }}
     </div>
 
 {% endblock %}
 
 
-{% block javascript %}
+{% block javascript %} <!-- parse-ignore-start -->
     <script src="https://maps.googleapis.com/maps/api/js?key={{app.request.server.get('GOOGLE_MAP_API_KEY')}}&libraries=places"></script>
     <script src="{{ asset('js/dropzone.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
@@ -69,71 +78,76 @@
     </script>
 
     <script>
-        Dropzone.autoDiscover = false;
+        const step = "{{flow.getCurrentStepNumber()}}"
+        console.log("step", step)
 
-        const dropzoneError = document.getElementById("dropzone-error");
-        const submitButton = document.getElementById("submit-button");
+        /*if(step == 5) {
+            Dropzone.autoDiscover = false;
 
-        const myDropzone = new Dropzone("#dropzone", {
-            url: "#", // URL is not needed as we'll handle the upload with the form submit
-            autoProcessQueue: false,
-            uploadMultiple: true,
-            parallelUploads: 10,
-            paramName: "photos",
-            maxFilesize: 5, // MB
-            acceptedFiles: "image/*",
-            addRemoveLinks: true,
-            dictDefaultMessage: "{{'dropzone.default_message'|trans}}",
-            maxFiles: 10
-        });
+            const dropzoneError = document.getElementById("dropzone-error");
+            //const submitButton = document.getElementById("submit-button");
 
-        myDropzone.on("removedfile", function(file) {
-            console.log("removedfile")
-            if (myDropzone.files.length === 0) {
-                myDropzone.element.querySelector(".dz-message").style.display = "block";
-                submitButton.disabled = true; // Disable the submit button if no files are present
-                dropzoneError.classList.remove('d-none');
-            }
-        });
- 
-        myDropzone.on("addedfile", function(file) {
-            myDropzone.element.querySelector(".dz-message").style.display = "none";
-            dropzoneError.classList.add('d-none');
-            submitButton.disabled = false; // Enable the submit button when a file is added
-        });
-
-        const form = document.getElementById('property-form');
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            if (myDropzone.files.length === 0) {
-                dropzoneError.classList.remove('d-none');
-                submitButton.disabled = false; // Enable the submit button when a file is added
-                return
-            }
-
-            const formData = new FormData(form);
-
-            // Append files from Dropzone to formData
-            myDropzone.getAcceptedFiles().forEach(function(file) {
-                formData.append('photos[]', file);
+            const myDropzone = new Dropzone("#dropzone", {
+                url: "#", // URL is not needed as we'll handle the upload with the form submit
+                autoProcessQueue: false,
+                uploadMultiple: true,
+                parallelUploads: 10,
+                paramName: "photos",
+                maxFilesize: 5, // MB
+                acceptedFiles: "image/*",
+                addRemoveLinks: true,
+                dictDefaultMessage: "{{'dropzone.default_message'|trans}}",
+                maxFiles: 10
             });
 
-            // Submit the form with files
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', form.action, true);
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    // Handle success
-                    window.location.href = xhr.responseURL
-                } else {
-                    // Handle error
-                    console.error(xhr.responseText);
+            myDropzone.on("removedfile", function(file) {
+                console.log("removedfile")
+                if (myDropzone.files.length === 0) {
+                    myDropzone.element.querySelector(".dz-message").style.display = "block";
+                    //submitButton.disabled = true; // Disable the submit button if no files are present
+                    dropzoneError.classList.remove('d-none');
                 }
-            };
-            xhr.send(formData);
-        });
+            });
+    
+            myDropzone.on("addedfile", function(file) {
+                myDropzone.element.querySelector(".dz-message").style.display = "none";
+                dropzoneError.classList.add('d-none');
+                //submitButton.disabled = false; // Enable the submit button when a file is added
+            });
+
+            const form = document.getElementById('property-form');
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                if (myDropzone.files.length === 0) {
+                    dropzoneError.classList.remove('d-none');
+                    submitButton.disabled = false; // Enable the submit button when a file is added
+                    return
+                }
+
+                const formData = new FormData(form);
+
+                // Append files from Dropzone to formData
+                myDropzone.getAcceptedFiles().forEach(function(file) {
+                    formData.append('photos[]', file);
+                });
+
+                // Submit the form with files
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', form.action, true);
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        // Handle success
+                        window.location.href = xhr.responseURL
+                    } else {
+                        // Handle error
+                        console.error(xhr.responseText);
+                    }
+                };
+                xhr.send(formData);
+            });
+        }*/
     </script>
 
     <script>
@@ -161,7 +175,7 @@
             });
 
             // Inicializar el autocompletado
-            const input = document.getElementById('property_address');
+            const input = document.getElementById('property_address_address');
             const options = {
                 types: ['address'], // Solo sugerir direcciones completas
                 componentRestrictions: { country: 'ES' } // Opcional: Restringir por país
@@ -196,7 +210,7 @@
 
                 // Establecer los valores de coordenadas
                 //document.getElementById('property_coordinates').value = place.geometry.location.lat() + "," + place.geometry.location.lng();
-                document.getElementById('property_mapPlaceId').value = place.place_id;
+                document.getElementById('property_address_placeId').value = place.place_id;
 
                 const icon = {
                     url: place.icon,
@@ -224,14 +238,19 @@
 
         // Inicializar el mapa al cargar la página
         window.onload = function() {
-            initMap();
+            const step = "{{flow.getCurrentStepNumber()}}"
+            console.log("step", step)
+            if(step == 2) {
+                initMap();
 
-            // Validate address before submit
-            document.getElementById('property_address').addEventListener('blur', function () {
-                if(document.getElementById('property_mapPlaceId').value == "") {
-                    document.getElementById('property_address').value = '';
-                }
-            });
+                // Validate address before submit
+                document.getElementById('property_address_address').addEventListener('blur', function () {
+                    if(document.getElementById('property_address_placeId').value == "") {
+                        document.getElementById('property_address_address').value = '';
+                    }
+                });
+            }
+            
         };
     </script>
 

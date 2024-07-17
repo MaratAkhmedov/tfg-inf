@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Photo;
 use App\Entity\Property;
+use App\Form\CreatePropertyFlow;
 use App\Form\PropertyType;
 use App\Repository\PropertyRepository;
 use App\Service\IPropertyService;
@@ -22,13 +23,13 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 #[Route('owner/property')]
 #[IsGranted('ROLE_OWNER')]
 class PropertyController extends AbstractController
-{    
+{
     // TODO: ADMIN PROPERTY later add it to admin menu
     #[Route('/', name: 'app_property_index', methods: ['GET'])]
     public function index(Request $request, PropertyRepository $propertyRepository, PaginatorInterface $paginator): Response
     {
         $user = $this->getUser();
-        
+
         return $this->render('admin/properties.html.twig', [
             'pagination' => $paginator = $paginator->paginate(
                 $propertyRepository->findUserProperties($user),
@@ -39,45 +40,56 @@ class PropertyController extends AbstractController
     }
 
     #[Route('/new', name: 'app_property_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, IPropertyService $propertyService, SluggerInterface $slugger): Response
+    public function new(Request $request, IPropertyService $propertyService, SluggerInterface $slugger, CreatePropertyFlow $flow): Response
     {
+        error_reporting(E_ALL & ~E_NOTICE);
+
         $property = new Property();
-        $form = $this->createForm(PropertyType::class, $property);
-        $form->handleRequest($request);
+        $flow->bind($property);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $property->setUser($this->getUser());
-            // Handle uploaded files
-            $files = $request->files->get('photos', []);
-            foreach ($files as $file) {
-                if ($file) {
-                    $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                    $safeFilename = $slugger->slug($originalFilename);
-                    $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
+        // form of the current step
+        $form = $flow->createForm();
+        if ($flow->isValid($form)) {
+            $flow->saveCurrentStepData($form);
 
-                    try {
-                        $file->move(
-                            $this->getParameter('photos_directory'),
-                            $newFilename
-                        );
+            if ($flow->nextStep()) {
+                // form for the next step
+                $form = $flow->createForm();
+            } else {
+                // flow finished
+                $property->setUser($this->getUser());
+                // Handle uploaded files
+                $files = $request->files->get('photos', []);
+                foreach ($files as $file) {
+                    if ($file) {
+                        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                        $safeFilename = $slugger->slug($originalFilename);
+                        $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
 
-                        $photo = new Photo();
-                        $photo->setUrl($this->getParameter('photos_prefix') . '/' . $newFilename);
-                        $property->addPhoto($photo);
-                    } catch (FileException $e) {
-                        // Handle exception if something happens during file upload
+                        try {
+                            $file->move(
+                                $this->getParameter('photos_directory'),
+                                $newFilename
+                            );
+
+                            $photo = new Photo();
+                            $photo->setUrl($this->getParameter('photos_prefix') . '/' . $newFilename);
+                            $property->addPhoto($photo);
+                        } catch (FileException $e) {
+                            // Handle exception if something happens during file upload
+                        }
                     }
                 }
+
+                $propertyService->generateProperty($property, $property->getAddress()->getPlaceId());
+
+                return $this->redirectToRoute('app_property_show', ['id' => $property->getId()], Response::HTTP_SEE_OTHER);
             }
-
-            $placeId = $form->get('mapPlaceId')->getData();
-            $propertyService->generateProperty($property, $placeId);
-
-            return $this->redirectToRoute('app_property_show', ['id' => $property->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('property/new.html.twig', [
             'property' => $property,
+            'flow' => $flow,
             'form' => $form,
         ]);
     }
@@ -90,20 +102,20 @@ class PropertyController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-           if($property->getType()->getName() != 'room') {
+            if ($property->getType()->getName() != 'room') {
                 $property->setRoom(null);
-           }
-            
+            }
+
             $files = $request->files->get('photos', []);
 
-            
+
             // Handle uploaded files
             $files = $request->files->get('photos', []);
             foreach ($files as $file) {
                 if ($file) {
                     $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
                     $safeFilename = $slugger->slug($originalFilename);
-                    $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+                    $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
 
                     try {
                         $file->move(
@@ -129,7 +141,7 @@ class PropertyController extends AbstractController
                     $property->removePhoto($photo);
                     $entityManager->remove($photo);
 
-                    $filePath = $this->getParameter('photos_directory').'/'.$filename;
+                    $filePath = $this->getParameter('photos_directory') . '/' . $filename;
                     if (file_exists($filePath)) {
                         unlink($filePath); // Delete the file from the server
                     }
@@ -158,10 +170,10 @@ class PropertyController extends AbstractController
     public function delete(Request $request, Property $property, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
-        if($property->getUser()->getUserIdentifier() != $user->getUserIdentifier()) {
+        if ($property->getUser()->getUserIdentifier() != $user->getUserIdentifier()) {
             throw new Exception("Not authorized");
         }
-        
+
         if ($this->isCsrfTokenValid('delete' . $property->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($property);
             $entityManager->flush();
