@@ -166,7 +166,11 @@
 
 		<h3 class="mt-4">{{ 'property.show.description_title'|trans }}</h3>
         <div class="m-3">
-        	{{property.description|raw}}
+		{% if property.description is not empty %}
+		    {{property.description|raw}}
+		{% else %}
+			{{property.shortDescription|raw}}
+		{% endif %}
         </div>
 
 
