@@ -82,7 +82,7 @@ class PublicController extends AbstractController
         if ($searchForm->isSubmitted() && $searchForm->isValid()) {
             $data = $searchForm->getData();
 
-            if ((isset($data['type']) != isset($type)) || ($data['type']->getId() != $type->getId())) {
+            if ($this->checkDifferentType($data['type'], $type)) {
                 return $this->redirectToRoute('app_search_property_type_city', [
                     'type' => $data['type'] ? $data['type']->getId() : null,
                     'city' => $city->getId()
@@ -111,5 +111,13 @@ class PublicController extends AbstractController
             'pagination' => $paginator,
             'coordinates' => $coordinates
         ]);
+    }
+
+    private function checkDifferentType(?PropertyType $submitType, ?PropertyType $requestType){
+        if (isset($submitType) && isset($requestType)) {
+            return $submitType->getId() !== $requestType->getId();
+        } elseif (isset($submitType) != isset($requestType)) {
+            return true;
+        }
     }
 }
