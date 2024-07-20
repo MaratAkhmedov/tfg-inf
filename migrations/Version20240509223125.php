@@ -120,6 +120,19 @@ final class Version20240509223125 extends AbstractMigration
         ('reduced_mobility',NULL,'tabler:disabled','flat.attributes.reduced_mobility','flat');
         SQL);
 
+        $this->addSql(<<<SQL
+        INSERT INTO `attribute` (name,description,icon,label,discr) 
+        VALUES
+        ('cupboard',NULL,'iconoir:closet','room.attributes.cupboard','room'),
+        ('desk',NULL,'material-symbols-light:desk','room.attributes.desk','room'),
+        ('chair',NULL,'ph:chair-light','room.attributes.chair','room'),
+        ('window',NULL,'material-symbols:window-outline','room.attributes.window','room'),
+        ('tv',NULL,'ri:tv-line','room.attributes.tv','room'),
+        ('couch',NULL,'mdi:couch','room.attributes.couch',''),
+        ('balcony',NULL,'iconoir:balcony','room.attributes.balcony','room'),
+        ('private_bathroom',NULL,'cil:bathroom','room.attributes.private_bathroom','room');
+        SQL);
+
         // Rule
         $this->addSql(<<<SQL
         INSERT INTO rule (id, name, label, description, icon)

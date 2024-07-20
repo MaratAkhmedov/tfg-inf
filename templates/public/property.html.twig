@@ -165,8 +165,6 @@
 			</div>
 		{% endif %}
 
-		{{dump(property)}}
-
 		{% if property.attributeProperties is not empty %}
 			<div class="row">
 				<div class="rules-card col-md-12">
@@ -176,6 +174,30 @@
 					<div class="rules row">
 						<div class="d-flex flex-wrap justify-content-start">
 							{% for attribute in property.attributeProperties %}
+								<div class="rule-element">
+									<div style="icon-container d-flex flex-column align-items-center" class="p-3 text-center">
+										<div class="rule-icon" style="height: 60px; width:60px;">
+											{{ ux_icon(attribute.icon) }}
+										</div>
+										<span class="">{{attribute.label|trans}}</span>
+									</div>
+								</div>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+
+		{% if property.room is not empty %}
+			<div class="row">
+				<div class="rules-card col-md-12">
+					<div class="rules-title">
+						<h2>{{ 'property.show.property_room_attributes'|trans }}</h2>
+					</div>
+					<div class="rules row">
+						<div class="d-flex flex-wrap justify-content-start">
+							{% for attribute in property.room.attributeRooms %}
 								<div class="rule-element">
 									<div style="icon-container d-flex flex-column align-items-center" class="p-3 text-center">
 										<div class="rule-icon" style="height: 60px; width:60px;">

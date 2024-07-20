@@ -76,6 +76,7 @@ property:
     rules_title: 'Reglas de la vivienda'
     map_title: 'Mapa'
     property_attributes: Características de la propiedad
+    property_room_attributes: Características de la habitación
   not_found: Viviendas no encontradas
   type:
     flat: Piso
@@ -150,6 +151,13 @@ room:
     double: Doble
     other: Otro
   attributes:
+    cupboard: Armario
+    desk: Mesa
+    chair: Silla
+    window: Ventana
+    tv: TV
+    couch: Sofá
+    balcony: Balcón
     private_bathroom: Baño privado
   form:
     bed_type: Cama
