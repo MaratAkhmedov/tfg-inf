@@ -13,11 +13,6 @@
 
 		.property-filter-row {
 			padding-top: 0.5rem;
-			/* border: 1px solid #eb6864;
-			border-radius: 5px; 
-			margin: 0.25rem; */
-			/* margin-top: 0.5rem;
-			border-top: 1px solid #c3c3c3; */
 		}
 		.filter-counter {
 			transform: translate(50%, -50%);
@@ -96,14 +91,22 @@
 			position: sticky;
 		}
 
-		.gm-style iframe + div {
-			border: none !important;
-		}
-
 		@media(min-width: 991.98px) {
 			footer {
 				width: 51%;
 			}
+		}
+
+		.centered {
+			position: fixed;
+			top: 50%;
+			left: 75%;
+		}
+
+		.centered-modal {
+			position: fixed;
+			top: 50%;
+			left: 50%;
 		}
 	</style>
 
@@ -184,9 +187,12 @@
 						</div>
 
 						<div style="width:30px;height: 190%; margin-top:10px;" class="bd-highlight pt-2 d-lg-none">
-							<a style="" class="" href="#" role="button" data-bs-toggle="modal" data-bs-target="#mapModal">
+							<a id="mapIcon" style="display:none" class="" href="#" role="button" data-bs-toggle="modal" data-bs-target="#mapModal">
 								<span style="">{{ ux_icon('uiw:map') }}</span>
 							</a>
+							<div style="display: none;" class="spinner spinner-grow text-primary" role="status">
+								<span class="visually-hidden">Loading...</span>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -225,9 +231,6 @@
 												<a class="favorite-link" role="button">
 													{{ ux_icon('mdi:heart-outline', {class: 'not-confirmed-favourite-icon', style: (isFavorite ? 'display: none;' : '')}) }}
 													{{ ux_icon('mdi:heart', {class: 'confirmed-favourite-icon', style: (isFavorite ? '' : 'display: none;')}) }}
-													<div style="display: none;" class="spinner spinner-grow text-primary" role="status">
-														<span class="visually-hidden">Loading...</span>
-													</div>
 												</a>
 											</div>
 										</div>
@@ -250,6 +253,12 @@
 
 
 			<div class="col-lg-6 d-none d-lg-block">
+				<div class="d-flex justify-content-center">
+					<div class="map-spinner spinner centered spinner-grow text-primary" role="status">
+						<span class="visually-hidden">Loading...</span>
+					</div>
+				</div>
+
 				<div id="map"></div>
 			</div>
 		</div>
@@ -264,6 +273,11 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
+				<div class="d-flex justify-content-center">
+					<div class="map-spinner spinner centered-modal spinner-grow text-primary" role="status">
+						<span class="visually-hidden">Loading...</span>
+					</div>
+				</div>
 				<div id="map-modal-container"></div>
 			</div>
 		</div>
@@ -274,6 +288,7 @@
 
 <script>
     $(document).ready(function() {
+		$("#mapIcon").show()
 		// add favourite icon click
 		$('.favorite-link').on('click', function () {
             var propertyId = $(this).closest('[property-id]').attr('property-id');
@@ -477,6 +492,7 @@
 	}
 
     function initMap(isMobile) {
+		console.log("is mobile", isMobile)
 		const mapElement = isMobile ? document.getElementById('map-modal-container') : document.getElementById('map')
 		refreshMarkers();
 		checkNoMarkers();
@@ -620,10 +636,13 @@
             }
             google.maps.event.removeListener(listener);
         });
+
+		$(".map-spinner").hide();
     }
 
 	// Escucha el evento cuando el modal se muestra
 	$('#mapModal').on('shown.bs.modal', function () {
+		console.log("mobile form opened")
 		initMap(true)
     });
 

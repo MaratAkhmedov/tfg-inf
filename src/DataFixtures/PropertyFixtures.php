@@ -11,25 +11,37 @@ use App\Repository\UserRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 class PropertyFixtures extends Fixture implements DependentFixtureInterface
 {
     public function __construct(
         private CityRepository $cityRepository,
         private UserRepository $userRepository,
-        private PropertyTypeRepository $propertyTypeRepository
+        private PropertyTypeRepository $propertyTypeRepository,
+        private KernelInterface $kernelInterface
     ){}
 
     public function load(ObjectManager $manager): void
     {
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 1; $i <= 13; $i++) {
             $property = new Property();
             $property->setName('Propiedad '.$i.' de pruebas');
-            $property->setDescription("Es la descripción de la vivienda de pruebas, solo se usa en entorno pre");
+            $property->setShortDescription("Es la descripción corta de pruebas para la propiedad $i");
+            $property->setDescription("Es la descripción larga de pruebas para la propiedad $i");
             $property->setType($this->propertyTypeRepository->findOneBy(['name' => 'room']));
-            $photo = new Photo();
-            $photo->setUrl("images/placeholder400x200.png");
-            $property->addPhoto($photo);
+            
+            $photo1 = new Photo();
+            $imageName1 = $this->findFilesWithPrefix("sample_property_" . $i . ".");
+            $photo1->setUrl("images/$imageName1");
+            $property->addPhoto($photo1);
+
+            $photo2 = new Photo();
+            $imageName2 = $this->findFilesWithPrefix("sample_property_" . $i+1 . ".");
+            $photo2->setUrl("images/$imageName2");
+            $property->addPhoto($photo2);
+
             $property->setAddress($this->generateRandomAddress($i));
             $property->setUser($this->userRepository->findOneBy(['email' => 'owner@test.com']));
             $property->setPrice(rand(100, 1000));
@@ -37,6 +49,16 @@ class PropertyFixtures extends Fixture implements DependentFixtureInterface
         }
 
         $manager->flush();    
+    }
+
+    private function findFilesWithPrefix(string $prefix)
+    {
+        $finder = new Finder();
+        $finder->files()->in($this->kernelInterface->getProjectDir() . "/assets/images/")->name($prefix . '*');
+
+        foreach ($finder as $file) {
+            return $file->getRelativePathname();
+        }
     }
 
     private function generateRandomAddress($pos): Address
