@@ -16,15 +16,22 @@ use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
+use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * @extends ServiceEntityRepository<Property>
  */
 class PropertyRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $authorizationChecker;
+    public function __construct(
+        ManagerRegistry $registry,
+        AuthorizationCheckerInterface $authorizationChecker
+    )
     {
         parent::__construct($registry, Property::class);
+        $this->authorizationChecker = $authorizationChecker;
     }
 
     /**
@@ -33,9 +40,12 @@ class PropertyRepository extends ServiceEntityRepository
     public function findUserProperties(User $user): QueryBuilder
     {
         $qb = $this->createQueryBuilder('p')
-            ->leftJoin('p.address', 'pa')
-            ->andWhere('p.user = :user')
+            ->leftJoin('p.address', 'pa');
+
+        if(!$this->authorizationChecker->isGranted('ROLE_ADMIN')) {
+            $qb->andWhere('p.user = :user')
             ->setParameter('user', $user);
+        }
 
         return $qb;
     }

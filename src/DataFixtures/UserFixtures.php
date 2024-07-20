@@ -24,7 +24,7 @@ class UserFixtures extends Fixture
 
         $password = $this->hasher->hashPassword($user, 'admin');
         $user->setPassword($password);
-        $user->setRoles($user->getRoles());
+        $user->setRoles(['ROLE_ADMIN']);
 
         $manager->persist($user);
         $manager->flush();
@@ -43,7 +43,7 @@ class UserFixtures extends Fixture
         // Renter user
         $user = new User();
         $user->setEmail('renter@test.com');
-        $user->setRoles(['ROLE_ADMIN']);
+        $user->setRoles($user->getRoles());
 
         $password = $this->hasher->hashPassword($user, 'renter');
         $user->setPassword($password);

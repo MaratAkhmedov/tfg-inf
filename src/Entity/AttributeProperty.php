@@ -2,18 +2,18 @@
 
 namespace App\Entity;
 
-use App\Repository\AttributeFlatRepository;
+use App\Repository\AttributePropertyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: AttributeFlatRepository::class)]
+#[ORM\Entity(repositoryClass: AttributePropertyRepository::class)]
 class AttributeProperty extends Attribute
 {
     /**
      * @var Collection<int, Property>
      */
-    #[ORM\ManyToMany(targetEntity: Property::class, inversedBy: 'attributeProperties')]
+    #[ORM\ManyToMany(targetEntity: Property::class, mappedBy: 'attributeProperties')]
     private Collection $properties;
 
     public function __construct()

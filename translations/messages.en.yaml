@@ -74,6 +74,7 @@ property:
     equipment_title: 'Equipments'
     rules_title: 'Rules of the property'
     map_title: 'Map'
+    property_attributes: Property attributes
   not_found: Properties not found
   type:
     flat: Flat
@@ -101,16 +102,21 @@ property:
     address: Address
     last_updated: 'Last updated %minutes% mins ago'
     room: Room details
+    attributes_label: Property attributes
 breadcrumbs:
   home: Home
   create: create
   show: view
   edit: edit
 flat:
-  attributes:  
-    washing_machine: Washing machine
-    microwave: Microwave
+  attributes:
+    furnished: Furnished
     elevator: Elevator
+    garage: Garage
+    storage_room: Storage room
+    terrace: Terrace
+    pool: Pool
+    reduced_mobility: Adapted for disabled persons
 state:
   good: Good
   normal: Normal

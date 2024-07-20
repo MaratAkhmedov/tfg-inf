@@ -100,6 +100,12 @@
 		</div>
 	</div>
 
+	<div class="row" id="form_attributeProperties_data">
+		<h2>{{ form_label(form.attributeProperties) }}</h2>
+		{{ form_widget(form.attributeProperties) }}
+		{{ form_errors(form.attributeProperties) }}
+	</div>
+
 	<div class="row" id="form_room_data">
 		<h2>{{ form_label(form.room) }}</h2>
 		{{ form_widget(form.room) }}

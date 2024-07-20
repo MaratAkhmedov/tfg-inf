@@ -107,14 +107,18 @@ final class Version20240509223125 extends AbstractMigration
             ('Valencia', 46);
         SQL);
 
-        // Equipment
-        // $this->addSql(<<<SQL
-        // INSERT INTO equipment (id,name,label,`type`,description,icon) 
-        //     VALUES
-        //     (1, 'washing_machine', 'equipment.washing_machine',NULL,NULL,'mdi:washing-machine'),
-        //     (2, 'microwave', 'equipment.microwave',NULL,NULL,'material-symbols:microwave'),
-        //     (3, 'elevator', 'equipment.elevator',NULL,NULL,'medical-icon:elevators');
-        // SQL);
+        // Flat attributes
+        $this->addSql(<<<SQL
+        INSERT INTO `attribute` (name,description,icon,label,discr) 
+        VALUES
+        ('furnished',NULL,'maki:furniture','flat.attributes.furnished','flat'),
+        ('elevator',NULL,'material-symbols:elevator','flat.attributes.elevator','flat'),
+        ('garage',NULL,'material-symbols:garage','flat.attributes.garage','flat'),
+        ('storage_room',NULL,'cil:room','flat.attributes.storage_room','flat'),
+        ('terrace',NULL,'iconoir:balcony','flat.attributes.terrace','flat'),
+        ('pool',NULL,'mdi:pool','flat.attributes.pool','flat'),
+        ('reduced_mobility',NULL,'tabler:disabled','flat.attributes.reduced_mobility','flat');
+        SQL);
 
         // Rule
         $this->addSql(<<<SQL
@@ -147,6 +151,7 @@ final class Version20240509223125 extends AbstractMigration
         TRUNCATE TABLE autonomous_comunity');
 
         $this->addSql("TRUNCATE TABLE equipment");
+        $this->addSql("TRUNCATE TABLE attribute");
         $this->addSql("TRUNCATE TABLE rule");
         $this->addSql("TRUNCATE TABLE state");
     }

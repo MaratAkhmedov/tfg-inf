@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\AttributeFlat;
+use App\Entity\AttributeProperty;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<AttributeFlat>
+ * @extends ServiceEntityRepository<AttributeProperty>
  */
-class AttributeFlatRepository extends ServiceEntityRepository
+class AttributePropertyRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, AttributeFlat::class);
+        parent::__construct($registry, AttributeProperty::class);
     }
 
     //    /**
-    //     * @return AttributeFlat[] Returns an array of AttributeFlat objects
+    //     * @return AttributeProperty[] Returns an array of AttributeProperty objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -31,7 +31,7 @@ class AttributeFlatRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?AttributeFlat
+    //    public function findOneBySomeField($value): ?AttributeProperty
     //    {
     //        return $this->createQueryBuilder('c')
     //            ->andWhere('c.exampleField = :val')

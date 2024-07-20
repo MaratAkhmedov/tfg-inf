@@ -81,7 +81,7 @@ class Property
     /**
      * @var Collection<int, AttributeProperty>
      */
-    #[ORM\ManyToMany(targetEntity: AttributeProperty::class, mappedBy: 'properties')]
+    #[ORM\ManyToMany(targetEntity: AttributeProperty::class, inversedBy: 'properties')]
     private Collection $attributeProperties;
 
     #[ORM\OneToOne(inversedBy: 'property', cascade: ['persist', 'remove'], orphanRemoval: true)]

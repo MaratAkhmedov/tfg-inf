@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\AttributeProperty;
 use App\Entity\Property;
 use App\Entity\PropertyType as EntityPropertyType;
 use App\Entity\Rule;
@@ -75,6 +76,15 @@ class PropertyType extends AbstractType
             ->add('rules', EntityType::class, [
                 'label' => 'property.form.rules',
                 'class' => Rule::class,
+                'choice_label' => 'label',
+                'multiple' => true,
+                'choice_translation_domain' => true,
+                'expanded' => true,
+                'required'   => false
+            ])
+            ->add('attributeProperties', EntityType::class, [
+                'label' => 'property.form.attributes_label',
+                'class' => AttributeProperty::class,
                 'choice_label' => 'label',
                 'multiple' => true,
                 'choice_translation_domain' => true,

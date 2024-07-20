@@ -75,6 +75,7 @@ property:
     equipment_title: 'Equipamiento'
     rules_title: 'Reglas de la vivienda'
     map_title: 'Mapa'
+    property_attributes: Características de la propiedad
   not_found: Viviendas no encontradas
   type:
     flat: Piso
@@ -102,6 +103,7 @@ property:
     address: Dirección
     last_updated: 'Última actualización hace %minutes% minutos'
     room: Detalles de la habitación
+    attributes_label: Características de la vivienda
 breadcrumbs:
   home: Página principal
   create: crear
@@ -109,9 +111,13 @@ breadcrumbs:
   edit: editar
 flat:
   attributes:
-    washing_machine: Lavadora
-    microwave: Microondas
+    furnished: Amueblado
     elevator: Ascensor
+    garage: Garaje
+    storage_room: Trastero
+    terrace: Terraza
+    pool: Piscina
+    reduced_mobility: Adaptado para PMR
 state:
   good: Bueno
   normal: Regular
