@@ -22,9 +22,6 @@ class Property
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255, nullable: false)]
-    private ?string $shortDescription = null;
-
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
@@ -409,26 +406,6 @@ class Property
                 $favorite->setProperty(null);
             }
         }
-
-        return $this;
-    }
-
-    /**
-     * Get the value of shortDescription
-     */ 
-    public function getShortDescription(): ?string
-    {
-        return $this->shortDescription;
-    }
-
-    /**
-     * Set the value of shortDescription
-     *
-     * @return  self
-     */ 
-    public function setShortDescription(?string $shortDescription)
-    {
-        $this->shortDescription = $shortDescription;
 
         return $this;
     }

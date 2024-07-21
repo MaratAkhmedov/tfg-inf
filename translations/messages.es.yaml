@@ -169,3 +169,6 @@ admin:
     not_found: Viviendas no encontradas
     actions: Acciones
     create: Publicar
+grammar:
+  prepositions:
+    in: en

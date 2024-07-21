@@ -210,14 +210,45 @@
 								<div class="col-lg-8">
 									<div class="card-body">
 										<div class="d-flex justify-content-between">
-											<h5 class="card-title">{{ property.name }}</h5>
+											<h5 class="card-title">
+												{{ ('property.type.' ~ property.type.name)|trans }}
+												{{'grammar.prepositions.in' | trans}}
+												{{ property.address.street ? property.address.street : property.address.formattedAddress }}</h5>
 											<h5 class="card-title price">{{property.price|format_currency('EUR', {rounding_mode: 'floor'})}}</h5>
 										</div>
-										<p class="card-text">{{property.shortDescription}}</p>
-										<div class="d-flex justify-content-between">
+
+										<div class="d-flex flex-row justify-content-start gap-4 pt-3">
+											<div class="d-flex justify-content-start gap-2 p-1">
+												<div style="width:1.4rem; heigth: 1.4rem;">{{ ux_icon('guidance:hotel-room-2') }}</div>
+												<span>{{property.numRooms ~ ' ' ~ 'property.show.room_units'|trans }}</span>
+											</div>
+											<div class="d-flex justify-content-start gap-2 p-1">
+												<div style="width:1.4rem; heigth: 1.4rem;">{{ux_icon('mdi:bathroom')}}</div>
+												<span>{{property.numBathrooms ~ ' ' ~ 'property.show.bathroom_units'|trans }}</span>
+											</div>
+										</div>
+
+										<div class="d-flex flex-row justify-content-start gap-4">
+											<div class="d-flex justify-content-start gap-2 p-1">
+												<div style="width:1.4rem; heigth: 1.4rem;">{{ ux_icon('mdi:floor-plan') }}</div>
+												<span>{{property.square ~ ' ' ~ 'm²'}}</span>
+											</div>
+											<div class="d-flex justify-content-start gap-2 p-1">
+												<div style="width:1.4rem; heigth: 1.4rem;">{{ ux_icon('mdi:ladder') }}</div>
+												<span>
+													{{ 'property.show.floor'|trans({'%numFloor%': property.floor}) }}
+													{{ true ? 'property.show.with_elevator'|trans : 'property.show.without_elevator'|trans }}
+												</span>
+											</div>
+										</div>
+
+
+										{# <p class="card-text">{{"property.shortDescription"}}</p> #}
+										<div class="pt-3 d-flex justify-content-between">
 											<div class="">
 												<p class="card-text">
-													<small class="text-body-secondary">{{ 'property.form.last_updated'|trans }} {{ property.updatedAt|time_ago() }}</small>
+													<small class="text-body-secondary">{{ 'property.form.last_updated'|trans }}
+														{{ property.updatedAt|time_ago() }}</small>
 												</p>
 											</div>
 											<a href="{{ path('app_property_show', {'id': property.id}) }}" class="stretched-link"></a>

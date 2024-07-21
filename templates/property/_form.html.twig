@@ -19,14 +19,6 @@
 
 <div class="row">
 	<div class="mb-3">
-		{{ form_label(form.shortDescription) }}
-		{{ form_widget(form.shortDescription) }}
-		{{ form_errors(form.shortDescription) }}
-	</div>
-</div>
-
-<div class="row">
-	<div class="mb-3">
 		{{ form_label(form.description) }}
 		{{ form_widget(form.description, {'id': 'editor', 'attr': {'class': 'form-control quill-editor'}}) }}
 		{{ form_errors(form.description) }}

@@ -5,6 +5,10 @@ namespace App\DataFixtures;
 use App\Entity\Address;
 use App\Entity\Photo;
 use App\Entity\Property;
+use App\Entity\Room;
+use App\Enum\BedType;
+use App\Repository\AttributePropertyRepository;
+use App\Repository\AttributeRoomRepository;
 use App\Repository\CityRepository;
 use App\Repository\PropertyTypeRepository;
 use App\Repository\UserRepository;
@@ -20,7 +24,9 @@ class PropertyFixtures extends Fixture implements DependentFixtureInterface
         private CityRepository $cityRepository,
         private UserRepository $userRepository,
         private PropertyTypeRepository $propertyTypeRepository,
-        private KernelInterface $kernelInterface
+        private KernelInterface $kernelInterface,
+        private AttributeRoomRepository $attributeRoomRepository,
+        private AttributePropertyRepository $attributePropertyRepository
     ){}
 
     public function load(ObjectManager $manager): void
@@ -28,10 +34,21 @@ class PropertyFixtures extends Fixture implements DependentFixtureInterface
         for ($i = 1; $i <= 13; $i++) {
             $property = new Property();
             $property->setName('Propiedad '.$i.' de pruebas');
-            $property->setShortDescription("Es la descripción corta de pruebas para la propiedad $i");
-            $property->setDescription("Es la descripción larga de pruebas para la propiedad $i");
+            $property->setDescription("<p>Es la descripción larga de pruebas para la propiedad $i</p>");
             $property->setType($this->propertyTypeRepository->findOneBy(['name' => 'room']));
+            $property->setNumRooms(rand(1, 6));
+            $property->setNumBathrooms(min(rand(1, 3), $property->getNumRooms()));
+            $property->setFloor(rand(1, 9));
+            $property->setSquare(20 * $property->getNumRooms() + rand(0, 9));
+            $property->addAttributeProperty($this->attributePropertyRepository->findOneBy(['name' => 'elevator']));
             
+            $room = new Room();
+            $room->addAttributeRoom($this->attributeRoomRepository->findOneBy(['name' => 'desk']));
+            $room->addAttributeRoom($this->attributeRoomRepository->findOneBy(['name' => 'chair']));
+            $room->setBedType(BedType::Individual);
+
+            $property->setRoom($room);
+
             $photo1 = new Photo();
             $imageName1 = $this->findFilesWithPrefix("sample_property_" . $i . ".");
             $photo1->setUrl("images/$imageName1");
@@ -65,7 +82,7 @@ class PropertyFixtures extends Fixture implements DependentFixtureInterface
     {
         $address = new Address();
         $address->setPostalCode('46009');
-        $address->setStreet('Carrer de Vilanova de Castelló'.$pos);
+        $address->setStreet('Carrer de Vilanova de Castelló '.$pos);
         $address->setLatitude(39.4887556);
         $address->setLongitude(-0.3784859);
         $address->setFormattedAddress('C/ de Vilanova de Castelló, '.$pos.', La Saïdia, 46009 València, Valencia, Spain');

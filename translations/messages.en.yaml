@@ -167,3 +167,6 @@ admin:
     not_found: Properties not found
     actions: Actions
     create: Publish
+grammar:
+  prepositions:
+    in: in
