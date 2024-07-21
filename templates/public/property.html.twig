@@ -53,6 +53,14 @@
 			height: 500px; /* Adjust the height as needed */
 			width: 100%;
 		}
+
+		.disabled-element-icon {
+			opacity: 0.15;
+		}
+
+		.icon {
+			color: #d95d59;
+		}
 	</style>
 
 {% endblock %}
@@ -152,7 +160,18 @@
 							{% for rule in property.rules %}
 								<div class="rule-element">
 									<div style="icon-container d-flex flex-column align-items-center" class="p-3 text-center">
-										<div class="rule-icon" style="height: 60px; width:60px;">
+										<div class="element-icon icon" style="height: 60px; width:60px;">
+											{{ ux_icon(rule.icon) }}
+										</div>
+										<span class="">{{rule.label|trans}}</span>
+									</div>
+								</div>
+							{% endfor %}
+							{% set disabledRules = allRules|filter(item => not (item.id in property.rules|map(attr => attr.id))) %}
+							{% for rule in disabledRules %}
+								<div class="room-attribute-disabled-element">
+									<div style="icon-container d-flex flex-column align-items-center" class="p-3 text-center">
+										<div class="disabled-element-icon icon" style="height: 60px; width:60px;">
 											{{ ux_icon(rule.icon) }}
 										</div>
 										<span class="">{{rule.label|trans}}</span>
@@ -174,9 +193,20 @@
 					<div class="rules row">
 						<div class="d-flex flex-wrap justify-content-start">
 							{% for attribute in property.attributeProperties %}
-								<div class="rule-element">
+								<div class="property-attribute-element">
 									<div style="icon-container d-flex flex-column align-items-center" class="p-3 text-center">
-										<div class="rule-icon" style="height: 60px; width:60px;">
+										<div class="element-icon icon" style="height: 60px; width:60px;">
+											{{ ux_icon(attribute.icon) }}
+										</div>
+										<span class="">{{attribute.label|trans}}</span>
+									</div>
+								</div>
+							{% endfor %}
+							{% set disabledPropertyAttributes = allPropertyAttributes|filter(item => not (item.id in property.attributeProperties|map(attr => attr.id))) %}
+							{% for attribute in disabledPropertyAttributes %}
+								<div class="room-attribute-disabled-element">
+									<div style="icon-container d-flex flex-column align-items-center" class="p-3 text-center">
+										<div class="disabled-element-icon icon" style="height: 60px; width:60px;">
 											{{ ux_icon(attribute.icon) }}
 										</div>
 										<span class="">{{attribute.label|trans}}</span>
@@ -198,9 +228,20 @@
 					<div class="rules row">
 						<div class="d-flex flex-wrap justify-content-start">
 							{% for attribute in property.room.attributeRooms %}
-								<div class="rule-element">
+								<div class="room-attribute-element">
 									<div style="icon-container d-flex flex-column align-items-center" class="p-3 text-center">
-										<div class="rule-icon" style="height: 60px; width:60px;">
+										<div class="element-icon icon" style="height: 60px; width:60px;">
+											{{ ux_icon(attribute.icon) }}
+										</div>
+										<span class="">{{attribute.label|trans}}</span>
+									</div>
+								</div>
+							{% endfor %}
+							{% set disabledRoomAttributes = allRoomAttributes|filter(item => not (item.id in property.room.attributeRooms|map(attr => attr.id))) %}
+							{% for attribute in disabledRoomAttributes %}
+								<div class="room-attribute-disabled-element">
+									<div style="icon-container d-flex flex-column align-items-center" class="p-3 text-center">
+										<div class="disabled-element-icon icon" style="height: 60px; width:60px;">
 											{{ ux_icon(attribute.icon) }}
 										</div>
 										<span class="">{{attribute.label|trans}}</span>

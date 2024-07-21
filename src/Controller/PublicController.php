@@ -8,7 +8,10 @@ use App\Entity\City;
 use App\Entity\Property;
 use App\Entity\PropertyType;
 use App\Form\SearchPropertyType;
+use App\Repository\AttributePropertyRepository;
+use App\Repository\AttributeRoomRepository;
 use App\Repository\PropertyRepository;
+use App\Repository\RuleRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -57,11 +60,19 @@ class PublicController extends AbstractController
     }
 
     #[Route('property/{id}', name: 'app_property_show', methods: ['GET'], requirements: ['id' => '\d+'], options: ["expose" => true])]
-    public function show(Property $property): Response
+    public function show(
+        Property $property, 
+        AttributePropertyRepository $attributePropertyRepository, 
+        AttributeRoomRepository $attributeRoomRepository,
+        RuleRepository $ruleRepository
+    ): Response
     {
         // TODO: check if can see the property
         return $this->render('public/property.html.twig', [
             'property' => $property,
+            'allPropertyAttributes' => $attributePropertyRepository->findAll(),
+            'allRoomAttributes' => $attributeRoomRepository->findAll(),
+            'allRules' => $ruleRepository->findAll()
         ]);
     }
 

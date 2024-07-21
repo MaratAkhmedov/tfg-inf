@@ -118,7 +118,7 @@ flat:
     storage_room: Trastero
     terrace: Terraza
     pool: Piscina
-    reduced_mobility: Adaptado para PMR
+    reduced_mobility: PMR
 state:
   good: Bueno
   normal: Regular
