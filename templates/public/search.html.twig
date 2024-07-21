@@ -205,11 +205,11 @@
 						<div class="card mb-3" property-id="{{ property.id }}">
 							<div class="row g-0">
 								<div class="col-lg-4 object-fit-cover">
-									<img style="width:100%; height:200px;" src="{{ firstPhoto is not empty ? (asset(firstPhoto.url) ) : asset('images/placeholder400x200.png') }}" class="object-fit-cover img-fluid rounded-start" alt="...">
+									<img style="width:100%; height:100%; max-height: 210px;" src="{{ firstPhoto is not empty ? (asset(firstPhoto.url) ) : asset('images/placeholder400x200.png') }}" class="object-fit-cover img-fluid rounded-start" alt="...">
 								</div>
 								<div class="col-lg-8">
 									<div class="card-body">
-										<div class="d-flex justify-content-between">
+										<div class="d-flex justify-content-between gap-2">
 											<h5 class="card-title">
 												{{ ('property.type.' ~ property.type.name)|trans }}
 												{{'grammar.prepositions.in' | trans}}
@@ -219,22 +219,22 @@
 
 										<div class="d-flex flex-row justify-content-start gap-4 pt-3">
 											<div class="d-flex justify-content-start gap-2 p-1">
-												<div style="width:1.4rem; heigth: 1.4rem;">{{ ux_icon('guidance:hotel-room-2') }}</div>
+												<div style="width:1.2rem; heigth: 1.2rem;">{{ ux_icon('guidance:hotel-room-2') }}</div>
 												<span>{{property.numRooms ~ ' ' ~ 'property.show.room_units'|trans }}</span>
 											</div>
 											<div class="d-flex justify-content-start gap-2 p-1">
-												<div style="width:1.4rem; heigth: 1.4rem;">{{ux_icon('mdi:bathroom')}}</div>
+												<div style="width:1.2rem; heigth: 1.2rem;">{{ux_icon('mdi:bathroom')}}</div>
 												<span>{{property.numBathrooms ~ ' ' ~ 'property.show.bathroom_units'|trans }}</span>
 											</div>
 										</div>
 
 										<div class="d-flex flex-row justify-content-start gap-4">
 											<div class="d-flex justify-content-start gap-2 p-1">
-												<div style="width:1.4rem; heigth: 1.4rem;">{{ ux_icon('mdi:floor-plan') }}</div>
+												<div style="width:1.2rem; heigth: 1.2rem;">{{ ux_icon('mdi:floor-plan') }}</div>
 												<span>{{property.square ~ ' ' ~ 'm²'}}</span>
 											</div>
 											<div class="d-flex justify-content-start gap-2 p-1">
-												<div style="width:1.4rem; heigth: 1.4rem;">{{ ux_icon('mdi:ladder') }}</div>
+												<div style="width:1.2rem; heigth: 1.2rem;">{{ ux_icon('mdi:ladder') }}</div>
 												<span>
 													{{ 'property.show.floor'|trans({'%numFloor%': property.floor}) }}
 													{{ true ? 'property.show.with_elevator'|trans : 'property.show.without_elevator'|trans }}
