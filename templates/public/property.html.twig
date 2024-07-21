@@ -65,18 +65,18 @@
 
 {% endblock %}
 
+{% set propertyName = ('property.type.' ~ property.type.name)| trans ~ ' ' ~ 'grammar.prepositions.in'| trans ~ ' ' ~ property.name %}
 
 {% block title %}
-	{{ property.name }}
+	{{ propertyName }}
 {% endblock %}
 
 {% block content %}
 	<div class="container">
-		{% set name = property.name %}
 		{% set breadcrumbs = [
             {'label': 'breadcrumbs.home', 'link': 'default'},
             {'label': 'property.form.properties', 'link': 'referrer'},
-            {'label': name|lower|u.truncate(20, '...', false)}
+            {'label': propertyName|lower|u.truncate(20, '...', false)}
         ] %}
 
 		{% include '/breadcrumbs.html.twig' with {'breadcrumbs': breadcrumbs} %}
@@ -115,7 +115,7 @@
 		</div>
 
 
-		<h1>{{property.name}}</h1>
+		<h1>{{ propertyName }}</h1>
 
 		{% set address = property.address %}
 		{% set city = address.city|default([]) %}
@@ -232,14 +232,16 @@
 									<div class="element-icon icon" style="height: 100px; width:100px;">
 										{{ ux_icon('mdi:bed-queen-outline') }}
 									</div>
-									<span class="">{{'room.form.bed_type'|trans}} {{property.room.bedType.value|trans}}</span>
+									<span class="">{{'room.form.bed_type'|trans}}
+										{{property.room.bedType.value|trans}}</span>
 								</div>
 							{% elseif property.room.bedType.value == 'double' %}
 								<div style="" class="p-3 text-center icon-container d-flex flex-column align-items-center">
 									<div class="element-icon icon" style="height: 100px; width:100px;">
 										{{ ux_icon('mdi:bed-king-outline') }}
 									</div>
-									<span class="">{{'room.form.bed_type'|trans}} {{property.room.bedType.value|trans}}</span>
+									<span class="">{{'room.form.bed_type'|trans}}
+										{{property.room.bedType.value|trans}}</span>
 								</div>
 							{% endif %}
 							{% for attribute in property.room.attributeRooms %}

@@ -24,14 +24,6 @@ class PropertyType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', TextType::class, [
-                'label' => 'property.form.title',
-                'required'   => true,
-            ])
-            ->add('shortDescription', TextareaType::class, [
-                'label' => 'property.form.short_description',
-                'required'   => false,
-            ])
             ->add('description', TextareaType::class, [
                 'label' => 'property.form.description',
                 'required'   => false,

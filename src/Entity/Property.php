@@ -19,9 +19,6 @@ class Property
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $name = null;
-
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
@@ -105,15 +102,9 @@ class Property
 
     public function getName(): ?string
     {
-        return $this->name;
+        return $this->getAddress()->getStreet() ? $this->getAddress()->getStreet() : $this->getAddress()->getFormattedAddress();
     }
 
-    public function setName(?string $name): static
-    {
-        $this->name = $name;
-
-        return $this;
-    }
 
     public function getDescription(): ?string
     {

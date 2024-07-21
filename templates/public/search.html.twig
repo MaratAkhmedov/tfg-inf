@@ -213,7 +213,7 @@
 											<h5 class="card-title">
 												{{ ('property.type.' ~ property.type.name)|trans }}
 												{{'grammar.prepositions.in' | trans}}
-												{{ property.address.street ? property.address.street : property.address.formattedAddress }}</h5>
+												{{ property.name }}</h5>
 											<h5 class="card-title price">{{property.price|format_currency('EUR', {rounding_mode: 'floor'})}}</h5>
 										</div>
 
