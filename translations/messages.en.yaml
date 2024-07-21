@@ -29,6 +29,7 @@ owner:
     last_name: Last name
     dni: DNI
     description: Description
+    phone: Teléfono
 contact:
   title: Contact
   header: Contact
@@ -76,6 +77,7 @@ property:
     map_title: 'Map'
     property_attributes: Property attributes
     property_room_attributes: Características de la habitación
+    contact_with_owner: Contact with owner
   not_found: Properties not found
   type:
     flat: Flat

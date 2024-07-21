@@ -30,6 +30,7 @@ owner:
     last_name: Apellidos
     dni: DNI
     description: Descripción
+    phone: Teléfono
 contact:
   title: Contacto
   header: Contacto
@@ -77,6 +78,7 @@ property:
     map_title: 'Mapa'
     property_attributes: Características de la propiedad
     property_room_attributes: Características de la habitación
+    contact_with_owner: Contactar con el propietario
   not_found: Viviendas no encontradas
   type:
     flat: Piso

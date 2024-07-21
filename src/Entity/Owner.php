@@ -32,6 +32,9 @@ class Owner
     #[ORM\OneToOne(mappedBy: 'ownerData', cascade: ['persist'])]
     private ?User $user = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $phone = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -115,6 +118,18 @@ class Owner
         }
 
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): static
+    {
+        $this->phone = $phone;
 
         return $this;
     }

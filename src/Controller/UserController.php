@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mime\Address;
@@ -199,5 +200,20 @@ class UserController extends AbstractController
         $this->addFlash('success', 'Your email address has been verified.');
 
         return $this->redirectToRoute('app_register');
+    }
+
+    #[Route('/owner/{id}/contact', name: 'app_get_owner_contact_data', options: ["expose" => true])]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    public function getOwnerData(Request $request, User $propertyOwner, TranslatorInterface $translator): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        // TODO: Check if can access property data
+        $email = $propertyOwner->getUserIdentifier();
+        $ownerData = $propertyOwner->getOwnerData();
+        //$phone = $ownerData->getPh
+        //$ownerData->getUserIdentifier();
+
+        return new JsonResponse();
     }
 }

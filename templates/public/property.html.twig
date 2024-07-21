@@ -72,7 +72,7 @@
 {% endblock %}
 
 {% block content %}
-	<div class="container">
+	<div class="container pt-2">
 		{% set breadcrumbs = [
             {'label': 'breadcrumbs.home', 'link': 'default'},
             {'label': 'property.form.properties', 'link': 'referrer'},
@@ -82,7 +82,7 @@
 		{% include '/breadcrumbs.html.twig' with {'breadcrumbs': breadcrumbs} %}
 
 		<div class="row mb-5">
-			<div class="col-lg-8">
+			<div class="col-lg-8 col-xl-9">
 				<div id="property-carouserl" class="carousel slide">
 					<div class="carousel-inner">
 						{% for photo in property.photos %}
@@ -101,226 +101,265 @@
 						</div>
 					{% endif %}
 				</div>
-			</div>
 
-			<div class="col-lg-4 mt-5 mb-md-0">
-				<div class="card">
-					<div class="card-body">
-						<h5 class="card-title">Special title treatment</h5>
-						<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-						<a href="#" class="btn btn-primary">Reservar</a>
+
+				<div class="content">
+					<h1>{{ propertyName }}</h1>
+
+					{% set address = property.address %}
+					{% set city = address.city|default([]) %}
+					{% set province = city.province|default([]) %}
+					{% set autonomousComunity = province.autonomousComunity|default([]) %}
+
+					<div class="address pt-3">
+						{{ autonomousComunity.name|default("") }}
+						|
+						{{ province.name|default("") }}
+						|
+						{{ city.name|default("") }}
+						|
+						{{ address.street|default("") }}
 					</div>
-				</div>
-			</div>
-		</div>
 
 
-		<h1>{{ propertyName }}</h1>
+					<h1 class="pt-4">{{property.price|format_currency('EUR', {rounding_mode: 'floor'})}}</h1>
 
-		{% set address = property.address %}
-		{% set city = address.city|default([]) %}
-		{% set province = city.province|default([]) %}
-		{% set autonomousComunity = province.autonomousComunity|default([]) %}
-
-		<div class="address pt-3">
-			{{ autonomousComunity.name|default("") }}
-			|
-			{{ province.name|default("") }}
-			|
-			{{ city.name|default("") }}
-			|
-			{{ address.street|default("") }}
-		</div>
-
-
-		<h1 class="pt-4">{{property.price|format_currency('EUR', {rounding_mode: 'floor'})}}</h1>
-
-		<div class="d-flex flex-row justify-content-start gap-4 pt-4">
-			<div class="d-flex justify-content-start gap-2 p-1">
-				<div style="width:2rem; heigth: 2rem;">{{ ux_icon('guidance:hotel-room-2') }}</div>
-				<span>{{property.numRooms ~ ' ' ~ 'property.show.room_units'|trans }}</span>
-			</div>
-			<div class="d-flex justify-content-start gap-2 p-1">
-				<div style="width:2rem; heigth: 2rem;">{{ux_icon('mdi:bathroom')}}</div>
-				<span>{{property.numBathrooms ~ ' ' ~ 'property.show.bathroom_units'|trans }}</span>
-			</div>
-			<div class="d-flex justify-content-start gap-2 p-1">
-				<div style="width:2rem; heigth: 2rem;">{{ ux_icon('mdi:floor-plan') }}</div>
-				<span>{{property.square ~ ' ' ~ 'm²'}}</span>
-			</div>
-			<div class="d-flex justify-content-start gap-2 p-1">
-				<div style="width:2rem; heigth: 2rem;">{{ ux_icon('mdi:ladder') }}</div>
-				<span>
-					{{ 'property.show.floor'|trans({'%numFloor%': property.floor}) }}
-					{{ true ? 'property.show.with_elevator'|trans : 'property.show.without_elevator'|trans }}
-				</span>
-			</div>
-		</div>
-
-		{% if property.rules is not empty %}
-			<div class="row pt-4">
-				<div class="rules-card">
-					<div class="rules-title">
-						<h2>{{ 'property.show.rules_title'|trans }}</h2>
+					<div class="d-flex flex-row justify-content-start gap-4 pt-4">
+						<div class="d-flex justify-content-start gap-2 p-1">
+							<div style="width:2rem; heigth: 2rem;">{{ ux_icon('guidance:hotel-room-2') }}</div>
+							<span>{{property.numRooms ~ ' ' ~ 'property.show.room_units'|trans }}</span>
+						</div>
+						<div class="d-flex justify-content-start gap-2 p-1">
+							<div style="width:2rem; heigth: 2rem;">{{ux_icon('mdi:bathroom')}}</div>
+							<span>{{property.numBathrooms ~ ' ' ~ 'property.show.bathroom_units'|trans }}</span>
+						</div>
+						<div class="d-flex justify-content-start gap-2 p-1">
+							<div style="width:2rem; heigth: 2rem;">{{ ux_icon('mdi:floor-plan') }}</div>
+							<span>{{property.square ~ ' ' ~ 'm²'}}</span>
+						</div>
+						<div class="d-flex justify-content-start gap-2 p-1">
+							<div style="width:2rem; heigth: 2rem;">{{ ux_icon('mdi:ladder') }}</div>
+							<span>
+								{{ 'property.show.floor'|trans({'%numFloor%': property.floor}) }}
+							</span>
+						</div>
 					</div>
-					<div class="rules">
-						<div class="d-flex flex-wrap justify-content-between justify-content-md-start">
-							{% for rule in property.rules %}
-								<div style="" class="p-3 text-center icon-container d-flex flex-column align-items-center">
-									<div class="element-icon icon align-self-center" style="height: 100px; width:100px;">
-										{{ ux_icon(rule.icon) }}
-									</div>
-									<div class="">{{rule.label|trans}}</div>
+
+					{% if property.rules is not empty %}
+						<div class="row pt-4">
+							<div class="rules-card">
+								<div class="rules-title">
+									<h2>{{ 'property.show.rules_title'|trans }}</h2>
 								</div>
-							{% endfor %}
-							{% set disabledRules = allRules|filter(item => not (item.id in property.rules|map(attr => attr.id))) %}
-							{% for rule in disabledRules %}
-								<div style="" class="p-3 text-center icon-container d-flex flex-column align-items-center">
-									<div class="disabled-element-icon icon align-self-center" style="height: 100px; width:100px;">
-										{{ ux_icon(rule.icon) }}
+								<div class="rules">
+									<div class="d-flex flex-wrap justify-content-between justify-content-md-start">
+										{% for rule in property.rules %}
+											<div style="" class="p-3 text-center icon-container d-flex flex-column align-items-center">
+												<div class="element-icon icon align-self-center" style="height: 100px; width:100px;">
+													{{ ux_icon(rule.icon) }}
+												</div>
+												<div class="">{{rule.label|trans}}</div>
+											</div>
+										{% endfor %}
+										{% set disabledRules = allRules|filter(item => not (item.id in property.rules|map(attr => attr.id))) %}
+										{% for rule in disabledRules %}
+											<div style="" class="p-3 text-center icon-container d-flex flex-column align-items-center">
+												<div class="disabled-element-icon icon align-self-center" style="height: 100px; width:100px;">
+													{{ ux_icon(rule.icon) }}
+												</div>
+												<span class="">{{rule.label|trans}}</span>
+											</div>
+										{% endfor %}
 									</div>
-									<span class="">{{rule.label|trans}}</span>
 								</div>
-							{% endfor %}
+							</div>
+						</div>
+					{% endif %}
+
+					{% if property.attributeProperties is not empty %}
+						<div class="row pt-4">
+							<div class="rules-card col-md-12">
+								<div class="rules-title">
+									<h2>{{ 'property.show.property_attributes'|trans }}</h2>
+								</div>
+								<div class="rules row">
+									<div class="d-flex flex-wrap justify-content-between justify-content-md-start">
+										{% for attribute in property.attributeProperties %}
+											<div style="" class="p-3 text-center icon-container d-flex flex-column align-items-center">
+												<div class="element-icon icon" style="height: 100px; width:100px;">
+													{{ ux_icon(attribute.icon) }}
+												</div>
+												<span class="">{{attribute.label|trans}}</span>
+											</div>
+										{% endfor %}
+										{% set disabledPropertyAttributes = allPropertyAttributes|filter(item => not (item.id in property.attributeProperties|map(attr => attr.id))) %}
+										{% for attribute in disabledPropertyAttributes %}
+											<div style="" class="p-3 text-center icon-container d-flex flex-column align-items-center">
+												<div class="disabled-element-icon icon" style="height: 100px; width:100px;">
+													{{ ux_icon(attribute.icon) }}
+												</div>
+												<span class="">{{attribute.label|trans}}</span>
+											</div>
+										{% endfor %}
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endif %}
+
+					{% if property.room is not empty %}
+						<div class="row pt-4">
+							<div class="rules-card col-md-12">
+								<div class="rules-title">
+									<h2>{{ 'property.show.property_room_attributes'|trans }}</h2>
+								</div>
+								<div class="rules row">
+									<div class="d-flex flex-wrap justify-content-between justify-content-md-start">
+										{% if property.room.bedType.value == 'individual' %}
+											<div style="" class="p-3 text-center icon-container d-flex flex-column align-items-center">
+												<div class="element-icon icon" style="height: 100px; width:100px;">
+													{{ ux_icon('mdi:bed-queen-outline') }}
+												</div>
+												<span class="">{{'room.form.bed_type'|trans}}
+													{{property.room.bedType.value|trans}}</span>
+											</div>
+										{% elseif property.room.bedType.value == 'double' %}
+											<div style="" class="p-3 text-center icon-container d-flex flex-column align-items-center">
+												<div class="element-icon icon" style="height: 100px; width:100px;">
+													{{ ux_icon('mdi:bed-king-outline') }}
+												</div>
+												<span class="">{{'room.form.bed_type'|trans}}
+													{{property.room.bedType.value|trans}}</span>
+											</div>
+										{% endif %}
+										{% for attribute in property.room.attributeRooms %}
+											<div style="" class="p-3 text-center icon-container d-flex flex-column align-items-center">
+												<div class="element-icon icon" style="height: 100px; width:100px;">
+													{{ ux_icon(attribute.icon) }}
+												</div>
+												<span class="">{{attribute.label|trans}}</span>
+											</div>
+										{% endfor %}
+										{% set disabledRoomAttributes = allRoomAttributes|filter(item => not (item.id in property.room.attributeRooms|map(attr => attr.id))) %}
+										{% for attribute in disabledRoomAttributes %}
+											<div style="" class="p-3 text-center icon-container d-flex flex-column align-items-center">
+												<div class="disabled-element-icon icon" style="height: 100px; width:100px;">
+													{{ ux_icon(attribute.icon) }}
+												</div>
+												<span class="">{{attribute.label|trans}}</span>
+											</div>
+										{% endfor %}
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endif %}
+
+					{% if property.description is not empty %}
+						<h3 class="pt-4">{{ 'property.show.description_title'|trans }}</h3>
+						<div class="m-3">
+							{{property.description|raw}}
+
+						</div>
+					{% endif %}
+
+
+					<div class="row pt-3">
+						<div class="map-title">
+							<h2>{{ 'property.show.map_title'|trans }}</h2>
+						</div>
+						<div style="" class="w-100 pr-0">
+							<div id="map"></div>
 						</div>
 					</div>
 				</div>
 			</div>
-		{% endif %}
 
-		{% if property.attributeProperties is not empty %}
-			<div class="row pt-4">
-				<div class="rules-card col-md-12">
-					<div class="rules-title">
-						<h2>{{ 'property.show.property_attributes'|trans }}</h2>
-					</div>
-					<div class="rules row">
-						<div class="d-flex flex-wrap justify-content-between justify-content-md-start">
-							{% for attribute in property.attributeProperties %}
-								<div style="" class="p-3 text-center icon-container d-flex flex-column align-items-center">
-									<div class="element-icon icon" style="height: 100px; width:100px;">
-										{{ ux_icon(attribute.icon) }}
-									</div>
-									<span class="">{{attribute.label|trans}}</span>
+			<div class="pt-4 pt-lg-0 col-lg-4 col-xl-3">
+				<div style="top: 80px;" class="sticky-lg-top">
+					<div class="card">
+						<div
+							class="card-body">
+							{# <p class="card-body">With supporting text below as a natural lead-in to additional content.</p> #}
+							<div class="d-flex flex-column">
+								<h5 class="card-title">
+									{{ ('property.type.' ~ property.type.name)|trans }}
+									{{'grammar.prepositions.in' | trans}}
+									{{ property.name }}</h5>
+								<h3 class="card-title price pt-3">{{property.price|format_currency('EUR', {rounding_mode: 'floor'})}}</h3>
+							</div>
+
+							<div class="d-flex flex-row justify-content-start gap-4 pt-3">
+								<div class="d-flex justify-content-start gap-2 p-1">
+									<div style="width:1.4rem; heigth: 1.4rem;">{{ ux_icon('guidance:hotel-room-2') }}</div>
+									<span>{{property.numRooms ~ ' ' ~ 'property.show.room_units'|trans }}</span>
 								</div>
-							{% endfor %}
-							{% set disabledPropertyAttributes = allPropertyAttributes|filter(item => not (item.id in property.attributeProperties|map(attr => attr.id))) %}
-							{% for attribute in disabledPropertyAttributes %}
-								<div style="" class="p-3 text-center icon-container d-flex flex-column align-items-center">
-									<div class="disabled-element-icon icon" style="height: 100px; width:100px;">
-										{{ ux_icon(attribute.icon) }}
-									</div>
-									<span class="">{{attribute.label|trans}}</span>
+								<div class="d-flex justify-content-start gap-2 p-1">
+									<div style="width:1.4rem; heigth: 1.4rem;">{{ux_icon('mdi:bathroom')}}</div>
+									<span>{{property.numBathrooms ~ ' ' ~ 'property.show.bathroom_units'|trans }}</span>
 								</div>
-							{% endfor %}
+							</div>
+
+							<div class="d-flex flex-row justify-content-start gap-4">
+								<div class="d-flex justify-content-start gap-2 p-1">
+									<div style="width:1.4rem; heigth: 1.4rem;">{{ ux_icon('mdi:floor-plan') }}</div>
+									<span>{{property.square ~ ' ' ~ 'm²'}}</span>
+								</div>
+								<div class="d-flex justify-content-start gap-2 p-1">
+									<div style="width:1.4rem; heigth: 1.4rem;">{{ ux_icon('mdi:ladder') }}</div>
+									<span>
+										{{ 'property.show.floor'|trans({'%numFloor%': property.floor}) }}
+									</span>
+								</div>
+							</div>
+							<div class="d-flex justify-content-center">
+								<a id="owner-contact-data" role="button" class="btn btn-primary mt-4 w-100">{{ 'property.show.contact_with_owner'|trans }}</a>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		{% endif %}
 
-		{% if property.room is not empty %}
-			<div class="row pt-4">
-				<div class="rules-card col-md-12">
-					<div class="rules-title">
-						<h2>{{ 'property.show.property_room_attributes'|trans }}</h2>
-					</div>
-					<div class="rules row">
-						<div class="d-flex flex-wrap justify-content-between justify-content-md-start">
-							{% if property.room.bedType.value == 'individual' %}
-								<div style="" class="p-3 text-center icon-container d-flex flex-column align-items-center">
-									<div class="element-icon icon" style="height: 100px; width:100px;">
-										{{ ux_icon('mdi:bed-queen-outline') }}
-									</div>
-									<span class="">{{'room.form.bed_type'|trans}}
-										{{property.room.bedType.value|trans}}</span>
-								</div>
-							{% elseif property.room.bedType.value == 'double' %}
-								<div style="" class="p-3 text-center icon-container d-flex flex-column align-items-center">
-									<div class="element-icon icon" style="height: 100px; width:100px;">
-										{{ ux_icon('mdi:bed-king-outline') }}
-									</div>
-									<span class="">{{'room.form.bed_type'|trans}}
-										{{property.room.bedType.value|trans}}</span>
-								</div>
-							{% endif %}
-							{% for attribute in property.room.attributeRooms %}
-								<div style="" class="p-3 text-center icon-container d-flex flex-column align-items-center">
-									<div class="element-icon icon" style="height: 100px; width:100px;">
-										{{ ux_icon(attribute.icon) }}
-									</div>
-									<span class="">{{attribute.label|trans}}</span>
-								</div>
-							{% endfor %}
-							{% set disabledRoomAttributes = allRoomAttributes|filter(item => not (item.id in property.room.attributeRooms|map(attr => attr.id))) %}
-							{% for attribute in disabledRoomAttributes %}
-								<div style="" class="p-3 text-center icon-container d-flex flex-column align-items-center">
-									<div class="disabled-element-icon icon" style="height: 100px; width:100px;">
-										{{ ux_icon(attribute.icon) }}
-									</div>
-									<span class="">{{attribute.label|trans}}</span>
-								</div>
-							{% endfor %}
-						</div>
-					</div>
-				</div>
-			</div>
-		{% endif %}
-
-		{% if property.description is not empty %}
-			<h3 class="pt-4">{{ 'property.show.description_title'|trans }}</h3>
-			<div class="m-3">
-				{{property.description|raw}}
-
-			</div>
-		{% endif %}
-
-
-		<div class="row pt-3">
-			<div class="map-title">
-				<h2>{{ 'property.show.map_title'|trans }}</h2>
-			</div>
-			<div class="">
-				<div id="map"></div>
 			</div>
 		</div>
+
+
 	</div>
 {% endblock %}
 
 
-{% block javascript %}
+{% block javascript %}<!-- parse-ignore-start -->
 	<script src="https://maps.googleapis.com/maps/api/js?key={{app.request.server.get('GOOGLE_MAP_API_KEY')}}&libraries=places"></script>
 	<script src="{{ asset('js/map_styles.js') }}"></script>
 
 	<script>
 		document.addEventListener('DOMContentLoaded', (event) => { // Coordinates (latitude and longitude)
-const lat = {{ property.address.latitude }};
-const lng = {{ property.address.longitude }};
+		const lat = {{ property.address.latitude }};
+		const lng = {{ property.address.longitude }};
 
-// Initialize the map
-const map = new google.maps.Map(document.getElementById('map'), {
-center: {
-lat: lat,
-lng: lng
-},
-zoom: 14, // Adjust the zoom level as needed
-styles: mapStyles,
-zoomControl: false, // Deshabilitar botones de zoom
-streetViewControl: false, // Deshabilitar Street View
-mapTypeControl: false, // Deshabilitar el control de tipo de mapa
-fullscreenControl: false, // Deshabilitar el control de pantalla completa
-gestureHandling: 'greedy' // Permitir el desplazamiento y zoom sin la tecla CTRL
-});
+		// Initialize the map
+		const map = new google.maps.Map(document.getElementById('map'), {
+			center: {
+				lat: lat,
+				lng: lng
+			},
+			zoom: 14, // Adjust the zoom level as needed
+			styles: mapStyles,
+			zoomControl: false, // Deshabilitar botones de zoom
+			streetViewControl: false, // Deshabilitar Street View
+			mapTypeControl: false, // Deshabilitar el control de tipo de mapa
+			fullscreenControl: false, // Deshabilitar el control de pantalla completa
+			gestureHandling: 'greedy' // Permitir el desplazamiento y zoom sin la tecla CTRL
+		});
 
-// Add a marker at the specified coordinates
-const marker = new google.maps.Marker({
-position: {
-lat: lat,
-lng: lng
-},
-map: map,
-title: 'Marker at the specified coordinates'
-});
-});
+		// Add a marker at the specified coordinates
+		const marker = new google.maps.Marker({
+			position: {
+				lat: lat,
+				lng: lng
+			},
+			map: map,
+			title: 'Marker at the specified coordinates'
+			});
+		});
 	</script>
 {% endblock %}

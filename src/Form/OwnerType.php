@@ -26,6 +26,10 @@ class OwnerType extends AbstractType
                 'label' => 'owner.form.last_name',
                 'required' => true
             ])
+            ->add('phone', TextType::class, [
+                'label' => 'owner.form.dni',
+                'required' => true
+            ])
             ->add('description', TextareaType::class, [
                 'label' => 'owner.form.description',
                 'required' => true
