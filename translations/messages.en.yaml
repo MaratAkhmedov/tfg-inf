@@ -101,7 +101,7 @@ property:
     equipment: Equipment
     rules: Rules
     address: Address
-    last_updated: 'Last updated %minutes% mins ago'
+    last_updated: 'Last updated'
     room: Room details
     attributes_label: Property attributes
 breadcrumbs:

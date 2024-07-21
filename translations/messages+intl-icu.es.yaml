@@ -1,0 +1,30 @@
+time_ago: >-
+  {unit, select,
+    second {{count, plural, offset:1
+      =1    {hace un segundo.}
+      other {hace # segundos.}
+    }}
+    minute {{count, plural, offset:1
+      =1    {hace un minuto.}
+      other {hace # minutos.}
+    }}
+    hour {{count, plural, offset:1
+      =1    {hace una hora.}
+      other {hace # horas.}
+    }}
+    day {{count, plural, offset:1
+      =1    {hace un día.}
+      other {hace # días.}
+    }}
+    month {{count, plural, offset:1
+      =1    {hace un mes.}
+      other {hace # meses.}
+    }}
+    year {{count, plural, offset:1
+      =1    {hace un año.}
+      other {hace # años.}
+    }}
+    other {{count, plural, offset:1
+      other {No definido.}
+    }}
+  }

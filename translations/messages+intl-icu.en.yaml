@@ -1,0 +1,30 @@
+time_ago: >-
+  {unit, select,
+    second {{count, plural, offset:1
+      =1    {one second ago.}
+      other {# seconds ago.}
+    }}
+    minute {{count, plural, offset:1
+      =1    {one minute ago.}
+      other {# minutes ago.}
+    }}
+    hour {{count, plural, offset:1
+      =1    {one hour ago.}
+      other {# hours ago.}
+    }}
+    day {{count, plural, offset:1
+      =1    {one day ago.}
+      other {# days ago.}
+    }}
+    month {{count, plural, offset:1
+      =1    {one month ago.}
+      other {# meses ago.}
+    }}
+    year {{count, plural, offset:1
+      =1    {one year ago.}
+      other {# years ago.}
+    }}
+    other {{count, plural, offset:1
+      other {Not definined.}
+    }}
+  }

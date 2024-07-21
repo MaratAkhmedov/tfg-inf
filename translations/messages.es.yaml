@@ -102,7 +102,7 @@ property:
     properties: viviendas
     publish: Publicar una vivenda gratis
     address: Dirección
-    last_updated: 'Última actualización hace %minutes% minutos'
+    last_updated: 'Última actualización'
     room: Detalles de la habitación
     attributes_label: Características de la vivienda
 breadcrumbs:
