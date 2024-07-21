@@ -61,6 +61,10 @@
 		.icon {
 			color: #d95d59;
 		}
+
+		#owner-data-block a {
+			text-decoration: none;
+		}
 	</style>
 
 {% endblock %}
@@ -312,8 +316,32 @@
 									</span>
 								</div>
 							</div>
-							<div class="d-flex justify-content-center">
-								<a id="owner-contact-data" role="button" class="btn btn-primary mt-4 w-100">{{ 'property.show.contact_with_owner'|trans }}</a>
+
+							<div class="d-flex flex-column justify-content-center">
+								<div id="owner-data-spinner" class="d-flex justify-content-center align-items-center">
+									<div style="display: none;" class="spinner m-4 spinner-grow text-primary" role="status">
+										<span class="visually-hidden">Loading...</span>
+									</div>
+								</div>
+								<div style="display: none;" id="owner-data-block" class="p-2 mt-3">
+									<div>
+										<strong>{{ 'owner.form.first_name' | trans }}:
+										</strong>
+										<span id="owner-data-name"></span>
+									</div>
+									<div>
+										<strong>{{ 'owner.form.phone' | trans }}:
+										</strong>
+										<span id="owner-data-phone"></span>
+									</div>
+									<div>
+										<strong>{{ 'owner.form.email' | trans }}:
+										</strong>
+										<span id="owner-data-email"></span>
+									</div>
+								</div>
+
+								<button id="owner-data-button" role="button" class="btn btn-primary mt-3 w-100">{{ 'property.show.contact_with_owner'|trans }}</button>
 							</div>
 						</div>
 					</div>
@@ -361,5 +389,48 @@
 			title: 'Marker at the specified coordinates'
 			});
 		});
+	</script>
+
+
+	<script>
+	$(document).ready(function() {
+		$('#owner-data-button').click(function(e) {
+			console.log("owner-data-button clicked")
+			e.preventDefault(); // Evita que se ejecute el comportamiento por defecto del enlace
+
+			$('#owner-data-spinner .spinner').show()
+			$('#owner-data-button').hide()
+
+			const ownerId = "{{property.user.id}}"
+
+			console.log("route", Routing.generate('app_get_owner_contact_data', { id: ownerId }))
+
+			// Realiza la solicitud AJAX a Symfony backend
+			$.ajax({
+				url: Routing.generate('app_get_owner_contact_data', { id: ownerId }),
+				method: 'GET', // Método HTTP (puede ser POST también)
+				dataType: 'json', // Tipo de datos que esperas recibir del backend
+				success: function(data) {
+					$('#owner-data-name').html(data.lastName + ' ' + data.firstName)
+					$('#owner-data-phone').html(`<a class href="tel:${data.phone}">${data.phone}</a>`)
+					$('#owner-data-email').html(`<a class href="mailto:${data.phone}">${data.phone}</a>`)
+					
+					$('#owner-data-spinner .spinner').hide()
+					$('#owner-data-block').show()
+				},
+				error: function(xhr, status, error) {
+					if (xhr.status === 401) {
+						var response = JSON.parse(xhr.responseText);
+						if (response.redirect) {
+							window.location.href = response.redirect;
+						}
+					}else{
+						$('#owner-data-button').show()
+						console.error('Error en la solicitud AJAX:', status, error);
+					}
+				}
+			});
+		});
+	});
 	</script>
 {% endblock %}

@@ -31,6 +31,7 @@ owner:
     dni: DNI
     description: Descripción
     phone: Teléfono
+    email: Email
 contact:
   title: Contacto
   header: Contacto

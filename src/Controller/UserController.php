@@ -202,18 +202,21 @@ class UserController extends AbstractController
         return $this->redirectToRoute('app_register');
     }
 
-    #[Route('/owner/{id}/contact', name: 'app_get_owner_contact_data', options: ["expose" => true])]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function getOwnerData(Request $request, User $propertyOwner, TranslatorInterface $translator): Response
+    #[Route('/owner/{id}/contact', name: 'app_get_owner_contact_data', requirements: ["id" => "\d+"], methods: ['GET'], options: ["expose" => true])]
+    public function getOwnerData(Request $request, User $owner, TranslatorInterface $translator): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        if (!$this->isGranted('ROLE_USER')) {
+            return new JsonResponse(['redirect' => $this->generateUrl('app_login')], 401);
+        }
 
         // TODO: Check if can access property data
-        $email = $propertyOwner->getUserIdentifier();
-        $ownerData = $propertyOwner->getOwnerData();
-        //$phone = $ownerData->getPh
-        //$ownerData->getUserIdentifier();
 
-        return new JsonResponse();
+        return new JsonResponse([
+            'id' => $owner->getId(),
+            'firstName' => $owner->getOwnerData()->getFirstName(),
+            'lastName' => $owner->getOwnerData()->getLastName(),
+            'phone' => $owner->getOwnerData()->getPhone(),
+            'email' => $owner->getUserIdentifier()
+        ]);
     }
 }

@@ -30,6 +30,7 @@ owner:
     dni: DNI
     description: Description
     phone: Teléfono
+    email: Email
 contact:
   title: Contact
   header: Contact
