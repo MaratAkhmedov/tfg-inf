@@ -124,6 +124,7 @@ state:
   bad: Bad
 rule:
   no_animals: No animals
+  no_smoke: No smoke
 dropzone: 
   default_message: Drop image here or click to upload
   required: You must upload at least one photo

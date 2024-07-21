@@ -111,9 +111,9 @@ final class Version20240509223125 extends AbstractMigration
         $this->addSql(<<<SQL
         INSERT INTO `attribute` (name,description,icon,label,discr) 
         VALUES
-        ('furnished',NULL,'maki:furniture','flat.attributes.furnished','flat'),
-        ('elevator',NULL,'material-symbols:elevator','flat.attributes.elevator','flat'),
-        ('garage',NULL,'material-symbols:garage','flat.attributes.garage','flat'),
+        ('furnished',NULL,'bx:cabinet','flat.attributes.furnished','flat'),
+        ('elevator',NULL,'iconoir:elevator','flat.attributes.elevator','flat'),
+        ('garage',NULL,'material-symbols:garage-outline','flat.attributes.garage','flat'),
         ('storage_room',NULL,'cil:room','flat.attributes.storage_room','flat'),
         ('terrace',NULL,'iconoir:balcony','flat.attributes.terrace','flat'),
         ('pool',NULL,'mdi:pool','flat.attributes.pool','flat'),
@@ -137,7 +137,8 @@ final class Version20240509223125 extends AbstractMigration
         $this->addSql(<<<SQL
         INSERT INTO rule (id, name, label, description, icon)
             VALUES
-            (1, 'no_animals','rule.no_animals', NULL, 'foundation:no-dogs');
+            (1, 'no_animals','rule.no_animals', NULL, 'foundation:no-dogs'),
+            (2, 'no_smoke','rule.no_smoke', NULL, 'cil:smoke-free');
         SQL);
 
         // State

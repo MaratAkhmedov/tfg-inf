@@ -125,6 +125,7 @@ state:
   bad: Malo
 rule:
   no_animals: Sin animales
+  no_smoke: No fumar
 dropzone: 
   default_message: Suelte la imagen aquí o haga clic para cargar
   required: Debes subir al menos una foto
