@@ -122,7 +122,7 @@
 		{% set province = city.province|default([]) %}
 		{% set autonomousComunity = province.autonomousComunity|default([]) %}
 
-		<div class="address pt-3 m-1">
+		<div class="address pt-3">
 			{{ autonomousComunity.name|default("") }}
 			|
 			{{ province.name|default("") }}
@@ -133,9 +133,9 @@
 		</div>
 
 
-		<h1 class="mt-3">{{property.price|format_currency('EUR', {rounding_mode: 'floor'})}}</h1>
+		<h1 class="pt-4">{{property.price|format_currency('EUR', {rounding_mode: 'floor'})}}</h1>
 
-		<div class="d-flex flex-row justify-content-start gap-4">
+		<div class="d-flex flex-row justify-content-start gap-4 pt-4">
 			<div class="d-flex justify-content-start gap-2 p-1">
 				<div style="width:1.4rem; heigth: 1.4rem;">{{ ux_icon('guidance:hotel-room-2') }}</div>
 				<span>{{property.numRooms ~ ' ' ~ 'property.show.room_units'|trans }}</span>
