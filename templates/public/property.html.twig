@@ -151,31 +151,27 @@
 		</div>
 		{% if property.rules is not empty %}
 			<div class="row">
-				<div class="rules-card col-md-12">
+				<div class="rules-card">
 					<div class="rules-title">
 						<h2>{{ 'property.show.rules_title'|trans }}</h2>
 					</div>
-					<div class="rules row">
-						<div class="d-flex flex-wrap justify-content-start">
+					<div class="rules">
+						<div class="d-flex flex-wrap justify-content-between justify-content-md-start">
 							{% for rule in property.rules %}
-								<div class="rule-element">
-									<div style="icon-container d-flex flex-column align-items-center" class="p-3 text-center">
-										<div class="element-icon icon" style="height: 60px; width:60px;">
-											{{ ux_icon(rule.icon) }}
-										</div>
-										<span class="">{{rule.label|trans}}</span>
+								<div style="" class="p-3 text-center icon-container d-flex flex-column align-items-center">
+									<div class="element-icon icon align-self-center" style="height: 100px; width:100px;">
+										{{ ux_icon(rule.icon) }}
 									</div>
+									<div class="">{{rule.label|trans}}</div>
 								</div>
 							{% endfor %}
 							{% set disabledRules = allRules|filter(item => not (item.id in property.rules|map(attr => attr.id))) %}
 							{% for rule in disabledRules %}
-								<div class="room-attribute-disabled-element">
-									<div style="icon-container d-flex flex-column align-items-center" class="p-3 text-center">
-										<div class="disabled-element-icon icon" style="height: 60px; width:60px;">
-											{{ ux_icon(rule.icon) }}
-										</div>
-										<span class="">{{rule.label|trans}}</span>
+								<div style="" class="p-3 text-center icon-container d-flex flex-column align-items-center">
+									<div class="disabled-element-icon icon align-self-center" style="height: 100px; width:100px;">
+										{{ ux_icon(rule.icon) }}
 									</div>
+									<span class="">{{rule.label|trans}}</span>
 								</div>
 							{% endfor %}
 						</div>
@@ -191,26 +187,22 @@
 						<h2>{{ 'property.show.property_attributes'|trans }}</h2>
 					</div>
 					<div class="rules row">
-						<div class="d-flex flex-wrap justify-content-start">
+						<div class="d-flex flex-wrap justify-content-between justify-content-md-start">
 							{% for attribute in property.attributeProperties %}
-								<div class="property-attribute-element">
-									<div style="icon-container d-flex flex-column align-items-center" class="p-3 text-center">
-										<div class="element-icon icon" style="height: 60px; width:60px;">
-											{{ ux_icon(attribute.icon) }}
-										</div>
-										<span class="">{{attribute.label|trans}}</span>
+								<div style="" class="p-3 text-center icon-container d-flex flex-column align-items-center">
+									<div class="element-icon icon" style="height: 100px; width:100px;">
+										{{ ux_icon(attribute.icon) }}
 									</div>
+									<span class="">{{attribute.label|trans}}</span>
 								</div>
 							{% endfor %}
 							{% set disabledPropertyAttributes = allPropertyAttributes|filter(item => not (item.id in property.attributeProperties|map(attr => attr.id))) %}
 							{% for attribute in disabledPropertyAttributes %}
-								<div class="room-attribute-disabled-element">
-									<div style="icon-container d-flex flex-column align-items-center" class="p-3 text-center">
-										<div class="disabled-element-icon icon" style="height: 60px; width:60px;">
-											{{ ux_icon(attribute.icon) }}
-										</div>
-										<span class="">{{attribute.label|trans}}</span>
+								<div style="" class="p-3 text-center icon-container d-flex flex-column align-items-center">
+									<div class="disabled-element-icon icon" style="height: 100px; width:100px;">
+										{{ ux_icon(attribute.icon) }}
 									</div>
+									<span class="">{{attribute.label|trans}}</span>
 								</div>
 							{% endfor %}
 						</div>
@@ -226,26 +218,22 @@
 						<h2>{{ 'property.show.property_room_attributes'|trans }}</h2>
 					</div>
 					<div class="rules row">
-						<div class="d-flex flex-wrap justify-content-start">
+						<div class="d-flex flex-wrap justify-content-between justify-content-md-start">
 							{% for attribute in property.room.attributeRooms %}
-								<div class="room-attribute-element">
-									<div style="icon-container d-flex flex-column align-items-center" class="p-3 text-center">
-										<div class="element-icon icon" style="height: 60px; width:60px;">
-											{{ ux_icon(attribute.icon) }}
-										</div>
-										<span class="">{{attribute.label|trans}}</span>
+								<div style="" class="p-3 text-center icon-container d-flex flex-column align-items-center">
+									<div class="element-icon icon" style="height: 100px; width:100px;">
+										{{ ux_icon(attribute.icon) }}
 									</div>
+									<span class="">{{attribute.label|trans}}</span>
 								</div>
 							{% endfor %}
 							{% set disabledRoomAttributes = allRoomAttributes|filter(item => not (item.id in property.room.attributeRooms|map(attr => attr.id))) %}
 							{% for attribute in disabledRoomAttributes %}
-								<div class="room-attribute-disabled-element">
-									<div style="icon-container d-flex flex-column align-items-center" class="p-3 text-center">
-										<div class="disabled-element-icon icon" style="height: 60px; width:60px;">
-											{{ ux_icon(attribute.icon) }}
-										</div>
-										<span class="">{{attribute.label|trans}}</span>
+								<div style="" class="p-3 text-center icon-container d-flex flex-column align-items-center">
+									<div class="disabled-element-icon icon" style="height: 100px; width:100px;">
+										{{ ux_icon(attribute.icon) }}
 									</div>
+									<span class="">{{attribute.label|trans}}</span>
 								</div>
 							{% endfor %}
 						</div>
