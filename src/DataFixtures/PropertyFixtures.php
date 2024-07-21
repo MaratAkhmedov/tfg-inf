@@ -33,7 +33,6 @@ class PropertyFixtures extends Fixture implements DependentFixtureInterface
     {
         for ($i = 1; $i <= 13; $i++) {
             $property = new Property();
-            $property->setName('Propiedad '.$i.' de pruebas');
             $property->setDescription("<p>Es la descripción larga de pruebas para la propiedad $i</p>");
             $property->setType($this->propertyTypeRepository->findOneBy(['name' => 'room']));
             $property->setNumRooms(rand(1, 6));
