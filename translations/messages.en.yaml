@@ -78,7 +78,7 @@ property:
     rules_title: 'Rules of the property'
     map_title: 'Map'
     property_attributes: Property attributes
-    property_room_attributes: Características de la habitación
+    property_room_attributes: Room attributes
     contact_with_owner: Contact with owner
   not_found: Properties not found
   type:
@@ -138,7 +138,7 @@ search:
   form:
     rooms: Rooms
     bathrooms: Bathrooms
-    states: State
+    state: State
     equipments: Equipments
     rules: Rules
     filters: Filters
@@ -149,6 +149,7 @@ search:
     property_type: Property type
     map: Map
     type_placeholder: All
+    or_more: or more
 room: 
   bed:
     individual: individual

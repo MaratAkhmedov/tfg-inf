@@ -149,6 +149,7 @@ search:
     property_type: Tipo de vivienda
     map: Mapa
     type_placeholder: Todos
+    or_more: o más
 room: 
   bed:
     individual: Individual

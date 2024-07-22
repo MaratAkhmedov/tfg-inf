@@ -1,42 +1,74 @@
 {% extends "base_with_navbar.html.twig" %}
 {% block stylesheets %}
-    {{ parent() }}
-	<style>
-		
-	</style>
+	{{ parent() }}
+	<style></style>
 
 {% endblock %}
 
 {% block content %}
 	<main class="container my-5">
-        <section class="about-us">
-            <h1 class="mb-4">{{ 'about.header'|trans }}</h1>
-            <p>{{ 'about.intro'|trans }}</p>
-            <img style="width: 100%; height: 400px;" src="{{ asset("images/about_us.jpg") }}" class="img-fluid mb-4 object-fit-cover" alt="Imagen representativa">
+		<section class="about-us">
+			<h1 class="mb-4">{{ 'about.header'|trans }}</h1>
+			<p>{{ 'about.intro'|trans }}</p>
+			<img style="width: 100%; height: 400px;" src="{{ asset("images/about_us.jpg") }}" class="img-fluid mb-4 object-fit-cover" alt="Imagen representativa">
 
-            <h2 class="mt-5">{{ 'about.mission_header'|trans }}</h2>
-            <p>{{ 'about.mission_text'|trans }}</p>
+			<h2 class="mt-5">{{ 'about.mission_header'|trans }}</h2>
+			<p>{{ 'about.mission_text'|trans }}</p>
 
             <h2 class="mt-5">{{ 'about.values_header'|trans }}</h2>
-            <ul>
-                <li><strong>{{ 'about.accessibility'|trans }}</strong> {{ 'about.accessibility_text'|trans }}</li>
-                <li><strong>{{ 'about.transparency'|trans }}</strong> {{ 'about.transparency_text'|trans }}</li>
-                <li><strong>{{ 'about.innovation'|trans }}</strong> {{ 'about.innovation_text'|trans }}</li>
-                <li><strong>{{ 'about.community'|trans }}</strong> {{ 'about.community_text'|trans }}</li>
-            </ul>
+			<div class="row mt-4">
+				<div class="col-md-6 col-lg-3 mb-4">
+					<div class="card">
+						<img style="height:150px" src="{{ asset("images/accesibility.webp") }}" class="object-fit-cover card-img-top" alt="...">
+						<div class="card-body">
+							<h5 class="card-title">{{ 'about.accessibility'|trans }}</h5>
+							<p class="card-text">{{ 'about.accessibility_text'|trans }}</p>
+						</div>
+					</div>
+				</div>
 
-            <h2 class="mt-5">{{ 'about.team_header'|trans }}</h2>
-            <p>{{ 'about.team_text'|trans }}</p>
+				<div class="col-md-6 col-lg-3">
+					<div class="card">
+						<img style="height:150px" src="{{ asset("images/transparency.webp") }}" class="object-fit-cover card-img-top" alt="...">
+						<div class="card-body">
+							<h5 class="card-title">{{ 'about.transparency'|trans }}</h5>
+							<p class="card-text">{{ 'about.transparency_text'|trans }}</p>
+						</div>
+					</div>
+				</div>
 
-            <h2 class="mt-5">{{ 'about.contact_header'|trans }}</h2>
-            <p>{{ 'about.contact_text'|trans }} <a href="">{{ 'about.contact_link'|trans }}</a>.</p>
-        </section>
-    </main>
+				<div class="col-md-6 col-lg-3">
+					<div class="card">
+						<img style="height:150px" src="{{ asset("images/innovation.jpeg") }}" class="object-fit-cover card-img-top" alt="...">
+						<div class="card-body">
+							<h5 class="card-title">{{ 'about.innovation'|trans }}</h5>
+							<p class="card-text">{{ 'about.innovation_text'|trans }}</p>
+						</div>
+					</div>
+				</div>
+
+                <div class="col-md-6 col-lg-3">
+					<div class="card">
+						<img style="height:150px" src="{{ asset("images/comunity.jpg") }}" class="object-fit-cover card-img-top" alt="...">
+						<div class="card-body">
+							<h5 class="card-title">{{ 'about.community'|trans }}</h5>
+							<p class="card-text">{{ 'about.community_text'|trans }}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<h2 class="mt-5">{{ 'about.team_header'|trans }}</h2>
+			<p>{{ 'about.team_text'|trans }}</p>
+
+			<h2 class="mt-5">{{ 'about.contact_header'|trans }}</h2>
+			<p>{{ 'about.contact_text'|trans }}
+				<a href="">{{ 'about.contact_link'|trans }}</a>.</p>
+		</section>
+	</main>
 {% endblock %}
 
 
 {% block javascript %}
-<script>
-
-</script>
+	<script></script>
 {% endblock %}

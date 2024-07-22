@@ -11,9 +11,12 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SearchPropertyType extends AbstractType
 {
+    public function __construct(private TranslatorInterface $translator){}
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $priceChoices = array_combine(
@@ -31,6 +34,8 @@ class SearchPropertyType extends AbstractType
             ),
             range(20, 400, 20)
         );
+
+        $orMore = $this->translator->trans('search.form.or_more');
 
         $builder
             ->add('type', EntityType::class, [
@@ -73,7 +78,7 @@ class SearchPropertyType extends AbstractType
                     "1" => 1,
                     "2" => 2,
                     "3" => 3,
-                    "4 o más" => ">=4"
+                    "4 $orMore" => ">=4"
                 ],
                 'expanded' => true,
                 'multiple' => true,
@@ -85,7 +90,7 @@ class SearchPropertyType extends AbstractType
                 'choices' => [
                     "1" => 1,
                     "2" => 2,
-                    "3 o más" => ">=3"
+                    "3 $orMore" => ">=3"
                 ],
                 'expanded' => true,
                 'multiple' => true,
