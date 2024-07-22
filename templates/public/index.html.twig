@@ -23,28 +23,29 @@
 		<div class="gradient">
 			<div class="container">
 				<div id="search-box" class="row col-sm-12 col-md-8 p-lg-5 mx-auto">
-					<h1 class="display-7 fw-normal">Tu vivienda a un paso</h1>
-						<div class="col-sm-12 col-md-6">
-							<select id="property-type-selector" class="form-select" aria-label="Default select example">
-								{% for propertyType in propertyTypes %}
-									<option propertyType.id == '1' ? 'selected' : '' value="{{propertyType.id}}">{{(propertyType.label)|trans}}</option>
-								{% endfor %}
-								<option value="">{{ 'search.form.type_placeholder'|trans}}</option>
-							</select>
-						</div>
-						<div class="col-sm-12 col-md-6">
-							<select id="city-selector" class="form-select" aria-label="Default select example">
-							{% for city in cities %}
-								<option city.id == '1' ? 'selected' : '' value="{{city.id}}">{{city.name}}</option>
+					<h1 class="display-7 fw-normal">{{ 'index.search_box.title'|trans }}</h1>
+					<div class="col-sm-12 col-md-6">
+						<select id="property-type-selector" class="form-select" aria-label="Default select example">
+							{% for propertyType in propertyTypes %}
+								<option propertytype.id=='1' ? 'selected' : '' value="{{propertyType.id}}">{{(propertyType.label)|trans}}</option>
 							{% endfor %}
-							</select>
-						</div>
-						
-						<div class="col-sm-12 pt-2">
-							<!-- TODO: Pass additional search criteria to property -->
-							<button class="btn btn-outline-primary w-100"  onclick="searchByTypeAndProperty()">{{ 'base.search'|trans }}</button>
-						</div>					
-					
+							<option value="">{{ 'search.form.type_placeholder'|trans}}</option>
+						</select>
+					</div>
+					<div class="col-sm-12 col-md-6">
+						<select id="city-selector" class="form-select" aria-label="Default select example">
+							{% for city in cities %}
+								<option city.id=='1' ? 'selected' : '' value="{{city.id}}">{{city.name}}</option>
+							{% endfor %}
+						</select>
+					</div>
+
+					<div
+						class="col-sm-12 pt-2">
+						<!-- TODO: Pass additional search criteria to property -->
+						<button class="btn btn-outline-primary w-100" onclick="searchByTypeAndProperty()">{{ 'base.search'|trans }}</button>
+					</div>
+
 				</div>
 			</div>
 			<div class="product-device shadow-sm d-none d-md-block"></div>
@@ -56,55 +57,80 @@
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="card">
-                	<img style="width: 400px; height: 200px" class="card-img-top object-fit-cover" src="{{ asset("images/about_us.jpg") }}" alt="Card image cap">
+					<img style="width: 100%; height: 200px" class="card-img-top object-fit-cover" src="{{ asset("images/about_us.jpg") }}" alt="about us image">
 					<div class="card-body">
-                    	<h5 class="card-title">Sobre Nosotros</h5>
-						<p class="card-text">En UniWave, nos dedicamos a facilitar la búsqueda de vivienda para estudiantes y personal universitario. Nuestro objetivo es centralizar las ofertas de alquiler en una única plataforma, haciendo que el proceso de encontrar el alojamiento ideal sea más simple.</p>
-                    	<p class="card-text">Integramos datos de diversas fuentes, incluyendo agencias inmobiliarias y anuncios de particulares, para ofrecer una amplia variedad de opciones adaptadas a las necesidades específicas de la comunidad universitaria.</p>
-                    	<a href="{{ url("about_us") }}" class="btn btn-primary">Más información</a>
+						<h5 class="card-title">{{ 'index.about_us.title'|trans }}</h5>
+						<p class="card-text">{{ 'index.about_us.text_1'|trans }}</p>
+						<a href="{{ url("about_us") }}" class="btn btn-primary">{{ 'index.about_us.more_info'|trans }}</a>
 					</div>
 				</div>
 			</div>
 			<div class="col-sm-6">
 				<div class="card">
-                	<img style="width: 400px; height: 200px" class="card-img-top object-fit-cover" src="{{ asset("images/contact_us.jpg") }}" alt="Card image cap">
+					<img style="width: 100%; height: 200px" class="card-img-top object-fit-cover" src="{{ asset("images/contact_us.jpg") }}" alt="contact us image">
 					<div class="card-body">
-						<h5 class="card-title">Contáctanos</h5>
-                    	<p class="card-text">En UniWave, nos dedicamos a facilitar la búsqueda de vivienda para estudiantes y personal universitario. Nuestro objetivo es centralizar todas las ofertas de alquiler en una única plataforma, haciendo que el proceso de encontrar el alojamiento ideal sea más simple y eficiente.</p>
-                    	<p class="card-text">Puedes contactarnos a través de nuestro formulario en línea, correo electrónico o teléfono. Estamos disponibles de lunes a viernes, de 9:00 a 18:00. Tu satisfacción es nuestra prioridad.</p>
-					    <a href="{{ url("contact") }}" class="btn btn-primary">Contáctanos</a>
+						<h5 class="card-title">{{ 'index.contact_us.title'|trans }}</h5>
+						<p class="card-text">{{ 'index.contact_us.text_1'|trans }}</p>
+						<a href="{{ url("contact") }}" class="btn btn-primary">{{ 'index.contact_us.button_title'|trans }}</a>
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+		<h2 class="mt-4">{{ 'index.choose_us.title'|trans }}</h2>
+
+		<div class="row mt-4">
+			<div class="col-lg-4 mb-4">
+				<div class="card h-100">
+					<img src="{{ asset("images/search.jpg") }}" class="card-img-top" alt="...">
+					<div class="card-body">
+						<h5 class="card-title">{{ 'index.choose_us.card_1.title'|trans }}</h5>
+						<p class="card-text">{{ 'index.choose_us.card_1.text'|trans }}</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-4 mb-4">
+				<div class="card h-100">
+					<img src="{{ asset("images/support.jpg") }}" class="card-img-top" alt="...">
+					<div class="card-body">
+						<h5 class="card-title">{{ 'index.choose_us.card_2.title'|trans }}</h5>
+						<p class="card-text">{{ 'index.choose_us.card_2.text'|trans }}</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-4 mb-4">
+				<div class="card h-100">
+					<img src="{{ asset("images/comunity.jpg") }}" class="card-img-top" alt="...">
+					<div class="card-body">
+						<h5 class="card-title">{{ 'index.choose_us.card_3.title'|trans }}</h5>
+						<p class="card-text">{{ 'index.choose_us.card_3.text'|trans }}</p>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="row mt-4">
-			<div class="col-12">
-				<h2>¿Por qué elegir UniWave?</h2>
-				<p>UniWave es la plataforma ideal para la comunidad universitaria en búsqueda de alojamiento. Nuestras características destacadas incluyen:</p>
-				<ul>
-					<li><strong>Búsqueda avanzada:</strong> Filtra las propiedades según tus preferencias y necesidades específicas.</li>
-					<li><strong>Ofertas verificadas:</strong> Trabajamos con agencias inmobiliarias y propietarios particulares para asegurar que todas las ofertas sean reales y actualizadas.</li>
-					<li><strong>Soporte dedicado:</strong> Nuestro equipo de atención al cliente está siempre disponible para ayudarte y resolver cualquier duda que puedas tener.</li>
-					<li><strong>Comunidad segura:</strong> Fomentamos un ambiente seguro y confiable para todos nuestros usuarios, con herramientas que permiten denunciar anuncios sospechosos.</li>
-				</ul>
-				<p>En UniWave, entendemos las necesidades específicas de los estudiantes y el personal universitario, por lo que nos esforzamos en ofrecer las mejores opciones de vivienda a precios accesibles.</p>
-			</div>
-    	</div>
-    </div>
+
+		<h2 class="mt-4">{{ 'index.last_properties.title'|trans }}</h2>
+		<div class="col-12"></div>
+	</div>
 {% endblock %}
 
 
 {% block javascript %}
-<script>
-	function searchByTypeAndProperty() {
-        // Get the values from the select elements
-        var propertyType = document.getElementById('property-type-selector').value;
-        var cityId = document.getElementById('city-selector').value;
-        // Construct the URL (adjust the base URL as needed)
-        var url = Routing.generate('app_search_property_type_city', { type: propertyType, city: cityId });
-		console.log("url", url)
-        // Redirect to the constructed URL
-        window.location.href = url;
-    }
-</script>
+	<script>
+		function searchByTypeAndProperty() { // Get the values from the select elements
+var propertyType = document.getElementById('property-type-selector').value;
+var cityId = document.getElementById('city-selector').value;
+// Construct the URL (adjust the base URL as needed)
+var url = Routing.generate('app_search_property_type_city', {
+type: propertyType,
+city: cityId
+});
+console.log("url", url)
+// Redirect to the constructed URL
+window.location.href = url;
+}
+	</script>
 {% endblock %}

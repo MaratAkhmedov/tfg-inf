@@ -173,3 +173,27 @@ admin:
 grammar:
   prepositions:
     in: in
+index:
+  search_box:
+    title: Your home just a step away
+  about_us:
+    title: 'About Us'
+    text_1: 'We integrate data from various sources, including real estate agencies and individual ads, to offer a wide variety of options adapted to the specific needs of the university community.'
+    more_info: 'More information'
+  contact_us:
+    title: 'Contact us'
+    text_1: 'You can contact us through our online form, email or phone. We are available from Monday to Friday, from 9:00 a.m. to 6:00 p.m. Your satisfaction is our priority.'
+    button_title: Contact us
+  choose_us:
+    title: 'Why choose UniWave?'
+    card_1:
+      title: 'Advanced search'
+      text: 'Filter properties based on your specific preferences and needs.'
+    card_2:
+      title: 'Dedicated support'
+      text: 'Our customer service team is always available to help you and resolve any questions you may have.'
+    card_3:
+      title: 'Safe community'
+      text: 'We foster a safe and trustworthy environment for all our users, with tools that allow you to report suspicious ads.'
+  last_properties:
+    title: 'Latest published ads'

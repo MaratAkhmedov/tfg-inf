@@ -175,3 +175,27 @@ admin:
 grammar:
   prepositions:
     in: en
+index:
+  search_box:
+    title: Tu vivienda a un paso
+  about_us:
+    title: 'Sobre Nosotros'
+    text_1: 'Integramos datos de diversas fuentes, incluyendo agencias inmobiliarias y anuncios de particulares, para ofrecer una amplia variedad de opciones adaptadas a las necesidades específicas de la comunidad universitaria.'
+    more_info: 'Más información'
+  contact_us:
+    title: 'Contáctanos'
+    text_1: 'Puedes contactarnos a través de nuestro formulario en línea, correo electrónico o teléfono. Estamos disponibles de lunes a viernes, de 9:00 a 18:00. Tu satisfacción es nuestra prioridad.'
+    button_title: Contáctanos
+  choose_us:
+    title: '¿Por qué elegir UniWave?'
+    card_1:
+      title: 'Búsqueda avanzada'
+      text: 'Filtra las propiedades según tus preferencias y necesidades específicas.'
+    card_2:
+      title: 'Soporte dedicado'
+      text: 'Nuestro equipo de atención al cliente está siempre disponible para ayudarte y resolver cualquier duda que puedas tener.'
+    card_3:
+      title: 'Comunidad segura'
+      text: 'Fomentamos un ambiente seguro y confiable para todos nuestros usuarios, con herramientas que permiten denunciar anuncios sospechosos.'
+  last_properties:
+    title: 'Últimos anuncios publicados'
