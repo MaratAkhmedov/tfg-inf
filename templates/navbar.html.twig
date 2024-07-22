@@ -33,6 +33,19 @@
 					<li>
 						<a class="nav-link" href="{{url('app_search_favorite')}}">{{ 'base.favorites'|trans }}</a>
 					</li>
+					<li class="dropdown-submenu">
+						<a class="nav-link dropdown" tabindex="-1" href="#">{# {{ 'language.title'|trans }} #}{{ app.request.locale|upper }}
+							<span class="caret"></span>
+						</a>
+						<ul style="background-color: transparent; border: none;" class="dropdown-menu p-1">
+							<li class="p-1">
+								<a class="nav-link" tabindex="-1" href="{{ path('change_locale', {'locale': 'es'}) }}">{{ 'language.spanish'|trans }}</a>
+							</li>
+							<li class="p-1">
+								<a class="nav-link" tabindex="-1" href="{{ path('change_locale', {'locale': 'en'}) }}">{{ 'language.english'|trans }}</a>
+							</li>
+						</ul>
+					</li>
 					<li>
 						<a class="nav-link" href="{{ url('app_logout')}}">{{ 'base.logout'|trans }}</a>
 					</li>

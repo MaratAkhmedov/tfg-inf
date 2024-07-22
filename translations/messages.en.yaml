@@ -22,6 +22,7 @@ user:
     update_title: Update account
     create: Create
     update: Update
+    role_placeholder: Por favor seleccione el rol del usuario
     general_data: Datos generales
 owner:
   form:
@@ -87,8 +88,6 @@ property:
     property_details: Property details
     type_placeholder: Please select a property type
     create: Publish new property
-    properties: properties
-    publish: Publish a property free  
     title: Title
     short_description: Short description
     description: Detailed description
@@ -103,6 +102,8 @@ property:
     state: State
     equipment: Equipment
     rules: Rules
+    properties: properties
+    publish: Publish
     address: Address
     last_updated: 'Last updated'
     room: Room details
@@ -141,6 +142,7 @@ search:
     equipments: Equipamiento
     rules: Reglas
     filters: Filters
+    price: Precio
     square: Square
     min_price: Max. Price
     max_price: Min. price
@@ -182,7 +184,7 @@ index:
     more_info: 'More information'
   contact_us:
     title: 'Contact us'
-    text_1: 'You can contact us through our online form, email or phone. We are available from Monday to Friday, from 9:00 a.m. to 6:00 p.m. Your satisfaction is our priority.'
+    text_1: 'You can contact us through our online form, email or phone. We are available all days from Monday to Friday, from 9:00 a.m. to 6:00 p.m. Your satisfaction is our priority.'
     button_title: Contact us
   choose_us:
     title: 'Why choose UniWave?'
@@ -197,3 +199,7 @@ index:
       text: 'We foster a safe and trustworthy environment for all our users, with tools that allow you to report suspicious ads.'
   last_properties:
     title: 'Latest published ads'
+language:
+  title: Language
+  spanish: Spanish
+  english: English

@@ -199,3 +199,7 @@ index:
       text: 'Fomentamos un ambiente seguro y confiable para todos nuestros usuarios, con herramientas que permiten denunciar anuncios sospechosos.'
   last_properties:
     title: 'Últimos anuncios publicados'
+language:
+  title: Idioma
+  spanish: Español
+  english: Inglés
