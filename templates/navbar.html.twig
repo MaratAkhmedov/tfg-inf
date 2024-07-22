@@ -37,8 +37,8 @@
 						<a class="nav-link dropdown" tabindex="-1" href="#">{# {{ 'language.title'|trans }} #}{{ app.request.locale|upper }}
 							<span class="caret"></span>
 						</a>
-						<ul style="background-color: transparent; border: none;" class="dropdown-menu p-1">
-							<li class="p-1">
+						<ul style="background-color: transparent; border: none; position: relative;" class="dropdown-menu p-1">
+							<li class="nav-link p-1">
 								<a class="nav-link" tabindex="-1" href="{{ path('change_locale', {'locale': 'es'}) }}">{{ 'language.spanish'|trans }}</a>
 							</li>
 							<li class="p-1">

@@ -136,19 +136,19 @@ dropzone:
 search:
   title: Properties
   form:
-    rooms: Habitaciones
-    bathrooms: Baños
-    states: Estado
-    equipments: Equipamiento
-    rules: Reglas
+    rooms: Rooms
+    bathrooms: Bathrooms
+    states: State
+    equipments: Equipments
+    rules: Rules
     filters: Filters
-    price: Precio
+    price: Price
     square: Square
     min_price: Max. Price
     max_price: Min. price
-    property_type: Tipo de vivienda
-    map: Mapa
-    type_placeholder: Todos
+    property_type: Property type
+    map: Map
+    type_placeholder: All
 room: 
   bed:
     individual: individual
