@@ -29,6 +29,8 @@ class PropertyController extends AbstractController
     public function index(Request $request, PropertyRepository $propertyRepository, PaginatorInterface $paginator): Response
     {
         $user = $this->getUser();
+            
+        // Render twig template
         return $this->render('admin/properties.html.twig', [
             'pagination' => $paginator = $paginator->paginate(
                 $propertyRepository->findUserProperties($user),
@@ -45,11 +47,11 @@ class PropertyController extends AbstractController
         $form = $this->createForm(PropertyType::class, $property);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) { /* This code is triggered when the user saves the property  */
             $property->setUser($this->getUser());
 
             try {
-                $this->handleNewFilesUpload($request, $slugger, $property);
+                $this->handleNewFilesUpload($request, $slugger, $property); /* upload files to the server */
             } catch (FileException $e) {
                 $logger->error("File was not uploaded", [
                     "message" => $e->getMessage(),
@@ -61,9 +63,11 @@ class PropertyController extends AbstractController
             $placeId = $form->get('mapPlaceId')->getData();
             $propertyService->generateProperty($property, $placeId);
 
+            // Redirect to created Property
             return $this->redirectToRoute('app_property_show', ['id' => $property->getId()], Response::HTTP_SEE_OTHER);
         }
 
+        // Render twig template
         return $this->render('property/new.html.twig', [
             'property' => $property,
             'form' => $form,
