@@ -87,7 +87,6 @@ class PropertyType extends AbstractType
                 'label' => 'property.form.room',
                 'required'   => false
             ])
-            // FIXME: fix problem with address type
             ->add('address', TextType::class, [
                 'mapped' => false,
                 'label' => 'property.form.address',

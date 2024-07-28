@@ -2,24 +2,23 @@
 
 namespace App\Controller;
 
+use Exception;
 use App\Entity\Photo;
 use App\Entity\Property;
 use App\Form\PropertyType;
-use App\Repository\PropertyRepository;
-use App\Service\IPropertyService;
-use Doctrine\ORM\EntityManagerInterface;
-use Exception;
-use Knp\Component\Pager\PaginatorInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use App\Service\IPropertyService;
+use App\Repository\PropertyRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 #[Route('owner/property')]
 #[IsGranted('ROLE_OWNER')]
