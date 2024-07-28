@@ -19,6 +19,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 #[Route('owner/property')]
 #[IsGranted('ROLE_OWNER')]
@@ -96,9 +97,9 @@ class PropertyController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_property_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Property $property, IPropertyService $propertyService, SluggerInterface $slugger, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Property $property, IPropertyService $propertyService, SluggerInterface $slugger, EntityManagerInterface $entityManager, AuthorizationCheckerInterface $authorizationChecker): Response
     {
-        if ($this->getUser()->getUserIdentifier() != $property->getUser()->getEmail()) {
+        if (($this->getUser()->getUserIdentifier() != $property->getUser()->getEmail()) && !$authorizationChecker->isGranted('ROLE_ADMIN')) {
             throw new NotFoundHttpException("The property with id '" . $property->getId() . "' does not exist");
         }
 

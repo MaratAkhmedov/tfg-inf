@@ -168,6 +168,9 @@ room:
     bed_type: Bed
     attributes_label: Room attributes
 admin:
+  nav:
+    properties: Propiedades
+    profile: Perfil
   properties:
     title: Published properties
     not_found: Properties not found

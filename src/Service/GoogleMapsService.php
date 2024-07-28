@@ -21,9 +21,20 @@ class GoogleMapsService implements IMapsService
 
     public function getAddressFromPlaceId(string $placeId) : AddressDTO
     {
-        $result = $this->fetchPlaceDetails($placeId);
+        $result = $this->fetchPlaceDetails($placeId);       // Fetch place details from google api
 
-        return $this->buildPlaceAddress($result['result']);
+        return $this->buildPlaceAddress($result['result']); // build and return AddressDTO from result
+    }
+
+    
+    private function fetchPlaceDetails(string $placeId) {
+        $response = $this->client->request(
+            'GET',
+            sprintf("%s/maps/api/place/details/json?key=%s&place_id=%s", $this->baseUrl, $this->apiKey, $placeId)
+        );
+        $content = json_decode($response->getContent(), true);
+
+        return $content;
     }
 
     private function buildPlaceAddress(array $result) : AddressDTO
@@ -52,15 +63,5 @@ class GoogleMapsService implements IMapsService
         $address->setFormattedAddress($result['formatted_address']);
         $address->setPlaceId($result['place_id']);
         return $address; 
-    }
-
-    private function fetchPlaceDetails(string $placeId) {
-        $response = $this->client->request(
-            'GET',
-            sprintf("%s/maps/api/place/details/json?key=%s&place_id=%s", $this->baseUrl, $this->apiKey, $placeId)
-        );
-        $content = json_decode($response->getContent(), true);
-
-        return $content;
     }
 }

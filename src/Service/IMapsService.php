@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use App\Dto\AddressDto;
-use App\Entity\Property;
 
 interface IMapsService
 {
