@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block body %}
-	{% include '/navbar.html.twig'%}
+    {% include '/navbar.html.twig' with {'containerClass': "container-fluid"} %}
 
 	<div class="content">
 		{% block content %}

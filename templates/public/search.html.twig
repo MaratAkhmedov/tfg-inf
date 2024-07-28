@@ -107,6 +107,56 @@
 			top: 50%;
 			left: 50%;
 		}
+
+		#property-cards > .card {
+			margin-right: 5rem;
+			margin-left: 5rem;
+		}
+
+		#property-cards > .card .card-body {
+			font-size: xx-large;
+		}
+
+		#property-cards > .card .card-title {
+			font-size: xx-large;
+		}
+
+
+		#property-cards > .card img {
+			width: 100%;
+			height: 100%;
+			max-height: 30vh;
+		}
+
+		#navigation-bar {
+			padding-left: 5rem;
+			padding-right: 5rem;
+		}
+
+		#property-cards .favorite-link-container {
+			width: 50px;
+			height: 50px;
+		}
+
+
+		@media(min-width: 576px) {
+			#property-cards .favorite-link-container {
+				width: 30px;
+				height: 30px;
+			}
+			#property-cards > .card .card-body {
+				font-size: medium;
+			}
+
+			#property-cards > .card .card-title {
+				font-size: small;
+			}
+			#property-cards > .card > img {
+				width: 100%;
+				height: 100%;
+				max-height: 210px;
+			}
+		}
 	</style>
 
 {% endblock %}
@@ -205,7 +255,7 @@
 						<div class="card mb-3" property-id="{{ property.id }}">
 							<div class="row g-0">
 								<div class="col-lg-4 object-fit-cover">
-									<img style="width:100%; height:100%; max-height: 210px;" src="{{ firstPhoto is not empty ? (asset(firstPhoto.url) ) : asset('images/placeholder400x200.png') }}" class="object-fit-cover img-fluid rounded-start" alt="...">
+									<img style="" src="{{ firstPhoto is not empty ? (asset(firstPhoto.url) ) : asset('images/placeholder400x200.png') }}" class="object-fit-cover img-fluid rounded-start" alt="...">
 								</div>
 								<div class="col-lg-8">
 									<div class="card-body">
@@ -255,7 +305,7 @@
 											{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 												{% set isFavorite = property.favorites | filter(favorite => favorite.property.id == property.id and favorite.user.id == app.user.getId()) | length > 0 %}
 											{% endif %}
-											<div class="" style="width:30px; height: 30px;z-index:3;position:relative;">
+											<div class="favorite-link-container" style="z-index:3;position:relative;">
 												<a class="favorite-link" role="button">
 													{{ ux_icon('mdi:heart-outline', {class: 'not-confirmed-favourite-icon', style: (isFavorite ? 'display: none;' : '')}) }}
 													{{ ux_icon('mdi:heart', {class: 'confirmed-favourite-icon', style: (isFavorite ? '' : 'display: none;')}) }}
