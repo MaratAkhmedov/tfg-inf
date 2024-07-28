@@ -168,6 +168,9 @@ room:
     bed_type: Cama
     attributes_label: Características de la habitación
 admin:
+  nav:
+    properties: Propiedades
+    profile: Perfil
   properties:
     title: Viviendas publicadas
     not_found: Viviendas no encontradas

@@ -10,6 +10,7 @@ use App\Service\IPropertyService;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Knp\Component\Pager\PaginatorInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,18 +18,17 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
 #[Route('owner/property')]
 #[IsGranted('ROLE_OWNER')]
 class PropertyController extends AbstractController
-{    
-    // TODO: ADMIN PROPERTY later add it to admin menu
+{
     #[Route('/', name: 'app_property_index', methods: ['GET'])]
     public function index(Request $request, PropertyRepository $propertyRepository, PaginatorInterface $paginator): Response
     {
         $user = $this->getUser();
-        
         return $this->render('admin/properties.html.twig', [
             'pagination' => $paginator = $paginator->paginate(
                 $propertyRepository->findUserProperties($user),
@@ -39,7 +39,7 @@ class PropertyController extends AbstractController
     }
 
     #[Route('/new', name: 'app_property_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, IPropertyService $propertyService, SluggerInterface $slugger): Response
+    public function new(Request $request, IPropertyService $propertyService, SluggerInterface $slugger, LoggerInterface $logger): Response
     {
         $property = new Property();
         $form = $this->createForm(PropertyType::class, $property);
@@ -47,27 +47,15 @@ class PropertyController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $property->setUser($this->getUser());
-            // Handle uploaded files
-            $files = $request->files->get('photos', []);
-            foreach ($files as $file) {
-                if ($file) {
-                    $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                    $safeFilename = $slugger->slug($originalFilename);
-                    $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
 
-                    try {
-                        $file->move(
-                            $this->getParameter('photos_directory'),
-                            $newFilename
-                        );
-
-                        $photo = new Photo();
-                        $photo->setUrl($this->getParameter('photos_prefix') . '/' . $newFilename);
-                        $property->addPhoto($photo);
-                    } catch (FileException $e) {
-                        // Handle exception if something happens during file upload
-                    }
-                }
+            try {
+                $this->handleNewFilesUpload($request, $slugger, $property);
+            } catch (FileException $e) {
+                $logger->error("File was not uploaded", [
+                    "message" => $e->getMessage(),
+                    "file" => $e->getFile(),
+                    "line" => $e->getLine()
+                ]);
             }
 
             $placeId = $form->get('mapPlaceId')->getData();
@@ -82,28 +70,53 @@ class PropertyController extends AbstractController
         ]);
     }
 
+    private function handleNewFilesUpload(Request $request, SluggerInterface $slugger, Property $property)
+    {
+        $files = $request->files->get('photos', []);
+        foreach ($files as $file) {
+            if ($file) {
+                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
+
+                $photosDirectory = $this->getParameter('photos_directory');
+                $file->move(
+                    $photosDirectory,
+                    $newFilename
+                );
+
+                $photo = new Photo();
+                $photo->setUrl($this->getParameter('photos_prefix') . '/' . $newFilename);
+                $property->addPhoto($photo);
+            }
+        }
+    }
+
     #[Route('/{id}/edit', name: 'app_property_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Property $property, IPropertyService $propertyService, SluggerInterface $slugger, EntityManagerInterface $entityManager): Response
     {
-        //TODO: check if is an owner
+        if ($this->getUser()->getUserIdentifier() != $property->getUser()->getEmail()) {
+            throw new NotFoundHttpException("The property with id '" . $property->getId() . "' does not exist");
+        }
+
         $form = $this->createForm(PropertyType::class, $property);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-           if($property->getType()->getName() != 'room') {
+            if ($property->getType()->getName() != 'room') {
                 $property->setRoom(null);
-           }
-            
+            }
+
             $files = $request->files->get('photos', []);
 
-            
+
             // Handle uploaded files
             $files = $request->files->get('photos', []);
             foreach ($files as $file) {
                 if ($file) {
                     $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
                     $safeFilename = $slugger->slug($originalFilename);
-                    $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+                    $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
 
                     try {
                         $file->move(
@@ -129,7 +142,7 @@ class PropertyController extends AbstractController
                     $property->removePhoto($photo);
                     $entityManager->remove($photo);
 
-                    $filePath = $this->getParameter('photos_directory').'/'.$filename;
+                    $filePath = $this->getParameter('photos_directory') . '/' . $filename;
                     if (file_exists($filePath)) {
                         unlink($filePath); // Delete the file from the server
                     }
@@ -158,10 +171,10 @@ class PropertyController extends AbstractController
     public function delete(Request $request, Property $property, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
-        if($property->getUser()->getUserIdentifier() != $user->getUserIdentifier()) {
+        if ($property->getUser()->getUserIdentifier() != $user->getUserIdentifier()) {
             throw new Exception("Not authorized");
         }
-        
+
         if ($this->isCsrfTokenValid('delete' . $property->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($property);
             $entityManager->flush();

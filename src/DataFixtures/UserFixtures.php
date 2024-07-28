@@ -27,8 +27,17 @@ class UserFixtures extends Fixture
         $user->setPassword($password);
         $user->setRoles(['ROLE_ADMIN']);
 
+        $owner = new Owner();
+        $owner->setFirstName("Jorge");
+        $owner->setLastName("Sánchez Torres");
+        $owner->setPhone("+34 727 734 395");
+        $owner->setDni("Y4241051Y");
+        $owner->setDescription("It is a description");
+        $user->setOwnerData($owner);
+
         $manager->persist($user);
         $manager->flush();
+
 
         // Owner user
         $user = new User();
@@ -47,6 +56,7 @@ class UserFixtures extends Fixture
 
         $manager->persist($user);
         $manager->flush();
+        
 
         // Renter user
         $user = new User();

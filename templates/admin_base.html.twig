@@ -32,20 +32,14 @@
 						<li>
 							<a href="{{ url('app_property_index')}}" class="nav-link px-2 align-middle {{ routeName == 'app_property_index' ? 'active' : ''}}">
 								<i class="fs-4 bi-table"></i>
-								<span class="ms-1 d-none d-md-inline">Anuncios</span>
+								<span class="ms-1 d-none d-md-inline">{{ 'admin.nav.properties' | trans }}</span>
 							</a>
 						</li>
 					{% endif %}
 					<li>
 						<a href="{{ url('app_user_profile_edit')}}" class="nav-link px-2 align-middle {{ routeName == 'app_user_profile_edit' ? 'active' : ''}}">
 							<i class="fs-4 bi-person"></i>
-							<span class="ms-1 d-none d-md-inline">Perfil</span>
-						</a>
-					</li>
-					<li>
-						<a href="#" class="nav-link px-2 align-middle">
-							<i class="fs-4 bi-chat"></i>
-							<span class="ms-1 d-none d-md-inline">Mensajes</span>
+							<span class="ms-1 d-none d-md-inline">{{ 'admin.nav.profile' | trans }}</span>
 						</a>
 					</li>
 				</ul>
