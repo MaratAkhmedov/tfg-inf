@@ -13,7 +13,7 @@
 
 		<!-- Custom favicon using inline SVG -->
 		<link
-		rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+		rel="icon" href="{{asset("images/Uniwave_logo.png")}}">
 
 		<!-- Styles -->
 		<link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
@@ -27,12 +27,12 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 		<script>
 			$(document).ready(function () { // Script to handle dropdown submenus
-$('.dropdown-submenu a.dropdown').on("click", function (e) {
-$(this).next('ul').toggle(); // Toggles the visibility of the next ul element
-e.stopPropagation(); // Prevents the event from propagating
-e.preventDefault(); // Prevents the default behavior of the link
-});
-});
+				$('.dropdown-submenu a.dropdown').on("click", function (e) {
+					$(this).next('ul').toggle(); // Toggles the visibility of the next ul element
+					e.stopPropagation(); // Prevents the event from propagating
+					e.preventDefault(); // Prevents the default behavior of the link
+				});
+			});
 		</script>
 
 		<!-- Placeholder for additional styles specific to each view -->

@@ -111,9 +111,6 @@
 				</div>
 			</div>
 		</div>
-
-		<h2 class="mt-4">{{ 'index.last_properties.title'|trans }}</h2>
-		<div class="col-12"></div>
 	</div>
 {% endblock %}
 
@@ -121,16 +118,15 @@
 {% block javascript %}
 	<script>
 		function searchByTypeAndProperty() { // Get the values from the select elements
-var propertyType = document.getElementById('property-type-selector').value;
-var cityId = document.getElementById('city-selector').value;
-// Construct the URL (adjust the base URL as needed)
-var url = Routing.generate('app_search_property_type_city', {
-type: propertyType,
-city: cityId
-});
-console.log("url", url)
-// Redirect to the constructed URL
-window.location.href = url;
-}
+			var propertyType = document.getElementById('property-type-selector').value;
+			var cityId = document.getElementById('city-selector').value;
+			// Construct the URL (adjust the base URL as needed)
+			var url = Routing.generate('app_search_property_type_city', {
+			type: propertyType,
+			city: cityId
+			});
+			// Redirect to the constructed URL
+			window.location.href = url;
+		}
 	</script>
 {% endblock %}

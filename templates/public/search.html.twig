@@ -268,6 +268,9 @@
 											{% endif %}
 											<div class="favorite-link-container" style="z-index:3;position:relative;">
 												<a class="favorite-link" role="button">
+													<div style="display: none" class="spinner spinner-grow text-primary" role="status">
+														<span class="visually-hidden">Loading...</span>
+													</div>
 													{{ ux_icon('mdi:heart-outline', {class: 'not-confirmed-favourite-icon', style: (isFavorite ? 'display: none;' : '')}) }}
 													{{ ux_icon('mdi:heart', {class: 'confirmed-favourite-icon', style: (isFavorite ? '' : 'display: none;')}) }}
 												</a>
