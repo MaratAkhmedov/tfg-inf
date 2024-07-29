@@ -35,7 +35,7 @@ owner:
     last_name: Last name
     dni: DNI
     description: Description
-    phone: Teléfono
+    phone: Phone
     email: Email
 contact:
   title: Contact
