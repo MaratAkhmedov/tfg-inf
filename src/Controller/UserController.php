@@ -109,7 +109,14 @@ class UserController extends AbstractController
 
             // do anything else you need here, like send an email
 
-            return $this->redirectToRoute('default');
+            return new JsonResponse(['status' => 'success', 'redirect' => $this->generateUrl('default')]);
+        }else if($form->isSubmitted() && !$form->isValid()) {
+            // handle invalid form
+            $errors = [];
+            foreach ($form->getErrors(true) as $error) {
+                $errors[] = $error->getMessage();
+            }
+            return new JsonResponse(['status' => 'error', 'errors' => $errors]);
         }
 
         return $this->render('user/register.html.twig', [
@@ -171,6 +178,15 @@ class UserController extends AbstractController
 
             $entityManager->persist($user);
             $entityManager->flush();
+
+            return new JsonResponse(['status' => 'success']);
+        }else if($form->isSubmitted() && !$form->isValid()) {
+            // handle invalid form
+            $errors = [];
+            foreach ($form->getErrors(true) as $error) {
+                $errors[] = $error->getMessage();
+            }
+            return new JsonResponse(['status' => 'error', 'errors' => $errors]);
         }
 
         return $this->render('user/profile.html.twig', [

@@ -24,6 +24,8 @@
 
 	<div class="container">
 		<h1>{{ 'user.form.update_title'|trans }}</h1>
+
+        <div id="form-errors" class="alert alert-danger" style="display:none;"></div>
 		{{ include('user/_form.html.twig') }}
 
 	</div>
@@ -141,12 +143,6 @@
                     e.preventDefault();
                     e.stopPropagation();
 
-                    if (myDropzone.files.length === 0) {
-                        dropzoneError.classList.remove('d-none');
-                        submitButton.disabled = false; // Enable the submit button when a file is added
-                        return
-                    }
-
                     const formData = new FormData(form);
 
                     if(dropzone.getAcceptedFiles().length > 0) { // Exclude preloaded files
@@ -155,17 +151,26 @@
 
                     formData.append('deletedFiles', JSON.stringify(deletedFiles));
 
-                    // Submit the form with files
-                    const xhr = new XMLHttpRequest();
-                    xhr.open('POST', form.action, true);
-                    xhr.onload = function () {
-                        if (xhr.status === 200) {
-                            window.location.href = xhr.responseURL
-                        } else {
-                            console.error(xhr.responseText);
+                    fetch(form.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
                         }
-                    };
-                    xhr.send(formData);
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        var errorsDiv = document.getElementById('form-errors');
+                        if (data.status === 'success') {
+                            // Reload the page
+                            window.location.reload()
+                        } else {
+                            console.log("data.errors", data.errors)
+                            errorsDiv.innerHTML = '<ul>' + data.errors.map(error => '<li>' + error + '</li>').join('') + '</ul>';
+                            errorsDiv.style.display = 'block';
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
                 });
             }
         });

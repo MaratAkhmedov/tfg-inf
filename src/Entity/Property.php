@@ -298,7 +298,7 @@ class Property
 
     /**
      * Get the value of updatedAt
-     */ 
+     */
     public function getUpdatedAt()
     {
         return $this->updatedAt;
@@ -306,7 +306,7 @@ class Property
 
     /**
      * Get the value of createdAt
-     */ 
+     */
     public function getCreatedAt()
     {
         return $this->createdAt;
@@ -314,7 +314,7 @@ class Property
 
     /**
      * Get the value of type
-     */ 
+     */
     public function getType(): ?PropertyType
     {
         return $this->type;
@@ -324,7 +324,7 @@ class Property
      * Set the value of type
      *
      * @return  self
-     */ 
+     */
     public function setType(?PropertyType $type): static
     {
         $this->type = $type;

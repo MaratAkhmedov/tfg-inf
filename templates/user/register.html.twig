@@ -24,6 +24,8 @@
 
 	<div class="container">
 		<h1>{{ 'user.form.create_title'|trans }}</h1>
+
+        <div id="form-errors" class="alert alert-danger" style="display:none;"></div>
         {{ include('user/_form.html.twig') }}
 
 	</div>
@@ -114,48 +116,35 @@
             e.preventDefault();
             e.stopPropagation();
 
-
+            console.log("wtfff")
             const formData = new FormData(form);
 
-            if($('#user_role').val() === 'renter') {
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', form.action, true);
-                xhr.onload = function () {
-                    if (xhr.status === 200) {
-                        // Handle success
-                        window.location.href = xhr.responseURL
-                    } else {
-                        // Handle error
-                        console.error(xhr.responseText);
-                    }
-                };
-                xhr.send(formData);
-            }
-
-            if (myDropzone.files.length === 0) {
-                dropzoneError.classList.remove('d-none');
-                submitButton.disabled = false; // Enable the submit button when a file is added
-                return
-            }
-
-            // Append file from Dropzone to formData
             if(myDropzone.getAcceptedFiles().length > 0) {
                 formData.append('photo', myDropzone.getAcceptedFiles()[0]);
             }
 
-            // Submit the form with files
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', form.action, true);
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    // Handle success
-                    window.location.href = xhr.responseURL
-                } else {
-                    // Handle error
-                    console.error(xhr.responseText);
+            console.log("fetching")
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
                 }
-            };
-            xhr.send(formData);
+            })
+            .then(response => response.json())
+            .then(data => {
+                var errorsDiv = document.getElementById('form-errors');
+                if (data.status === 'success') {
+                    // Redirect to the specified URL
+                    window.location.href = data.redirect;
+                } else {
+                    console.log("data.errors", data.errors)
+                    errorsDiv.innerHTML = '<ul>' + data.errors.map(error => '<li>' + error + '</li>').join('') + '</ul>';
+                    errorsDiv.style.display = 'block';
+                }
+            })
+            .catch(error => console.error('Error:', error));
         });
     </script>
 {% endblock %}
