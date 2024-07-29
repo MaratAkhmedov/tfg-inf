@@ -24,6 +24,11 @@ user:
     update: Update
     role_placeholder: Por favor seleccione el rol del usuario
     general_data: Datos generales
+  registration:
+    password: password
+    sign_in: Sign in.
+    sign_in_button: Sign in
+    no_account: "You don't have an account yet"
 owner:
   form:
     first_name: First name
@@ -88,6 +93,7 @@ property:
     property_details: Property details
     type_placeholder: Please select a property type
     create: Publish new property
+    edit: Edit a property
     title: Title
     short_description: Short description
     description: Detailed description

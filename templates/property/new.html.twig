@@ -1,40 +1,43 @@
 {% extends "base_with_navbar.html.twig" %}
 
 {% block stylesheets %}
-    {{ parent() }}
-    <link href="{{ asset('css/dropzone.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/dropzone-bootstrap.css') }}" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
+	{{ parent() }}
+	<link href="{{ asset('css/dropzone.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('css/dropzone-bootstrap.css') }}" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet"/>
 
 	<style>
-        label.required:after {
-            content: " *";
-            color: red;
-        }	
-        #map {
-            height: 500px;
-            width: 100%;
-        }
-    </style>
+		label.required:after {
+			content: " *";
+			color: red;
+		}
+		#map {
+			height: 500px;
+			width: 100%;
+		}
+	</style>
 
 {% endblock %}
 
 {% block content %}
 
-    <div class="container">
+	<div class="container">
 
-        {% set breadcrumbs = [
+		{% set breadcrumbs = [
             {'label': 'breadcrumbs.home', 'link': 'default'},
             {'label': 'breadcrumbs.create', 'link': ''}
         ] %}
-        {% include '/breadcrumbs.html.twig' with {'breadcrumbs': breadcrumbs} %}
+
+		<div class="pt-1">
+			{% include '/breadcrumbs.html.twig' with {'breadcrumbs': breadcrumbs} %}
+		</div>
 
 
-        <h2>{{ 'property.form.create'|trans }}</h2>
-        
-        
-        {{ include('property/_form.html.twig') }}
-    </div>
+		<h2>{{ 'property.form.create'|trans }}</h2>
+
+
+		{{ include('property/_form.html.twig') }}
+	</div>
 
 {% endblock %}
 

@@ -56,7 +56,7 @@ class UserFixtures extends Fixture
 
         $manager->persist($user);
         $manager->flush();
-        
+
 
         // Renter user
         $user = new User();

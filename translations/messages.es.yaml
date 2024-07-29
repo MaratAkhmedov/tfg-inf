@@ -24,6 +24,11 @@ user:
     update: Actualizar
     role_placeholder: Por favor seleccione el rol del usuario
     general_data: Datos generales
+  registration:
+    password: contraseña
+    sign_in: Accede a la aplicación.
+    sign_in_button: Entrar
+    no_account: 'Aún no tienes la cuenta'
 owner:
   form:
     first_name: Nombre
@@ -88,6 +93,7 @@ property:
     property_details: Detalles de la vivienda
     type_placeholder: Por favor seleccione el tipo de la vivienda
     create: Publicar nueva vivienda
+    edit: Edición de la vivienda
     title: Título
     short_description: Descripción corta
     description: Descripción mas detallada
