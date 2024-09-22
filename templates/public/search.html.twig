@@ -534,7 +534,6 @@
 	}
 
     function initMap(isMobile) {
-		console.log("is mobile", isMobile)
 		const mapElement = isMobile ? document.getElementById('map-modal-container') : document.getElementById('map')
 		refreshMarkers();
 		checkNoMarkers();
@@ -550,8 +549,8 @@
 			gestureHandling: 'greedy' // Permitir el desplazamiento y zoom sin la tecla CTRL
         });
 
-		function icon(marker, isHighlighted) {
-			const price = $('#property-cards [property-id="'+ marker.id +'"]').find('.price').text();
+		function icon(id, isHighlighted) {
+			const price = $('#property-cards [property-id="'+ id +'"]').find('.price').text();
 			return ({
             	url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
 					<svg xmlns="http://www.w3.org/2000/svg" width="${isHighlighted ? 70 : 60}" height="${isHighlighted ? 30 : 28}" style="margin-bottom:2px;">
@@ -622,7 +621,7 @@
             const propertyMarker = new google.maps.Marker({
                 position: position,
                 map: map,
-				icon: icon(marker, false)
+				icon: icon(marker.id, false)
             });
 
 			propertyMarker.propertyId = marker.id;
@@ -641,7 +640,7 @@
 						m.setZIndex(0);
 					}else{
 						m.setVisible(true);
-						m.setIcon(icon(marker, true))
+						m.setIcon(icon(m.propertyId, true))
 						m.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
 					}
 				})
@@ -660,9 +659,10 @@
 				if(!e.dontChangeReverseSide) {
 					$('#property-cards [property-id="'+ marker.id +'"]').removeClass("hover");
 				}
+				refreshMarkers();
 				markers.forEach(m => {
 					m.setVisible(true);
-					m.setIcon(icon(marker, false))
+					m.setIcon(icon(m.propertyId, false))
 				})
           	});
 
@@ -684,7 +684,6 @@
 
 	// Escucha el evento cuando el modal se muestra
 	$('#mapModal').on('shown.bs.modal', function () {
-		console.log("mobile form opened")
 		initMap(true)
     });
 
