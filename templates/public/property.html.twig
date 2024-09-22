@@ -413,7 +413,7 @@
 				success: function(data) {
 					$('#owner-data-name').html(data.lastName + ' ' + data.firstName)
 					$('#owner-data-phone').html(`<a class href="tel:${data.phone}">${data.phone}</a>`)
-					$('#owner-data-email').html(`<a class href="mailto:${data.phone}">${data.phone}</a>`)
+					$('#owner-data-email').html(`<a class href="mailto:${data.email}">${data.email}</a>`)
 					
 					$('#owner-data-spinner .spinner').hide()
 					$('#owner-data-block').show()
